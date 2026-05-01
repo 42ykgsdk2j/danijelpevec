@@ -532,7 +532,7 @@ const ASSESSMENT_UI = {
     },
   },
   hr: {
-    nav: { brand: "Savjetnik za obiteljske tvrtke", back: "Povratak na početnu" },
+    nav: { brand: "Savjetnik za obiteljski biznis", back: "Povratak na početnu" },
     intro: {
       eyebrow: "Procjena spremnosti",
       title: "Gdje stoji vaš obiteljski posao?",

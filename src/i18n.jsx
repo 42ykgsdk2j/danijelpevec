@@ -302,7 +302,7 @@ const TRANSLATIONS = {
     about: {
       eyebrow: "O meni",
       name: "Danijel Pevec",
-      role: "Osnivači i savjetnici za obiteljske tvrtke",
+      role: "Osnivači i savjetnici za obiteljski biznis",
       meta: [
         { lbl: "Sjedište", val: "Zagreb, Hrvatska" },
         { lbl: "Praksa", val: "Po pozivu" },

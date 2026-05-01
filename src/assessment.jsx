@@ -101,7 +101,7 @@ function AssessmentApp() {
 function AssessmentNav({ theme, setTheme, lang, setLang, openModal }) {
   const ui = ASSESSMENT_UI[lang];
   const t = TRANSLATIONS[lang];
-  const navTag = lang === "hr" ? "Savjetnik za obiteljske tvrtke" : "Family Business Advisor";
+  const navTag = lang === "hr" ? "Savjetnik za obiteljski biznis" : "Family Business Advisor";
 
   return (
     <nav className="nav scrolled">
@@ -380,7 +380,7 @@ function AssessmentFooter({ lang }) {
               <span className="brand-mono" style={{ width: 42, height: 42, fontSize: 16 }}>DP</span>
               <div>
                 <div className="brand-name">Danijel Pevec</div>
-                <div className="brand-tag">{isHr ? "Savjetnik za obiteljske tvrtke" : "Family Business Advisor"}</div>
+                <div className="brand-tag">{isHr ? "Savjetnik za obiteljski biznis" : "Family Business Advisor"}</div>
               </div>
             </div>
             <p>{isHr ? "Pouzdan kompas kroz rast, sukcesiju i generacijsku tranziciju." : "Trusted compass through growth, succession and generational transition."}</p>

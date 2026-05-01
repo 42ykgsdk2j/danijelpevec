@@ -91,7 +91,7 @@ const BLOG_POSTS = [
     category: { en: "Advisory", hr: "Savjetovanje" },
     title: {
       en: "Family Business Advisor vs. Family Office: Which Do You Actually Need?",
-      hr: "Savjetnik za obiteljske tvrtke ili obiteljski ured: što vam zapravo treba?",
+      hr: "Savjetnik za obiteljski biznis ili obiteljski ured: što vam zapravo treba?",
     },
     excerpt: {
       en: "These two roles get conflated, but they exist for different reasons. Knowing the difference is the first step in choosing the support that fits your stage.",
