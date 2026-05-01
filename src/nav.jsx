@@ -9,9 +9,16 @@ function isHomePage() {
   return p === "/" || p === "" || /\/index\.html$/.test(p);
 }
 
+// Path prefix needed to reach the site root from the current page.
+// "" for root pages, "../" for pages under /blog/.
+function siteRootPrefix() {
+  if (typeof window === "undefined") return "";
+  return /\/blog\/[^/]+$/.test(window.location.pathname) ? "../" : "";
+}
+
 function Brand() {
   const { t } = useI18n();
-  const href = isHomePage() ? "#top" : "index.html";
+  const href = isHomePage() ? "#top" : `${siteRootPrefix()}index.html`;
   return (
     <a href={href} className="brand" aria-label="Danijel Pevec">
       <Monogram />
@@ -56,18 +63,19 @@ function Nav({ theme, setTheme, openModal }) {
   }, [drawerOpen]);
 
   const onHome = isHomePage();
-  const homeBase = onHome ? "" : "index.html";
+  const root = siteRootPrefix();
+  const homeBase = onHome ? "" : `${root}index.html`;
 
   const insightsUrl = useI18n().lang === "hr"
-    ? "blog-hr.html"
-    : "blog.html";
+    ? `${root}blog-hr.html`
+    : `${root}blog.html`;
 
   const links = [
     { href: `${homeBase}#approach`, label: t.nav.approach },
     { href: `${homeBase}#who`, label: t.nav.who },
     { href: `${homeBase}#work`, label: t.nav.work },
     { href: insightsUrl, label: t.nav.blog },
-    { href: "assessment.html", label: t.nav.assessment },
+    { href: `${root}assessment.html`, label: t.nav.assessment },
     { href: `${homeBase}#about`, label: t.nav.about },
   ];
 

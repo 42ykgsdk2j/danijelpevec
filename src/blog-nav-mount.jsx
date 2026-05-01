@@ -12,12 +12,20 @@ function BlogPageShell() {
     localStorage.setItem("dp_theme", next);
   };
 
-  // Language switching on blog pages navigates between blog.html / blog-hr.html
-  // so the page content (which is server-rendered HTML) matches the chosen lang.
+  // Language switching navigates to the page's EN/HR counterpart by toggling
+  // the -hr suffix on the current filename. Works for both blog index pages
+  // (blog.html ↔ blog-hr.html) and article pages
+  // (foo.html ↔ foo-hr.html).
   const setLang = (next) => {
     if (next === lang) return;
     localStorage.setItem("dp_lang", next);
-    window.location.href = next === "hr" ? "blog-hr.html" : "blog.html";
+    const path = window.location.pathname;
+    const dir = path.substring(0, path.lastIndexOf("/") + 1);
+    const filename = path.substring(path.lastIndexOf("/") + 1) || "index.html";
+    const target = next === "hr"
+      ? filename.replace(/(-hr)?\.html$/, "-hr.html")
+      : filename.replace(/-hr\.html$/, ".html");
+    window.location.href = dir + target;
   };
 
   const t = TRANSLATIONS[lang];
