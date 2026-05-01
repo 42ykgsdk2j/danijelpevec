@@ -1457,6 +1457,16 @@ section { position: relative; }
 }
 
 @media (max-width: 640px) {
+  /* Let the brand block shrink so the theme button and hamburger fit on
+     screen. The brand-tag wraps to two lines. The language toggle moves
+     into the mobile drawer (see .mobile-drawer .toggle-group). */
+  .brand { min-width: auto; gap: 8px; }
+  .brand-text { width: 110px; min-height: auto; }
+  .brand-tag { white-space: normal; line-height: 1.25; }
+  .nav-inner { gap: 12px; }
+  .nav-actions { gap: 8px; }
+  .nav-actions > .toggle-group { display: none; }
+  .mobile-drawer .toggle-group { align-self: flex-start; }
   .nav-actions .toggle-group button,
   .nav-actions .toggle-group a { padding: 5px 9px; font-size: 10px; }
   .hero-eyebrow-row { flex-direction: column; align-items: flex-start; gap: 16px; }
