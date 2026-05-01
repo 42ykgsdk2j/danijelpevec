@@ -1458,24 +1458,23 @@ section { position: relative; }
 
 @media (max-width: 640px) {
   /* Let the brand block shrink so the EN/HR toggle, theme button and
-     hamburger fit on screen. Brand-tag wraps to exactly two lines: the
-     8px font + tighter letter-spacing fits the longer Croatian
-     "OBITELJSKI BIZNIS" on its second line within 140px. Theme and
-     hamburger buttons are slightly smaller and nav gaps are tightened
-     so the hamburger stays in the 375px viewport. */
+     hamburger fit on screen. Brand-tag wraps to exactly two lines (8px
+     font + 0.2em letter-spacing keep "FAMILY BUSINESS" / "OBITELJSKI
+     BIZNIS" inside the 120px column). The toggle, theme and hamburger
+     are sized at 38px with an 8px gap between them. */
   .brand { min-width: auto; gap: 8px; }
-  .brand-text { width: 140px; min-height: auto; }
+  .brand-text { width: 120px; min-height: auto; }
   .brand-tag {
     white-space: normal;
     line-height: 1.3;
     font-size: 8px;
     letter-spacing: 0.2em;
   }
-  .nav-inner { gap: 8px; }
-  .nav-actions { gap: 4px; }
-  .theme-toggle, .menu-btn { width: 32px; height: 32px; }
+  .nav-inner { gap: 6px; }
+  .nav-actions { gap: 8px; }
+  .theme-toggle, .menu-btn { width: 38px; height: 38px; }
   .nav-actions .toggle-group button,
-  .nav-actions .toggle-group a { padding: 5px 9px; font-size: 10px; }
+  .nav-actions .toggle-group a { padding: 6px 10px; font-size: 11px; }
   .hero-eyebrow-row { flex-direction: column; align-items: flex-start; gap: 16px; }
   .hero-marquee { gap: 20px; }
   .form-row { grid-template-columns: 1fr; gap: 0; }
