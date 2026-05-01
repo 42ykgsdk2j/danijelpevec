@@ -2323,6 +2323,10 @@ section { position: relative; }
   border-radius: 6px;
   text-align: center;
 }
+.assessment-final-cta .btn-primary {
+  max-width: 100%;
+  white-space: normal;
+}
 .assessment-final-cta h3 {
   font-family: var(--serif);
   font-size: clamp(22px, 2vw, 28px);

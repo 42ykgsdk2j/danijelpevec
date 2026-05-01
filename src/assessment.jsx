@@ -58,7 +58,7 @@ function AssessmentApp() {
 
   return (
     <I18nContext.Provider value={{ t: TRANSLATIONS[lang], lang, setLang }}>
-      <AssessmentNav theme={theme} setTheme={setTheme} lang={lang} setLang={setLang} openModal={openModal} />
+      <Nav theme={theme} setTheme={setTheme} openModal={openModal} />
       <main>
         {step === "intro" && (
           <AssessmentIntro ui={ui} dims={dims} lang={lang} onBegin={handleBegin} />
@@ -94,49 +94,6 @@ function AssessmentApp() {
       <AssessmentFooter lang={lang} />
       <ContactModal open={modalOpen} onClose={closeModal} />
     </I18nContext.Provider>
-  );
-}
-
-// ===== Static-style nav for the assessment page =====
-function AssessmentNav({ theme, setTheme, lang, setLang, openModal }) {
-  const ui = ASSESSMENT_UI[lang];
-  const t = TRANSLATIONS[lang];
-  const navTag = lang === "hr" ? "Savjetnik za obiteljski biznis" : "Family Business Advisor";
-
-  return (
-    <nav className="nav scrolled">
-      <div className="container nav-inner">
-        <a href="index.html" className="brand" aria-label="Danijel Pevec">
-          <div className="brand-mono">DP</div>
-          <div className="brand-text">
-            <div className="brand-name">Danijel Pevec</div>
-            <div className="brand-tag">{navTag}</div>
-          </div>
-        </a>
-        <div className="nav-links">
-          <a href="index.html#approach" className="nav-link"><span>{t.nav.approach}</span></a>
-          <a href="index.html#who" className="nav-link"><span>{t.nav.who}</span></a>
-          <a href="index.html#work" className="nav-link"><span>{t.nav.work}</span></a>
-          <a href={lang === "hr" ? "blog-hr.html" : "blog.html"} className="nav-link"><span>{t.nav.blog}</span></a>
-          <a href="assessment.html" className="nav-link" style={{ color: "var(--gold)" }}><span>{t.nav.assessment}</span></a>
-          <a href="index.html#about" className="nav-link"><span>{t.nav.about}</span></a>
-        </div>
-        <div className="nav-actions">
-          <div className="toggle-group" role="group" aria-label="Language">
-            <button className={lang === "en" ? "active" : ""} onClick={() => setLang("en")}>EN</button>
-            <button className={lang === "hr" ? "active" : ""} onClick={() => setLang("hr")}>HR</button>
-          </div>
-          <button
-            className="theme-toggle"
-            onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-            aria-label="Toggle theme"
-          >
-            {theme === "dark" ? <Icon.Sun /> : <Icon.Moon />}
-          </button>
-          <button className="btn btn-primary nav-cta" onClick={openModal}>{t.nav.cta}</button>
-        </div>
-      </div>
-    </nav>
   );
 }
 
