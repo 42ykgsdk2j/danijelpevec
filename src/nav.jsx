@@ -125,7 +125,6 @@ function Nav({ theme, setTheme, openModal }) {
           </a>
         ))}
         <div className="mobile-drawer-bottom">
-          <LangToggle />
           <button className="btn btn-primary" onClick={() => { setDrawerOpen(false); openModal(); }}>
             {t.nav.cta} <Icon.Arrow />
           </button>
