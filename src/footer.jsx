@@ -27,6 +27,8 @@ function Footer({ openModal }) {
               <li><a href="#approach" onClick={(e) => handleNav(e, "#approach")}>{t.nav.approach}</a></li>
               <li><a href="#who" onClick={(e) => handleNav(e, "#who")}>{t.nav.who}</a></li>
               <li><a href="#work" onClick={(e) => handleNav(e, "#work")}>{t.nav.work}</a></li>
+              <li><a href="https://danijelpevecadvisory-v2.vercel.app/blog.html">{t.nav.blog}</a></li>
+              <li><a href="assessment.html">{t.nav.assessment}</a></li>
               <li><a href="#about" onClick={(e) => handleNav(e, "#about")}>{t.nav.about}</a></li>
             </ul>
           </div>

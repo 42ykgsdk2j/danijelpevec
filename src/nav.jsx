@@ -10,7 +10,7 @@ function Brand() {
   return (
     <a href="#top" className="brand" aria-label="Danijel Pevec">
       <Monogram />
-      <div>
+      <div className="brand-text">
         <div className="brand-name">Danijel Pevec</div>
         <div className="brand-tag">{t.brand.tag}</div>
       </div>
@@ -58,14 +58,24 @@ function Nav({ theme, setTheme, openModal }) {
     return () => { document.body.style.overflow = ""; };
   }, [drawerOpen]);
 
+  const insightsUrl = useI18n().lang === "hr"
+    ? "https://danijelpevecadvisory-v2.vercel.app/blog-hr.html"
+    : "https://danijelpevecadvisory-v2.vercel.app/blog.html";
+
   const links = [
     { href: "#approach", label: t.nav.approach },
     { href: "#who", label: t.nav.who },
     { href: "#work", label: t.nav.work },
+    { href: insightsUrl, label: t.nav.blog },
+    { href: "assessment.html", label: t.nav.assessment },
     { href: "#about", label: t.nav.about },
   ];
 
   const handleNav = (e, href) => {
+    if (!href.startsWith("#")) {
+      setDrawerOpen(false);
+      return;
+    }
     e.preventDefault();
     setDrawerOpen(false);
     const el = document.querySelector(href);
@@ -80,7 +90,7 @@ function Nav({ theme, setTheme, openModal }) {
           <div className="nav-links">
             {links.map(l => (
               <a key={l.href} href={l.href} className="nav-link" onClick={(e) => handleNav(e, l.href)}>
-                {l.label}
+                <span>{l.label}</span>
               </a>
             ))}
           </div>
@@ -109,7 +119,7 @@ function Nav({ theme, setTheme, openModal }) {
         </button>
         {links.map(l => (
           <a key={l.href} href={l.href} className="nav-link" onClick={(e) => handleNav(e, l.href)}>
-            {l.label}
+            <span>{l.label}</span>
           </a>
         ))}
         <div className="mobile-drawer-bottom">

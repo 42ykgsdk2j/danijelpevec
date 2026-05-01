@@ -20,10 +20,19 @@ function App() {
 
   // IntersectionObserver for reveal animations
   React.useEffect(() => {
-    const els = document.querySelectorAll(".reveal");
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      document.querySelectorAll('.reveal').forEach(el => el.classList.add('in'));
+      return;
+    }
+    const els = document.querySelectorAll('.reveal:not(.in)');
     const io = new IntersectionObserver((entries) => {
-      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add("in"); });
-    }, { threshold: 0.12 });
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('in');
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
     els.forEach(el => io.observe(el));
     return () => io.disconnect();
   }, [lang]);
@@ -35,8 +44,10 @@ function App() {
         <Hero openModal={openModal} />
         <WhoSection />
         <ChallengesSection />
+        <AssessmentCtaSection />
         <ApproachSection />
         <WorkSection openModal={openModal} />
+        <BlogSection />
         <AboutSection openModal={openModal} />
         <FinalCta openModal={openModal} />
       </main>

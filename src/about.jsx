@@ -4,12 +4,12 @@ function AboutSection({ openModal }) {
   return (
     <section className="about-section section-pad" id="about">
       <div className="container">
-        <div className="section-head" style={{ maxWidth: "640px", marginBottom: 64 }}>
+        <div className="section-head reveal" style={{ maxWidth: "640px", marginBottom: 64 }}>
           <div className="eyebrow">{t.about.eyebrow}</div>
         </div>
 
         <div className="about-grid">
-          <div className="about-card">
+          <div className="about-card reveal">
             <div className="about-portrait">
               <div className="mono">DP</div>
             </div>
@@ -27,7 +27,7 @@ function AboutSection({ openModal }) {
             </div>
           </div>
 
-          <div className="about-text">
+          <div className="about-text reveal">
             <p className="lead">{t.about.lead}</p>
             <p>{t.about.p1}</p>
             <p>{t.about.p2}</p>
@@ -67,12 +67,12 @@ function FinalCta({ openModal }) {
   return (
     <section className="final-cta">
       <div className="container final-cta-content">
-        <div className="eyebrow" style={{ justifyContent: "center", marginBottom: 28 }}>{t.final.eyebrow}</div>
-        <h2>
+        <div className="eyebrow reveal" style={{ justifyContent: "center", marginBottom: 28 }}>{t.final.eyebrow}</div>
+        <h2 className="reveal">
           {t.final.titleA} <span className="accent">{t.final.titleB}</span>{t.final.titleC} <span className="accent">{t.final.titleAccent}</span>
         </h2>
-        <p>{t.final.sub}</p>
-        <button className="btn btn-primary" onClick={openModal}>
+        <p className="reveal">{t.final.sub}</p>
+        <button className="btn btn-primary reveal" onClick={openModal}>
           {t.final.cta} <Icon.Arrow />
         </button>
       </div>
