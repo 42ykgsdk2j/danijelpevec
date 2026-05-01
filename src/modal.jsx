@@ -36,15 +36,39 @@ function ContactModal({ open, onClose }) {
     return e;
   };
 
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
     const errs = validate();
     if (Object.keys(errs).length) { setErrors(errs); return; }
     setSubmitting(true);
-    setTimeout(() => {
+    setErrors({});
+    try {
+      const res = await fetch("https://formspree.io/f/mykoyaap", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "Accept": "application/json" },
+        body: JSON.stringify({
+          name: form.name,
+          role: form.role,
+          company: form.company,
+          email: form.email,
+          stage: form.stage,
+          message: form.message,
+          consent: form.consent ? "Yes" : "No",
+          _subject: `Private conversation request from ${form.name}`,
+        }),
+      });
+      if (res.ok) {
+        setSubmitted(true);
+      } else {
+        const data = await res.json().catch(() => ({}));
+        const apiMsg = data && data.errors && data.errors[0] && data.errors[0].message;
+        setErrors({ submit: apiMsg || t.modal.err.submit });
+      }
+    } catch (err) {
+      setErrors({ submit: t.modal.err.submit });
+    } finally {
       setSubmitting(false);
-      setSubmitted(true);
-    }, 900);
+    }
   };
 
   const reset = () => {
@@ -121,6 +145,12 @@ function ContactModal({ open, onClose }) {
                   {errors.consent && <span className="err" style={{ display: "block", marginTop: 4 }}>{errors.consent}</span>}
                 </label>
               </div>
+
+              {errors.submit && (
+                <div className="field error" style={{ marginTop: 4 }}>
+                  <span className="err" role="alert">{errors.submit}</span>
+                </div>
+              )}
 
               <div className="modal-foot">
                 <span className="note">{t.modal.note}</span>

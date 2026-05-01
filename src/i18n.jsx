@@ -156,6 +156,7 @@ const TRANSLATIONS = {
         email: "A valid email is required",
         message: "Tell me a little about your situation",
         consent: "Please confirm to continue",
+        submit: "We couldn't send your message. Please try again, or email directly.",
       },
     },
     footer: {
@@ -328,6 +329,7 @@ const TRANSLATIONS = {
         email: "Potrebna je valjana email adresa",
         message: "Recite mi nešto o svojoj situaciji",
         consent: "Molim potvrdite za nastavak",
+        submit: "Slanje poruke nije uspjelo. Pokušajte ponovno ili pošaljite email izravno.",
       },
     },
     footer: {
