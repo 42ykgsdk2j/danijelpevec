@@ -1,8 +1,6 @@
 // Brand mark + Nav
-const Monogram = ({ size = 42 }) => (
-  <div className="brand-mono" style={{ width: size, height: size, fontSize: size * 0.4 }}>
-    DP
-  </div>
+const Monogram = () => (
+  <div className="brand-mono">DP</div>
 );
 
 function Brand() {
@@ -43,15 +41,7 @@ function ThemeToggle({ theme, setTheme }) {
 
 function Nav({ theme, setTheme, openModal }) {
   const { t } = useI18n();
-  const [scrolled, setScrolled] = React.useState(false);
   const [drawerOpen, setDrawerOpen] = React.useState(false);
-
-  React.useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 30);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
 
   React.useEffect(() => {
     document.body.style.overflow = drawerOpen ? "hidden" : "";
@@ -84,7 +74,7 @@ function Nav({ theme, setTheme, openModal }) {
 
   return (
     <React.Fragment>
-      <nav className={`nav${scrolled ? " scrolled" : ""}`}>
+      <nav className="nav scrolled">
         <div className="container nav-inner">
           <Brand />
           <div className="nav-links">
