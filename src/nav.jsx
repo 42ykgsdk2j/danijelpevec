@@ -3,10 +3,17 @@ const Monogram = () => (
   <div className="brand-mono">DP</div>
 );
 
+function isHomePage() {
+  if (typeof window === "undefined") return true;
+  const p = window.location.pathname;
+  return p === "/" || p === "" || /\/index\.html$/.test(p);
+}
+
 function Brand() {
   const { t } = useI18n();
+  const href = isHomePage() ? "#top" : "index.html";
   return (
-    <a href="#top" className="brand" aria-label="Danijel Pevec">
+    <a href={href} className="brand" aria-label="Danijel Pevec">
       <Monogram />
       <div className="brand-text">
         <div className="brand-name">Danijel Pevec</div>
@@ -48,20 +55,25 @@ function Nav({ theme, setTheme, openModal }) {
     return () => { document.body.style.overflow = ""; };
   }, [drawerOpen]);
 
+  const onHome = isHomePage();
+  const homeBase = onHome ? "" : "index.html";
+
   const insightsUrl = useI18n().lang === "hr"
     ? "https://danijelpevecadvisory-v2.vercel.app/blog-hr.html"
     : "https://danijelpevecadvisory-v2.vercel.app/blog.html";
 
   const links = [
-    { href: "#approach", label: t.nav.approach },
-    { href: "#who", label: t.nav.who },
-    { href: "#work", label: t.nav.work },
+    { href: `${homeBase}#approach`, label: t.nav.approach },
+    { href: `${homeBase}#who`, label: t.nav.who },
+    { href: `${homeBase}#work`, label: t.nav.work },
     { href: insightsUrl, label: t.nav.blog },
     { href: "assessment.html", label: t.nav.assessment },
-    { href: "#about", label: t.nav.about },
+    { href: `${homeBase}#about`, label: t.nav.about },
   ];
 
   const handleNav = (e, href) => {
+    // Only smooth-scroll for in-page anchors. Cross-page anchors (e.g.
+    // "index.html#approach") and external URLs navigate normally.
     if (!href.startsWith("#")) {
       setDrawerOpen(false);
       return;
