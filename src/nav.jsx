@@ -59,8 +59,8 @@ function Nav({ theme, setTheme, openModal }) {
   const homeBase = onHome ? "" : "index.html";
 
   const insightsUrl = useI18n().lang === "hr"
-    ? "https://danijelpevecadvisory-v2.vercel.app/blog-hr.html"
-    : "https://danijelpevecadvisory-v2.vercel.app/blog.html";
+    ? "blog-hr.html"
+    : "blog.html";
 
   const links = [
     { href: `${homeBase}#approach`, label: t.nav.approach },
