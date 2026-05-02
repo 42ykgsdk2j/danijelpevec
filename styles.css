@@ -21,6 +21,8 @@
   --gold-bright: #f0d186;   /* hover */
   --gold-deep: #8a7340;     /* deep */
   --gold-soft: rgba(201, 169, 97, 0.12);
+
+  --error: #c87a4a;          /* form validation */
   --gold-shine: linear-gradient(135deg, #e8c87a 0%, #f5dca0 35%, #c9a961 65%, #a88a48 100%);
   --gold-shine-hover: linear-gradient(135deg, #f5dca0 0%, #ffe8b8 35%, #e0c280 65%, #c9a961 100%);
 
@@ -52,6 +54,8 @@
   --gold-bright: #6f5c30;
   --gold-deep: #5a4a26;
   --gold-soft: rgba(138, 115, 64, 0.10);
+
+  --error: #b35a2a;          /* darker error tone for legibility on cream bg */
 
   --shadow-lg: 0 24px 60px rgba(10, 22, 40, 0.10);
   --shadow-md: 0 8px 32px rgba(10, 22, 40, 0.08);
@@ -1263,9 +1267,9 @@ section { position: relative; }
 
 .modal-close {
   position: absolute;
-  top: 20px;
-  right: 20px;
-  width: 36px; height: 36px;
+  top: 16px;
+  right: 16px;
+  width: 44px; height: 44px;
   border-radius: 50%;
   border: 1px solid var(--line);
   background: var(--bg-2);
@@ -1336,11 +1340,11 @@ section { position: relative; }
   font-style: italic;
 }
 .field.error input, .field.error textarea, .field.error select {
-  border-color: #c87a4a;
+  border-color: var(--error);
 }
 .field .err {
   font-size: 11px;
-  color: #c87a4a;
+  color: var(--error);
   letter-spacing: 0.08em;
   font-style: italic;
 }
@@ -1939,7 +1943,7 @@ section { position: relative; }
 }
 .assessment-dim-item {
   display: grid;
-  grid-template-columns: 200px 1fr;
+  grid-template-columns: minmax(0, 200px) 1fr;
   gap: 24px;
   padding: 14px 0;
   border-bottom: 1px solid var(--line-soft);
@@ -2278,7 +2282,6 @@ section { position: relative; }
 @media (max-width: 720px) {
   .assessment-strength-priority-grid { grid-template-columns: 1fr; }
 }
-.assessment-sp-block {}
 .assessment-sp-title {
   font-family: var(--sans);
   font-size: 11px;
