@@ -2345,7 +2345,7 @@ section { position: relative; }
   margin-right: auto;
 }
 .assessment-restart {
-  display: block;
+  display: inline-block;
   margin-top: 20px;
   font-size: 12px;
   color: var(--ink-2);
