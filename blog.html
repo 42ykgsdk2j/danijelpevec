@@ -26,11 +26,16 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css" />
+<link rel="icon" type="image/svg+xml" href="favicon.svg" />
+<meta property="og:image" content="https://www.danijelpevec.com/og-image.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:image" content="https://www.danijelpevec.com/og-image.png" />
 
 <script>
   (function() {
     var t = localStorage.getItem("dp_theme") || "dark";
-    document.documentElement.setAttribute("data-theme", t); document.documentElement.classList.add('js-scroll-ready'); localStorage.setItem("dp_lang", "en");
+    document.documentElement.setAttribute("data-theme", t); document.documentElement.classList.add('js-scroll-ready');
   })();
 </script>
 
@@ -70,103 +75,7 @@
   </section>
 </main>
 
-<footer class="footer">
-  <div class="container">
-    <div class="footer-grid">
-      <div class="footer-brand">
-        <div class="brand" style="cursor:default;">
-          <span class="brand-mono" style="width:42px;height:42px;font-size:16px;">DP</span>
-          <div>
-            <div class="brand-name">Danijel Pevec</div>
-            <div class="brand-tag">Family Business Advisor</div>
-          </div>
-        </div>
-        <p>Trusted compass through growth, succession and generational transition.</p>
-      </div>
-      <div>
-        <h4>Navigate</h4>
-        <ul>
-          <li><a href="index.html#approach">Approach</a></li>
-          <li><a href="index.html#who">Who we work with</a></li>
-          <li><a href="index.html#work">How we work</a></li>
-          <li><a href="blog.html">Insights</a></li>
-          <li><a href="assessment.html">Assessment</a></li>
-          <li><a href="index.html#about">About</a></li>
-        </ul>
-      </div>
-      <div>
-        <h4>Contact</h4>
-        <ul>
-          <li><a href="mailto:inquiry@danijelpevec.com">inquiry@danijelpevec.com</a></li>
-          <li>Zagreb · Croatia</li>
-        </ul>
-      </div>
-      <div>
-        <h4>Affiliation</h4>
-        <ul>
-          <li><a href="https://www.alphacapitalis.com" target="_blank" rel="noopener noreferrer">Alpha Capitalis ↗</a></li>
-        </ul>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <span class="copy">© 2026 Danijel Pevec. All rights reserved.</span>
-      <div class="legal">
-        <a href="#">Privacy</a>
-        <a href="#">Imprint</a>
-        <a href="#">Colophon</a>
-      </div>
-    </div>
-  </div>
-</footer>
-
-<script>
-  // Render blog cards (kept in plain JS to avoid Babel dependency on this page)
-  var POSTS = [
-    { slug: "family-business-succession-planning", date: "2026-04-22", readTime: 9, category: "Succession",
-      title: "Family Business Succession Planning: A Founder's Practical Roadmap",
-      excerpt: "Succession is not an event. It is a five-stage process that begins long before the founder steps back — and shapes everything that follows." },
-    { slug: "generational-wealth-transition", date: "2026-04-15", readTime: 8, category: "Wealth Transition",
-      title: "Generational Wealth Transition: Why So Few Families Get It Right",
-      excerpt: "Most families lose generational wealth within three generations. The reason is rarely tax or markets — it is the absence of structure, communication and shared purpose." },
-    { slug: "family-business-second-generation", date: "2026-04-08", readTime: 10, category: "Continuity",
-      title: "Why 70% of Family Businesses Don't Survive the Second Generation",
-      excerpt: "Only three in ten family businesses survive into the second generation. The pattern is consistent — and avoidable, if the right conversations happen in time." },
-    { slug: "family-constitution-governance", date: "2026-04-01", readTime: 9, category: "Governance",
-      title: "The Family Constitution: Building Governance That Outlasts You",
-      excerpt: "A family constitution is not a legal document. It is the written agreement that holds a family together when the founder no longer can." },
-    { slug: "next-generation-leadership", date: "2026-03-25", readTime: 8, category: "Next Generation",
-      title: "Preparing the Next Generation: From Heirs to Stewards",
-      excerpt: "Inheritance is a transaction. Stewardship is a discipline. Preparing the next generation means giving them more than the keys — it means giving them the map." },
-    { slug: "family-business-exit-strategy", date: "2026-03-18", readTime: 9, category: "Exit Strategy",
-      title: "Sell, Pass On, or Hold: The Founder's Exit Decision",
-      excerpt: "Every founder eventually faces three doors: sell, pass on, or hold. The right choice depends on more than the multiple — it depends on what you are really trying to build." },
-    { slug: "family-business-advisor-vs-family-office", date: "2026-03-11", readTime: 7, category: "Advisory",
-      title: "Family Business Advisor vs. Family Office: Which Do You Actually Need?",
-      excerpt: "These two roles get conflated, but they exist for different reasons. Knowing the difference is the first step in choosing the support that fits your stage." },
-    { slug: "family-business-conflict-resolution", date: "2026-03-04", readTime: 9, category: "Family Dynamics",
-      title: "Conflict in the Family Business: Hard Conversations Before Hard Outcomes",
-      excerpt: "Family business conflict rarely begins where it ends. The work is to surface tension early, structure the conversation, and protect both the business and the relationships." },
-    { slug: "building-legacy-beyond-founders", date: "2026-02-25", readTime: 8, category: "Legacy",
-      title: "Building a Legacy: Long-Term Wealth Beyond the Founder Generation",
-      excerpt: "Legacy is not what you leave behind. It is what continues to function, decide and create value when you are no longer in the room." }
-  ];
-
-  function fmt(iso) {
-    var d = new Date(iso);
-    return d.toLocaleDateString("en-GB", { year: "numeric", month: "short", day: "numeric" });
-  }
-
-  var html = POSTS.map(function (p) {
-    return '<a class="blog-card reveal" href="blog/' + p.slug + '.html">' +
-      '<div class="blog-card-meta"><span class="blog-card-cat">' + p.category + '</span>' +
-      '<span class="blog-card-dot">·</span><span class="blog-card-time">' + p.readTime + ' min read</span></div>' +
-      '<h2 class="blog-card-title">' + p.title + '</h2>' +
-      '<p class="blog-card-excerpt">' + p.excerpt + '</p>' +
-      '<div class="blog-card-footer"><span class="blog-card-date">' + fmt(p.date) + '</span>' +
-      '<span class="blog-card-arrow">→</span></div></a>';
-  }).join("");
-  document.getElementById("blog-grid").innerHTML = html;
-</script>
+<div id="footer-root"></div>
 
 <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
@@ -175,7 +84,10 @@
 <script type="text/babel" src="src/icons.jsx"></script>
 <script type="text/babel" src="src/modal.jsx"></script>
 <script type="text/babel" src="src/nav.jsx"></script>
+<script type="text/babel" src="src/footer.jsx"></script>
 <script type="text/babel" src="src/blog-nav-mount.jsx"></script>
+<script type="text/babel" src="src/blog-data.jsx"></script>
+<script type="text/babel" src="src/blog-list-render.jsx"></script>
 <script src="src/btn-shine.js"></script>
 <script src="src/scroll-reveal.js"></script>
 </body>

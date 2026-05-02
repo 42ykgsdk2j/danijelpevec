@@ -1,5 +1,6 @@
-// Mount the React Nav + ContactModal into #nav-root on the static blog pages.
-// The blog page sets <html lang="..."> in its head; we use that as initial language.
+// Mount the React Nav + Footer + ContactModal into #nav-root and #footer-root
+// on every static page. The page sets <html lang="..."> in its head; we use
+// that as initial language.
 function BlogPageShell() {
   const initLang = document.documentElement.getAttribute("lang") || "en";
   const [lang, setLangState] = React.useState(initLang);
@@ -13,9 +14,8 @@ function BlogPageShell() {
   };
 
   // Language switching navigates to the page's EN/HR counterpart by toggling
-  // the -hr suffix on the current filename. Works for both blog index pages
-  // (blog.html ↔ blog-hr.html) and article pages
-  // (foo.html ↔ foo-hr.html).
+  // the -hr suffix on the current filename. Works for blog index, article,
+  // and legal stub pages alike (foo.html ↔ foo-hr.html).
   const setLang = (next) => {
     if (next === lang) return;
     localStorage.setItem("dp_lang", next);
@@ -32,10 +32,13 @@ function BlogPageShell() {
   const openModal = () => setModalOpen(true);
   const closeModal = () => setModalOpen(false);
 
+  const footerRoot = document.getElementById("footer-root");
+
   return (
     <I18nContext.Provider value={{ t, lang, setLang }}>
       <Nav theme={theme} setTheme={setTheme} openModal={openModal} />
       <ContactModal open={modalOpen} onClose={closeModal} />
+      {footerRoot && ReactDOM.createPortal(<Footer openModal={openModal} />, footerRoot)}
     </I18nContext.Provider>
   );
 }

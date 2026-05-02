@@ -89,7 +89,7 @@ function Nav({ theme, setTheme, openModal }) {
     e.preventDefault();
     setDrawerOpen(false);
     const el = document.querySelector(href);
-    if (el) el.scrollIntoView ? window.scrollTo({ top: el.offsetTop - 80, behavior: "smooth" }) : null;
+    if (el) window.scrollTo({ top: el.offsetTop - 80, behavior: "smooth" });
   };
 
   return (

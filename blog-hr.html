@@ -28,11 +28,16 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css" />
+<link rel="icon" type="image/svg+xml" href="favicon.svg" />
+<meta property="og:image" content="https://www.danijelpevec.com/og-image.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:image" content="https://www.danijelpevec.com/og-image.png" />
 
 <script>
   (function() {
     var t = localStorage.getItem("dp_theme") || "dark";
-    document.documentElement.setAttribute("data-theme", t); document.documentElement.classList.add('js-scroll-ready'); localStorage.setItem("dp_lang", "hr");
+    document.documentElement.setAttribute("data-theme", t); document.documentElement.classList.add('js-scroll-ready');
   })();
 </script>
 
@@ -69,102 +74,7 @@
   </section>
 </main>
 
-<footer class="footer">
-  <div class="container">
-    <div class="footer-grid">
-      <div class="footer-brand">
-        <div class="brand" style="cursor:default;">
-          <span class="brand-mono" style="width:42px;height:42px;font-size:16px;">DP</span>
-          <div>
-            <div class="brand-name">Danijel Pevec</div>
-            <div class="brand-tag">Savjetnik za obiteljski biznis</div>
-          </div>
-        </div>
-        <p>Pouzdan kompas kroz rast, sukcesiju i generacijsku tranziciju.</p>
-      </div>
-      <div>
-        <h4>Navigacija</h4>
-        <ul>
-          <li><a href="index.html#approach">Pristup</a></li>
-          <li><a href="index.html#who">S kim radimo</a></li>
-          <li><a href="index.html#work">Kako radimo</a></li>
-          <li><a href="blog-hr.html">Uvidi</a></li>
-          <li><a href="assessment.html">Procjena</a></li>
-          <li><a href="index.html#about">O meni</a></li>
-        </ul>
-      </div>
-      <div>
-        <h4>Kontakt</h4>
-        <ul>
-          <li><a href="mailto:inquiry@danijelpevec.com">inquiry@danijelpevec.com</a></li>
-          <li>Zagreb · Hrvatska</li>
-        </ul>
-      </div>
-      <div>
-        <h4>Suradnja</h4>
-        <ul>
-          <li><a href="https://www.alphacapitalis.com" target="_blank" rel="noopener noreferrer">Alpha Capitalis ↗</a></li>
-        </ul>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <span class="copy">© 2026 Danijel Pevec. Sva prava pridržana.</span>
-      <div class="legal">
-        <a href="#">Privatnost</a>
-        <a href="#">Impressum</a>
-        <a href="#">Kolofon</a>
-      </div>
-    </div>
-  </div>
-</footer>
-
-<script>
-  var POSTS = [
-    { slug: "family-business-succession-planning", date: "2026-04-22", readTime: 9, category: "Sukcesija",
-      title: "Planiranje sukcesije obiteljske tvrtke: praktični vodič za osnivače",
-      excerpt: "Sukcesija nije događaj. To je proces u pet faza koji počinje davno prije nego što se osnivač povuče — i oblikuje sve što slijedi." },
-    { slug: "generational-wealth-transition", date: "2026-04-15", readTime: 8, category: "Prijenos imovine",
-      title: "Generacijski prijenos imovine: zašto malo obitelji to ispravno provede",
-      excerpt: "Većina obitelji izgubi generacijsku imovinu unutar tri generacije. Razlog rijetko leži u porezima ili tržištima — već u nedostatku strukture, komunikacije i zajedničke svrhe." },
-    { slug: "family-business-second-generation", date: "2026-04-08", readTime: 10, category: "Kontinuitet",
-      title: "Zašto 70 % obiteljskih tvrtki ne preživi drugu generaciju",
-      excerpt: "Samo tri od deset obiteljskih tvrtki preživi u drugu generaciju. Obrazac je dosljedan — i izbježiv, ako se prave razgovore vode na vrijeme." },
-    { slug: "family-constitution-governance", date: "2026-04-01", readTime: 9, category: "Upravljanje",
-      title: "Obiteljski ustav: izgradnja upravljanja koje će vas nadživjeti",
-      excerpt: "Obiteljski ustav nije pravni dokument. To je pisani sporazum koji obitelj drži na okupu kada osnivač više ne može." },
-    { slug: "next-generation-leadership", date: "2026-03-25", readTime: 8, category: "Sljedeća generacija",
-      title: "Priprema sljedeće generacije: od nasljednika do skrbnika",
-      excerpt: "Nasljeđivanje je transakcija. Skrbništvo je disciplina. Pripremiti sljedeću generaciju znači dati im više od ključeva — dati im kartu." },
-    { slug: "family-business-exit-strategy", date: "2026-03-18", readTime: 9, category: "Izlazna strategija",
-      title: "Prodati, prenijeti ili zadržati: odluka osnivača o izlasku",
-      excerpt: "Svaki osnivač jednom stane pred troja vrata: prodati, prenijeti ili zadržati. Pravi izbor ovisi o više od cijene — ovisi o tome što doista gradite." },
-    { slug: "family-business-advisor-vs-family-office", date: "2026-03-11", readTime: 7, category: "Savjetovanje",
-      title: "Savjetnik za obiteljski biznis ili obiteljski ured: što vam zapravo treba?",
-      excerpt: "Ove dvije uloge često se miješaju, ali postoje iz različitih razloga. Razumjeti razliku prvi je korak u odabiru podrške koja odgovara vašoj fazi." },
-    { slug: "family-business-conflict-resolution", date: "2026-03-04", readTime: 9, category: "Obiteljska dinamika",
-      title: "Sukobi u obiteljskoj tvrtki: teški razgovori prije teških posljedica",
-      excerpt: "Sukobi u obiteljskoj tvrtki rijetko počinju ondje gdje završavaju. Posao je rano izvući napetost, strukturirati razgovor i zaštititi i posao i odnose." },
-    { slug: "building-legacy-beyond-founders", date: "2026-02-25", readTime: 8, category: "Nasljeđe",
-      title: "Izgradnja nasljeđa: dugoročna vrijednost iznad generacije osnivača",
-      excerpt: "Nasljeđe nije ono što ostavljate iza sebe. To je ono što nastavlja funkcionirati, odlučivati i stvarati vrijednost kada vas više nema u prostoriji." }
-  ];
-
-  function fmt(iso) {
-    var d = new Date(iso);
-    return d.toLocaleDateString("hr-HR", { year: "numeric", month: "short", day: "numeric" });
-  }
-
-  var html = POSTS.map(function (p) {
-    return '<a class="blog-card reveal" href="blog/' + p.slug + '-hr.html">' +
-      '<div class="blog-card-meta"><span class="blog-card-cat">' + p.category + '</span>' +
-      '<span class="blog-card-dot">·</span><span class="blog-card-time">' + p.readTime + ' min čitanja</span></div>' +
-      '<h2 class="blog-card-title">' + p.title + '</h2>' +
-      '<p class="blog-card-excerpt">' + p.excerpt + '</p>' +
-      '<div class="blog-card-footer"><span class="blog-card-date">' + fmt(p.date) + '</span>' +
-      '<span class="blog-card-arrow">→</span></div></a>';
-  }).join("");
-  document.getElementById("blog-grid").innerHTML = html;
-</script>
+<div id="footer-root"></div>
 
 <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
@@ -173,7 +83,10 @@
 <script type="text/babel" src="src/icons.jsx"></script>
 <script type="text/babel" src="src/modal.jsx"></script>
 <script type="text/babel" src="src/nav.jsx"></script>
+<script type="text/babel" src="src/footer.jsx"></script>
 <script type="text/babel" src="src/blog-nav-mount.jsx"></script>
+<script type="text/babel" src="src/blog-data.jsx"></script>
+<script type="text/babel" src="src/blog-list-render.jsx"></script>
 <script src="src/btn-shine.js"></script>
 <script src="src/scroll-reveal.js"></script>
 </body>

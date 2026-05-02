@@ -91,7 +91,7 @@ function AssessmentApp() {
           />
         )}
       </main>
-      <AssessmentFooter lang={lang} />
+      <Footer openModal={openModal} />
       <ContactModal open={modalOpen} onClose={closeModal} />
     </I18nContext.Provider>
   );
@@ -322,56 +322,6 @@ function AssessmentResults({ ui, dims, lang, answers, onRestart, openModal }) {
         </div>
       </div>
     </section>
-  );
-}
-
-// ===== Footer (mirrors the static blog footer pattern) =====
-function AssessmentFooter({ lang }) {
-  const isHr = lang === "hr";
-  return (
-    <footer className="footer">
-      <div className="container">
-        <div className="footer-grid">
-          <div className="footer-brand">
-            <div className="brand" style={{ cursor: "default" }}>
-              <span className="brand-mono" style={{ width: 42, height: 42, fontSize: 16 }}>DP</span>
-              <div>
-                <div className="brand-name">Danijel Pevec</div>
-                <div className="brand-tag">{isHr ? "Savjetnik za obiteljski biznis" : "Family Business Advisor"}</div>
-              </div>
-            </div>
-            <p>{isHr ? "Pouzdan kompas kroz rast, sukcesiju i generacijsku tranziciju." : "Trusted compass through growth, succession and generational transition."}</p>
-          </div>
-          <div>
-            <h4>{isHr ? "Navigacija" : "Navigate"}</h4>
-            <ul>
-              <li><a href="index.html#approach">{isHr ? "Pristup" : "Approach"}</a></li>
-              <li><a href="index.html#who">{isHr ? "S kim radimo" : "Who we work with"}</a></li>
-              <li><a href="index.html#work">{isHr ? "Kako radimo" : "How we work"}</a></li>
-              <li><a href={isHr ? "blog-hr.html" : "blog.html"}>{isHr ? "Uvidi" : "Insights"}</a></li>
-              <li><a href="assessment.html">{isHr ? "Procjena" : "Assessment"}</a></li>
-              <li><a href="index.html#about">{isHr ? "O meni" : "About"}</a></li>
-            </ul>
-          </div>
-          <div>
-            <h4>{isHr ? "Kontakt" : "Contact"}</h4>
-            <ul>
-              <li><a href="mailto:inquiry@danijelpevec.com">inquiry@danijelpevec.com</a></li>
-              <li>{isHr ? "Zagreb · Hrvatska" : "Zagreb · Croatia"}</li>
-            </ul>
-          </div>
-          <div>
-            <h4>{isHr ? "Suradnja" : "Affiliation"}</h4>
-            <ul>
-              <li><a href="https://www.alphacapitalis.com" target="_blank" rel="noopener noreferrer">Alpha Capitalis ↗</a></li>
-            </ul>
-          </div>
-        </div>
-        <div className="footer-bottom">
-          <span className="copy">© 2026 Danijel Pevec. {isHr ? "Sva prava pridržana." : "All rights reserved."}</span>
-        </div>
-      </div>
-    </footer>
   );
 }
 
