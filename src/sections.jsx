@@ -18,7 +18,6 @@ function WhoSection() {
                 <div className="who-item reveal" key={i}>
                   <span className="num">0{i + 1}.</span>
                   <span className="label">{item}</span>
-                  <span className="icon"><Icon.Arrow size={18} /></span>
                 </div>
               ))}
             </div>
