@@ -1,0 +1,65 @@
+# Decap CMS configuration — edit blog posts and site copy via /admin/.
+#
+# Backend: GitHub OAuth via our own /api/auth + /api/callback proxy
+# (runs as Vercel serverless functions; the Client Secret never leaves the
+# server). The OAuth app's callback URL must be
+#   https://www.danijelpevec.com/api/callback
+
+backend:
+  name: github
+  repo: 42ykgsdk2j/danijelpevec
+  branch: main
+  base_url: https://www.danijelpevec.com
+  auth_endpoint: api/auth
+
+# Live preview while editing
+publish_mode: simple
+site_url: https://www.danijelpevec.com
+display_url: https://www.danijelpevec.com
+
+# Media library — images attached to blog posts land here
+media_folder: public/uploads
+public_folder: /uploads
+
+collections:
+  # ===================================================================
+  # Blog posts (EN)
+  # ===================================================================
+  - name: blog_en
+    label: "Insights (English)"
+    label_singular: "Insight"
+    folder: src/content/blog/en
+    create: true
+    extension: md
+    format: frontmatter
+    slug: "{{slug}}"
+    summary: "{{title}} — {{date | date('YYYY-MM-DD')}}"
+    fields:
+      - { name: slug, label: "Slug (URL — letters, numbers, hyphens only)", widget: string }
+      - { name: title, label: Title, widget: string }
+      - { name: excerpt, label: "Excerpt (1-2 sentences, shown on the blog index card)", widget: text }
+      - { name: category, label: Category, widget: string, hint: "e.g. Succession, Wealth Transition, Continuity, Governance, Next Generation, Exit Strategy, Advisory, Family Dynamics, Legacy" }
+      - { name: date, label: "Date published", widget: datetime, format: "YYYY-MM-DD", time_format: false, date_format: "YYYY-MM-DD" }
+      - { name: readTime, label: "Read time (minutes)", widget: number, default: 7, value_type: int, min: 1 }
+      - { name: body, label: Body, widget: markdown }
+
+  # ===================================================================
+  # Blog posts (HR)
+  # ===================================================================
+  - name: blog_hr
+    label: "Uvidi (hrvatski)"
+    label_singular: "Uvid"
+    folder: src/content/blog/hr
+    create: true
+    extension: md
+    format: frontmatter
+    slug: "{{slug}}"
+    summary: "{{title}} — {{date | date('YYYY-MM-DD')}}"
+    fields:
+      - { name: slug, label: "Slug (URL — slova, brojke, crtice)", widget: string }
+      - { name: title, label: Naslov, widget: string }
+      - { name: excerpt, label: "Sažetak (1-2 rečenice, pojavljuje se na popisu uvida)", widget: text }
+      - { name: category, label: Kategorija, widget: string }
+      - { name: date, label: "Datum objave", widget: datetime, format: "YYYY-MM-DD", time_format: false, date_format: "YYYY-MM-DD" }
+      - { name: readTime, label: "Vrijeme čitanja (minuta)", widget: number, default: 7, value_type: int, min: 1 }
+      - { name: body, label: Tekst, widget: markdown }
