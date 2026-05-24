@@ -1,0 +1,18 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Assessment from "../components/Assessment.tsx";
+import { getT, SITE } from "../lib/i18n";
+import assessmentUi from "../data/assessment-ui.en.json";
+const lang = "en" as const;
+const t = getT(lang);
+---
+<BaseLayout
+  lang={lang}
+  title="Family Business Readiness Assessment | Danijel Pevec"
+  description="A seven-minute private reflection on six dimensions that determine whether what you've built will last beyond you. No registration. Instant results."
+  canonical={`${SITE}/assessment/`}
+  hreflangEn={`${SITE}/assessment/`}
+  hreflangHr={`${SITE}/hr/assessment/`}
+>
+  <Assessment client:load ui={assessmentUi} lang={lang} />
+</BaseLayout>

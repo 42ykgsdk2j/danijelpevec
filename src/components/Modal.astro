@@ -1,0 +1,25 @@
+---
+import Modal from "./Modal.tsx";
+import { getT, type Lang } from "../lib/i18n";
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = getT(lang);
+---
+<Modal client:load t={t.modal} />
+
+<script is:inline>
+  // Any [data-open-modal] button dispatches the open event the React island listens for.
+  document.addEventListener("click", function (e) {
+    var target = e.target;
+    while (target && target !== document.body) {
+      if (target.hasAttribute && target.hasAttribute("data-open-modal")) {
+        window.dispatchEvent(new CustomEvent("dp:open-modal"));
+        return;
+      }
+      target = target.parentNode;
+    }
+  });
+</script>

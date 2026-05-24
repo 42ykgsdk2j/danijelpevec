@@ -1,0 +1,17 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import BlogList from "../../../components/BlogList.astro";
+import { getT, SITE } from "../../../lib/i18n";
+const lang = "hr" as const;
+const t = getT(lang);
+---
+<BaseLayout
+  lang={lang}
+  title={`${t.blog.pageTitle} | Danijel Pevec`}
+  description={t.blog.pageLead}
+  canonical={`${SITE}/hr/blog/`}
+  hreflangEn={`${SITE}/blog/`}
+  hreflangHr={`${SITE}/hr/blog/`}
+>
+  <BlogList lang={lang} />
+</BaseLayout>

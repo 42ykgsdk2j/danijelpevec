@@ -1,0 +1,44 @@
+{
+  "nav": {
+    "brand": "Savjetnik za obiteljski biznis",
+    "back": "Povratak na početnu"
+  },
+  "intro": {
+    "eyebrow": "Procjena spremnosti",
+    "title": "Gdje stoji vaš obiteljski posao?",
+    "titleAccent": "Privatna refleksija.",
+    "lead": "Sedmominutna strukturirana refleksija o šest dimenzija koje određuju hoće li ono što ste izgradili trajati i dalje od vas.",
+    "dimensionsLabel": "Što ovo pokriva",
+    "privacy": "Bez registracije. Vaši odgovori ostaju u vašem pregledniku. Rezultati se generiraju trenutno i ne dijele se.",
+    "time": "≈ 7 minuta · 18 pitanja",
+    "cta": "Započni procjenu"
+  },
+  "question": {
+    "progress": "Pitanje {n} od {total}",
+    "back": "Natrag",
+    "next": "Dalje",
+    "complete": "Pogledaj rezultate"
+  },
+  "analyzing": {
+    "eyebrow": "Analiziram",
+    "messages": [
+      "Čitam vaše odgovore",
+      "Vagam svaku dimenziju",
+      "Prepoznajem obrasce",
+      "Sastavljam vaš profil"
+    ]
+  },
+  "results": {
+    "eyebrow": "Vaš profil",
+    "overallLabel": "Ukupna spremnost",
+    "strengthsTitle": "Gdje ste najsnažniji",
+    "prioritiesTitle": "Na što sljedeće obratiti pažnju",
+    "narrativeTitle": "Čitanje profila",
+    "ctaTitle": "Ovi rezultati ne zamjenjuju razgovor.",
+    "ctaSub": "Ako vam nešto ovdje odgovara situaciji, sljedeći je korak privatni razgovor o onome što ste identificirali.",
+    "ctaBtn": "Zatraži privatni razgovor",
+    "restart": "Ponovi procjenu",
+    "disclaimer": "Ova procjena je strukturirana refleksija, a ne zamjena za stručni savjet. Ona pokazuje obrasce; ne pruža rješenja.",
+    "scoreOf": "od"
+  }
+}

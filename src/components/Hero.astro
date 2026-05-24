@@ -1,0 +1,50 @@
+---
+import { getT, type Lang } from "../lib/i18n";
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = getT(lang);
+---
+<section class="hero" id="top">
+  <div class="hero-bg"></div>
+  <div class="container">
+    <div class="hero-eyebrow-row">
+      <div class="hero-meta">
+        <span>{t.hero.meta1}</span>
+        <span class="dot"></span>
+        <span>{t.hero.meta2}</span>
+        <span class="dot"></span>
+        <span>{t.hero.meta3}</span>
+      </div>
+      <div class="hero-meta">
+        <span style="font-family: var(--serif); font-style: italic; text-transform: none; letter-spacing: 0; font-size: 14px; color: var(--ink-2);">MMXXVI</span>
+      </div>
+    </div>
+
+    <h1 class="hero-headline reveal in">
+      <span class="br">{t.hero.headlineA}</span>
+      <span class="br">{t.hero.headlineB}</span>
+      <span class="br accent">{t.hero.headlineC}</span>
+      <span class="br">{t.hero.headlineD}</span>
+    </h1>
+
+    <div class="hero-sub-row">
+      <p class="hero-sub">{t.hero.sub}</p>
+      <div class="hero-cta-block">
+        <span class="small">— {t.hero.ctaSmall}</span>
+        <button class="btn btn-primary" data-open-modal>
+          {t.hero.cta}
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <line x1="5" y1="12" x2="19" y2="12" />
+            <polyline points="12 5 19 12 12 19" />
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="hero-marquee">
+      <div class="item"><span class="num">{t.hero.m1Num}</span>{t.hero.m1}</div>
+      <div class="item"><span class="num">{t.hero.m2Num}</span>{t.hero.m2}</div>
+      <div class="item"><span class="num">{t.hero.m3Num}</span>{t.hero.m3}</div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,61 @@
+---
+import { getT, url, type Lang } from "../lib/i18n";
+import posts from "../data/blog-posts.json";
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = getT(lang);
+
+const latest = (posts as typeof posts).slice(0, 3);
+const indexUrl = url(lang, "blog");
+function postUrl(slug: string) {
+  return url(lang, `blog/${slug}`);
+}
+function fmtDate(iso: string) {
+  const d = new Date(iso);
+  const locale = lang === "hr" ? "hr-HR" : "en-GB";
+  return d.toLocaleDateString(locale, { year: "numeric", month: "short", day: "numeric" });
+}
+---
+<section class="blog-section section-pad" id="blog">
+  <div class="container">
+    <div class="section-head reveal" style="max-width: 780px; margin-bottom: 64px;">
+      <div class="eyebrow">{t.blog.eyebrow}</div>
+      <h2>{t.blog.title} <span class="accent italic">{t.blog.titleAccent}</span></h2>
+      <p class="lead">{t.blog.lead}</p>
+    </div>
+
+    <div class="blog-grid reveal-stagger">
+      {latest.map((p) => (
+        <a class="blog-card reveal" href={postUrl(p.slug)}>
+          <div class="blog-card-meta">
+            <span class="blog-card-cat">{p.category[lang]}</span>
+            <span class="blog-card-dot">·</span>
+            <span class="blog-card-time">{p.readTime} {t.blog.minRead}</span>
+          </div>
+          <h3 class="blog-card-title">{p.title[lang]}</h3>
+          <p class="blog-card-excerpt">{p.excerpt[lang]}</p>
+          <div class="blog-card-footer">
+            <span class="blog-card-date">{fmtDate(p.date)}</span>
+            <span class="blog-card-arrow">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <line x1="5" y1="12" x2="19" y2="12" />
+                <polyline points="12 5 19 12 12 19" />
+              </svg>
+            </span>
+          </div>
+        </a>
+      ))}
+    </div>
+
+    <div class="blog-section-cta reveal">
+      <a href={indexUrl} class="btn-link">
+        {t.blog.viewAll}
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <line x1="5" y1="12" x2="19" y2="12" />
+          <polyline points="12 5 19 12 12 19" />
+        </svg>
+      </a>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,76 @@
+---
+import { getT, url, type Lang } from "../lib/i18n";
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = getT(lang);
+const root = url(lang);
+const insightsHref = url(lang, "blog");
+const assessmentHref = url(lang, "assessment");
+const privacyHref = url(lang, "privacy");
+const imprintHref = url(lang, "imprint");
+const colophonHref = url(lang, "colophon");
+---
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="brand" style="cursor:default;">
+          <div class="brand-mono">DP</div>
+          <div>
+            <div class="brand-name">Danijel Pevec</div>
+            <div class="brand-tag">{t.brand.tag}</div>
+          </div>
+        </div>
+        <p>{t.footer.tagline}</p>
+      </div>
+
+      <div>
+        <h4>{t.footer.navTitle}</h4>
+        <ul>
+          <li><a href={root + "#approach"} data-anchor>{t.nav.approach}</a></li>
+          <li><a href={root + "#who"} data-anchor>{t.nav.who}</a></li>
+          <li><a href={root + "#work"} data-anchor>{t.nav.work}</a></li>
+          <li><a href={insightsHref}>{t.nav.blog}</a></li>
+          <li><a href={assessmentHref}>{t.nav.assessment}</a></li>
+          <li><a href={root + "#about"} data-anchor>{t.nav.about}</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4>{t.footer.contactTitle}</h4>
+        <ul>
+          <li><a href={`mailto:${t.footer.email}`}>{t.footer.email}</a></li>
+          <li>{t.footer.city}</li>
+          <li style="margin-top:8px">
+            <button class="btn-link" data-open-modal>
+              {t.nav.cta}
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <line x1="5" y1="12" x2="19" y2="12" />
+                <polyline points="12 5 19 12 12 19" />
+              </svg>
+            </button>
+          </li>
+        </ul>
+      </div>
+
+      <div>
+        <h4>{t.footer.affTitle}</h4>
+        <ul>
+          <li><a href="https://www.alphacapitalis.com" target="_blank" rel="noopener noreferrer">Alpha Capitalis ↗</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <span class="copy">{t.footer.copy}</span>
+      <div class="legal">
+        <a href={privacyHref}>{t.footer.privacy}</a>
+        <a href={imprintHref}>{t.footer.imprint}</a>
+        <a href={colophonHref}>{t.footer.colophon}</a>
+      </div>
+    </div>
+  </div>
+</footer>

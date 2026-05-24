@@ -1,0 +1,19 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "trailingSlash": true,
+  "cleanUrls": true,
+  "redirects": [
+    { "source": "/index.html", "destination": "/", "permanent": true },
+    { "source": "/blog.html", "destination": "/blog/", "permanent": true },
+    { "source": "/blog-hr.html", "destination": "/hr/blog/", "permanent": true },
+    { "source": "/blog/:slug.html", "destination": "/blog/:slug/", "permanent": true },
+    { "source": "/blog/:slug-hr.html", "destination": "/hr/blog/:slug/", "permanent": true },
+    { "source": "/assessment.html", "destination": "/assessment/", "permanent": true },
+    { "source": "/privacy.html", "destination": "/privacy/", "permanent": true },
+    { "source": "/privacy-hr.html", "destination": "/hr/privacy/", "permanent": true },
+    { "source": "/imprint.html", "destination": "/imprint/", "permanent": true },
+    { "source": "/imprint-hr.html", "destination": "/hr/imprint/", "permanent": true },
+    { "source": "/colophon.html", "destination": "/colophon/", "permanent": true },
+    { "source": "/colophon-hr.html", "destination": "/hr/colophon/", "permanent": true }
+  ]
+}

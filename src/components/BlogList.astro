@@ -1,0 +1,56 @@
+---
+import { getCollection } from "astro:content";
+import { getT, url, type Lang } from "../lib/i18n";
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = getT(lang);
+
+const all = await getCollection("blog", ({ data }) => data.lang === lang);
+const posts = all.sort((a, b) => b.data.date.localeCompare(a.data.date));
+
+function fmtDate(iso: string) {
+  const d = new Date(iso);
+  const locale = lang === "hr" ? "hr-HR" : "en-GB";
+  return d.toLocaleDateString(locale, { year: "numeric", month: "short", day: "numeric" });
+}
+const homeUrl = url(lang);
+const backLabel = lang === "hr" ? "Povratak na početnu" : "Back to home";
+---
+<main>
+  <header class="blog-page-header reveal">
+    <div class="container">
+      <a href={homeUrl} class="blog-back"><span class="arr">→</span> {backLabel}</a>
+      <div class="eyebrow">{t.blog.eyebrow}</div>
+      <h1>{t.blog.title} <span class="accent italic">{t.blog.titleAccent}</span></h1>
+      <p class="lead">{t.blog.pageLead}</p>
+    </div>
+  </header>
+
+  <section class="blog-page-list">
+    <div class="container">
+      <div class="blog-grid reveal-stagger">
+        {posts.map((p) => (
+          <a class="blog-card reveal" href={url(lang, `blog/${p.data.slug}`)}>
+            <div class="blog-card-meta">
+              <span class="blog-card-cat">{p.data.category}</span>
+              <span class="blog-card-dot">·</span>
+              <span class="blog-card-time">{p.data.readTime} {t.blog.minRead}</span>
+            </div>
+            <h2 class="blog-card-title">{p.data.title}</h2>
+            <p class="blog-card-excerpt">{p.data.excerpt}</p>
+            <div class="blog-card-footer">
+              <span class="blog-card-date">{fmtDate(p.data.date)}</span>
+              <span class="blog-card-arrow">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <line x1="5" y1="12" x2="19" y2="12" />
+                  <polyline points="12 5 19 12 12 19" />
+                </svg>
+              </span>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+</main>

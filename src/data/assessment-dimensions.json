@@ -1,0 +1,80 @@
+[
+  {
+    "id": "founder",
+    "en": {
+      "name": "Founder Readiness",
+      "short": "Founder",
+      "desc": "Your readiness to step back, your relationship to control, and the existence of a defined next chapter for yourself."
+    },
+    "hr": {
+      "name": "Spremnost osnivača",
+      "short": "Osnivač",
+      "desc": "Vaša spremnost da se povučete, odnos prema kontroli i postojanje definiranog sljedećeg poglavlja za vas."
+    }
+  },
+  {
+    "id": "nextgen",
+    "en": {
+      "name": "Next Generation",
+      "short": "Next-gen",
+      "desc": "Whether the next generation is willing, capable and prepared to take on responsibility."
+    },
+    "hr": {
+      "name": "Sljedeća generacija",
+      "short": "Nasljednici",
+      "desc": "Je li sljedeća generacija voljna, sposobna i pripremljena preuzeti odgovornost."
+    }
+  },
+  {
+    "id": "governance",
+    "en": {
+      "name": "Governance",
+      "short": "Governance",
+      "desc": "Formal structures — board, family council, family constitution — that survive the founder."
+    },
+    "hr": {
+      "name": "Upravljanje",
+      "short": "Upravljanje",
+      "desc": "Formalne strukture — uprava, obiteljsko vijeće, obiteljski ustav — koje nadživljavaju osnivača."
+    }
+  },
+  {
+    "id": "communication",
+    "en": {
+      "name": "Family Communication",
+      "short": "Communication",
+      "desc": "How openly the family discusses succession, wealth, expectations and disagreement."
+    },
+    "hr": {
+      "name": "Obiteljska komunikacija",
+      "short": "Komunikacija",
+      "desc": "Koliko otvoreno obitelj raspravlja o sukcesiji, imovini, očekivanjima i neslaganjima."
+    }
+  },
+  {
+    "id": "ownership",
+    "en": {
+      "name": "Ownership & Legal",
+      "short": "Ownership",
+      "desc": "Shareholders' agreements, transfer rules, divorce / death contingencies, separation of ownership and management."
+    },
+    "hr": {
+      "name": "Vlasništvo i pravo",
+      "short": "Vlasništvo",
+      "desc": "Dioničarski sporazumi, pravila prijenosa, scenariji razvoda / smrti, razdvajanje vlasništva i menadžmenta."
+    }
+  },
+  {
+    "id": "legacy",
+    "en": {
+      "name": "Legacy & Purpose",
+      "short": "Legacy",
+      "desc": "Articulated purpose for the wealth beyond financial return; vehicles like foundations; long-term vision."
+    },
+    "hr": {
+      "name": "Nasljeđe i svrha",
+      "short": "Nasljeđe",
+      "desc": "Artikulirana svrha imovine iznad financijskog povrata; vozila poput zaklada; dugoročna vizija."
+    }
+  }
+]

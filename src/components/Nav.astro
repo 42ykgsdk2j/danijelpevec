@@ -1,0 +1,160 @@
+---
+import { getT, url, counterpartUrl, type Lang } from "../lib/i18n";
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = getT(lang);
+const altUrl = counterpartUrl(lang, Astro.url.pathname);
+
+const root = url(lang); // "/" or "/hr/"
+const insightsUrl = url(lang, "blog");
+const assessmentUrl = url(lang, "assessment");
+
+const links = [
+  { href: root + "#approach", label: t.nav.approach },
+  { href: root + "#who", label: t.nav.who },
+  { href: root + "#work", label: t.nav.work },
+  { href: insightsUrl, label: t.nav.blog },
+  { href: assessmentUrl, label: t.nav.assessment },
+  { href: root + "#about", label: t.nav.about },
+];
+---
+<nav class="nav scrolled" data-lang={lang}>
+  <div class="container nav-inner">
+    <a href={root} class="brand" aria-label="Danijel Pevec">
+      <div class="brand-mono">DP</div>
+      <div class="brand-text">
+        <div class="brand-name">Danijel Pevec</div>
+        <div class="brand-tag">{t.brand.tag}</div>
+      </div>
+    </a>
+    <div class="nav-links">
+      {links.map((l) => (
+        <a href={l.href} class="nav-link" data-anchor-link={l.href.includes("#") ? "" : null}>
+          <span>{l.label}</span>
+        </a>
+      ))}
+    </div>
+    <div class="nav-actions">
+      <div class="toggle-group" role="group" aria-label="Language">
+        <a href={lang === "en" ? Astro.url.pathname : altUrl} class:list={["en-btn", { active: lang === "en" }]}>EN</a>
+        <a href={lang === "hr" ? Astro.url.pathname : altUrl} class:list={["hr-btn", { active: lang === "hr" }]}>HR</a>
+      </div>
+      <button class="theme-toggle" data-theme-toggle aria-label="Toggle theme">
+        <span data-theme-icon="dark">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+          </svg>
+        </span>
+        <span data-theme-icon="light" style="display:none">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="4" />
+            <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" />
+          </svg>
+        </span>
+      </button>
+      <button class="btn btn-primary nav-cta" data-open-modal>{t.nav.cta}</button>
+      <button class="menu-btn" data-open-drawer aria-label="Menu">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <line x1="3" y1="6" x2="21" y2="6" />
+          <line x1="3" y1="12" x2="21" y2="12" />
+          <line x1="3" y1="18" x2="21" y2="18" />
+        </svg>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<div class="scrim" data-scrim></div>
+<aside class="mobile-drawer" data-drawer>
+  <button class="theme-toggle" style="position: absolute; top: 24px; right: 24px;" data-close-drawer aria-label="Close menu">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <line x1="18" y1="6" x2="6" y2="18" />
+      <line x1="6" y1="6" x2="18" y2="18" />
+    </svg>
+  </button>
+  {links.map((l) => (
+    <a href={l.href} class="nav-link">
+      <span>{l.label}</span>
+    </a>
+  ))}
+  <div class="mobile-drawer-bottom">
+    <div class="toggle-group" role="group" aria-label="Language">
+      <a href={lang === "en" ? Astro.url.pathname : altUrl} class:list={[{ active: lang === "en" }]}>EN</a>
+      <a href={lang === "hr" ? Astro.url.pathname : altUrl} class:list={[{ active: lang === "hr" }]}>HR</a>
+    </div>
+    <button class="btn btn-primary" data-open-modal>
+      {t.nav.cta}
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <line x1="5" y1="12" x2="19" y2="12" />
+        <polyline points="12 5 19 12 12 19" />
+      </svg>
+    </button>
+  </div>
+</aside>
+
+<script is:inline>
+  (function () {
+    // Drawer open/close
+    var drawer = document.querySelector("[data-drawer]");
+    var scrim = document.querySelector("[data-scrim]");
+    var openers = document.querySelectorAll("[data-open-drawer]");
+    var closers = document.querySelectorAll("[data-close-drawer]");
+    var setOpen = function (open) {
+      if (open) {
+        drawer.classList.add("open");
+        scrim.classList.add("show");
+        document.body.style.overflow = "hidden";
+      } else {
+        drawer.classList.remove("open");
+        scrim.classList.remove("show");
+        document.body.style.overflow = "";
+      }
+    };
+    openers.forEach(function (b) { b.addEventListener("click", function () { setOpen(true); }); });
+    closers.forEach(function (b) { b.addEventListener("click", function () { setOpen(false); }); });
+    if (scrim) scrim.addEventListener("click", function () { setOpen(false); });
+    drawer.querySelectorAll("a.nav-link").forEach(function (a) {
+      a.addEventListener("click", function () { setOpen(false); });
+    });
+
+    // Smooth-scroll for same-page anchor links
+    document.querySelectorAll('a.nav-link[href*="#"]').forEach(function (a) {
+      a.addEventListener("click", function (e) {
+        var href = a.getAttribute("href");
+        // If the link target is a same-document anchor (starts with current path + #
+        // or just "#"), smooth-scroll instead of jumping.
+        var hashIdx = href.indexOf("#");
+        if (hashIdx < 0) return;
+        var pathPart = href.slice(0, hashIdx);
+        var hash = href.slice(hashIdx);
+        var samePage = pathPart === "" || pathPart === window.location.pathname || pathPart + "/" === window.location.pathname || pathPart === window.location.pathname.replace(/\/$/, "");
+        if (!samePage) return;
+        var el = document.querySelector(hash);
+        if (!el) return;
+        e.preventDefault();
+        window.scrollTo({ top: el.offsetTop - 80, behavior: "smooth" });
+      });
+    });
+
+    // Theme toggle
+    var btn = document.querySelector("[data-theme-toggle]");
+    var iconDark = document.querySelector('[data-theme-icon="dark"]');
+    var iconLight = document.querySelector('[data-theme-icon="light"]');
+    function syncTheme() {
+      var t = document.documentElement.getAttribute("data-theme") || "dark";
+      if (iconDark) iconDark.style.display = t === "dark" ? "" : "none";
+      if (iconLight) iconLight.style.display = t === "light" ? "" : "none";
+    }
+    syncTheme();
+    if (btn) btn.addEventListener("click", function () {
+      var cur = document.documentElement.getAttribute("data-theme") || "dark";
+      var next = cur === "dark" ? "light" : "dark";
+      document.documentElement.setAttribute("data-theme", next);
+      localStorage.setItem("dp_theme", next);
+      syncTheme();
+    });
+  })();
+</script>

@@ -1,0 +1,18 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Assessment from "../../components/Assessment.tsx";
+import { getT, SITE } from "../../lib/i18n";
+import assessmentUi from "../../data/assessment-ui.hr.json";
+const lang = "hr" as const;
+const t = getT(lang);
+---
+<BaseLayout
+  lang={lang}
+  title="Procjena spremnosti obiteljskog biznisa | Danijel Pevec"
+  description="Sedmominutna privatna refleksija o šest dimenzija koje određuju hoće li ono što ste izgradili trajati i dalje od vas. Bez registracije. Trenutni rezultati."
+  canonical={`${SITE}/hr/assessment/`}
+  hreflangEn={`${SITE}/assessment/`}
+  hreflangHr={`${SITE}/hr/assessment/`}
+>
+  <Assessment client:load ui={assessmentUi} lang={lang} />
+</BaseLayout>

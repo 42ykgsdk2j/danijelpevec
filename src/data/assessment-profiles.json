@@ -1,0 +1,57 @@
+{
+  "A": {
+    "threshold": 80,
+    "en": {
+      "title": "Well-positioned for the next chapter",
+      "narrative": "Your responses suggest a family and a business that have done meaningful work across most dimensions. The foundations are in place. The work ahead is less about building from scratch and more about refining, deepening, and stress-testing what you have already built. The next ten years will reveal whether the structures hold under real pressure — succession events, market shifts, family transitions. The most useful conversations now are about sequencing: when to hand over what, how to evolve governance as the next generation matures, and how to prepare for events you cannot yet predict."
+    },
+    "hr": {
+      "title": "Dobro pozicionirani za sljedeće poglavlje",
+      "narrative": "Vaši odgovori sugeriraju obitelj i posao koji su obavili smislen rad u većini dimenzija. Temelji su postavljeni. Posao koji slijedi manje je o izgradnji od nule, a više o usavršavanju, produbljivanju i provjeri onoga što ste već izgradili. Sljedećih deset godina pokazat će drže li se strukture pod stvarnim pritiskom — događaji sukcesije, tržišne promjene, obiteljske tranzicije. Najkorisniji razgovori sada su o redoslijedu: kada predati što, kako razvijati upravljanje kako sljedeća generacija sazrijeva i kako se pripremiti za događaje koje još ne možete predvidjeti."
+    }
+  },
+  "B": {
+    "threshold": 60,
+    "en": {
+      "title": "A solid base, with key dimensions to deepen",
+      "narrative": "You have built a strong foundation in some areas, while others remain less developed. This is the most common profile we see in successful family businesses — operationally strong, with structural and family-side work still ahead. The priorities are clear from your responses, and the time to address them is now: most of these gaps are easier to close before pressure arrives than during it. The conversations that matter most are usually the ones that have been postponed. The first step is naming what those are."
+    },
+    "hr": {
+      "title": "Čvrsta osnova, s ključnim dimenzijama za produbljivanje",
+      "narrative": "Izgradili ste čvrstu osnovu u nekim područjima, dok druga ostaju manje razvijena. To je najčešći profil koji viđamo u uspješnim obiteljskim tvrtkama — operativno snažan, s rad na strukturama i obiteljskoj strani još uvijek pred sobom. Prioriteti su jasni iz vaših odgovora, a vrijeme za njihovo rješavanje je sada: većinu ovih praznina lakše je zatvoriti prije nego što pritisak dođe nego za vrijeme njega. Razgovori koji najviše vrijede obično su oni koji su odgađani. Prvi korak je imenovati koji su to."
+    }
+  },
+  "C": {
+    "threshold": 40,
+    "en": {
+      "title": "On the path, with important work ahead",
+      "narrative": "You are at a stage many founders reach: the business is established, the family is engaged, but the formal architecture for what comes next is not yet in place. This is normal — and it is also the most consequential window. The decisions made now compound across decades. The good news from your responses is that you have identified the gaps; the harder news is that closing them takes years, not months. Most of this work happens in conversation rather than documents — but it eventually becomes documents."
+    },
+    "hr": {
+      "title": "Na putu, s važnim poslom pred sobom",
+      "narrative": "Vi ste u fazi koju mnogi osnivači dosegnu: posao je uspostavljen, obitelj je angažirana, ali formalna arhitektura za ono što slijedi još nije postavljena. To je normalno — i to je najznačajniji prozor. Odluke donesene sada akumuliraju se kroz desetljeća. Dobra vijest iz vaših odgovora je da ste identificirali praznine; teža vijest je da njihovo zatvaranje traje godinama, a ne mjesecima. Većina ovog rada događa se u razgovoru, a ne u dokumentima — ali postaju dokumenti."
+    }
+  },
+  "D": {
+    "threshold": 20,
+    "en": {
+      "title": "Early in the journey — but already aware",
+      "narrative": "Most family businesses at this stage have not yet asked the questions you are asking. The fact that you have engaged with this assessment suggests an awareness that something needs attention, even if the path is not yet clear. From here, the work is to choose where to start — typically with the conversations that most need to be had within the family, then the structures that support those conversations holding over time. Few founders do this work alone, and few succeed without an outside perspective at key moments."
+    },
+    "hr": {
+      "title": "Rano na putu — ali već svjesni",
+      "narrative": "Većina obiteljskih tvrtki u ovoj fazi još nije postavila pitanja koja vi postavljate. Činjenica da ste se angažirali s ovom procjenom sugerira svijest da nešto treba pažnju, čak i ako put još nije jasan. Odavde, posao je odabrati gdje započeti — obično s razgovorima koji najviše trebaju biti vođeni unutar obitelji, zatim sa strukturama koje podržavaju te razgovore kroz vrijeme. Malo osnivača radi ovaj posao sam, a malo njih uspijeva bez vanjske perspektive u ključnim trenucima."
+    }
+  },
+  "E": {
+    "threshold": 0,
+    "en": {
+      "title": "Foundation-laying — the most important phase",
+      "narrative": "This phase is where most family business futures are quietly determined — for better or worse. The dimensions assessed here are not yet visible in the day-to-day operations, which is precisely what makes them risky to ignore. Almost everything is still possible from here, and almost everything is still preventable. The single highest-leverage action at this stage is starting the family conversations. Structures and documents come later. The conversations come first."
+    },
+    "hr": {
+      "title": "Postavljanje temelja — najvažnija faza",
+      "narrative": "Ova faza je tamo gdje se tiho određuje većina budućnosti obiteljskih tvrtki — bolje ili lošije. Dimenzije procijenjene ovdje još nisu vidljive u svakodnevnim operacijama, što ih čini rizičnima za ignoriranje. Gotovo sve je još moguće odavde, i gotovo sve je još uvijek izbježivo. Najučinkovitija akcija u ovoj fazi je pokrenuti obiteljske razgovore. Strukture i dokumenti dolaze kasnije. Razgovori su prvi."
+    }
+  }
+}

@@ -1,0 +1,102 @@
+---
+import Nav from "../components/Nav.astro";
+import Footer from "../components/Footer.astro";
+import Modal from "../components/Modal.astro";
+
+interface Props {
+  lang: "en" | "hr";
+  title: string;
+  description: string;
+  canonical: string; // absolute URL for this page
+  hreflangEn?: string; // absolute URL for EN counterpart
+  hreflangHr?: string; // absolute URL for HR counterpart
+  ogType?: "website" | "article";
+  ogTitle?: string;
+  ogDescription?: string;
+  ogImage?: string; // absolute URL
+  twitterTitle?: string;
+  twitterDescription?: string;
+  /* Page-specific structured data, rendered as <script type="application/ld+json"> tags */
+  jsonLd?: Record<string, unknown>[];
+}
+
+const {
+  lang,
+  title,
+  description,
+  canonical,
+  hreflangEn,
+  hreflangHr,
+  ogType = "website",
+  ogTitle,
+  ogDescription,
+  ogImage = "https://www.danijelpevec.com/og-image.png",
+  twitterTitle,
+  twitterDescription,
+  jsonLd = [],
+} = Astro.props;
+
+const siteName = "Danijel Pevec";
+---
+<!DOCTYPE html>
+<html lang={lang} class="js-scroll-ready">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>{title}</title>
+<meta name="description" content={description} />
+<meta name="author" content={siteName} />
+<meta name="theme-color" content="#0b1220" />
+<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+
+<link rel="canonical" href={canonical} />
+{hreflangEn && <link rel="alternate" hreflang="en" href={hreflangEn} />}
+{hreflangHr && <link rel="alternate" hreflang="hr" href={hreflangHr} />}
+{hreflangEn && <link rel="alternate" hreflang="x-default" href={hreflangEn} />}
+
+<meta property="og:type" content={ogType} />
+<meta property="og:title" content={ogTitle ?? title} />
+<meta property="og:description" content={ogDescription ?? description} />
+<meta property="og:url" content={canonical} />
+<meta property="og:site_name" content={siteName} />
+<meta property="og:image" content={ogImage} />
+{lang === "hr" && <meta property="og:locale" content="hr_HR" />}
+{lang === "hr" && <meta property="og:locale:alternate" content="en_GB" />}
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={twitterTitle ?? ogTitle ?? title} />
+<meta name="twitter:description" content={twitterDescription ?? ogDescription ?? description} />
+<meta name="twitter:image" content={ogImage} />
+
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="/styles.css" />
+
+{/* Apply theme before paint to avoid a flash */}
+<script is:inline>
+  (function () {
+    var t = localStorage.getItem("dp_theme") || "dark";
+    document.documentElement.setAttribute("data-theme", t);
+  })();
+</script>
+
+{jsonLd.map((data) => (
+  <script type="application/ld+json" set:html={JSON.stringify(data)} />
+))}
+</head>
+<body>
+<Nav lang={lang} />
+
+<main>
+  <slot />
+</main>
+
+<Footer lang={lang} />
+<Modal lang={lang} />
+
+<script is:inline src="/btn-shine.js"></script>
+<script is:inline src="/scroll-reveal.js"></script>
+</body>
+</html>

@@ -1,0 +1,830 @@
+[
+  {
+    "id": "Q1",
+    "dim": "founder",
+    "en": {
+      "q": "When you imagine stepping back from day-to-day leadership, how clear are you on what your next chapter looks like?",
+      "options": [
+        {
+          "score": 0,
+          "text": "I haven't really thought about it"
+        },
+        {
+          "score": 1,
+          "text": "I have vague ideas but nothing defined"
+        },
+        {
+          "score": 2,
+          "text": "I have a general direction"
+        },
+        {
+          "score": 3,
+          "text": "I have a clear, defined next chapter"
+        }
+      ]
+    },
+    "hr": {
+      "q": "Kada zamislite da se povlačite iz svakodnevnog vodstva, koliko vam je jasno kako izgleda vaše sljedeće poglavlje?",
+      "options": [
+        {
+          "score": 0,
+          "text": "Nisam stvarno razmišljao o tome"
+        },
+        {
+          "score": 1,
+          "text": "Imam nejasne ideje, ali ništa definirano"
+        },
+        {
+          "score": 2,
+          "text": "Imam opći smjer"
+        },
+        {
+          "score": 3,
+          "text": "Imam jasno, definirano sljedeće poglavlje"
+        }
+      ]
+    }
+  },
+  {
+    "id": "Q2",
+    "dim": "founder",
+    "en": {
+      "q": "How comfortable are you when decisions in the business are made differently than you would make them?",
+      "options": [
+        {
+          "score": 0,
+          "text": "Very uncomfortable — I would step back in"
+        },
+        {
+          "score": 1,
+          "text": "Reluctantly accepting"
+        },
+        {
+          "score": 2,
+          "text": "Mostly comfortable"
+        },
+        {
+          "score": 3,
+          "text": "Fully comfortable — I trust the process"
+        }
+      ]
+    },
+    "hr": {
+      "q": "Koliko vam je ugodno kada se odluke u poslu donose drugačije nego što biste ih vi donijeli?",
+      "options": [
+        {
+          "score": 0,
+          "text": "Vrlo neugodno — vratio bih se"
+        },
+        {
+          "score": 1,
+          "text": "Nevoljko prihvaćam"
+        },
+        {
+          "score": 2,
+          "text": "Uglavnom ugodno"
+        },
+        {
+          "score": 3,
+          "text": "Potpuno ugodno — vjerujem procesu"
+        }
+      ]
+    }
+  },
+  {
+    "id": "Q3",
+    "dim": "founder",
+    "en": {
+      "q": "When were you last unavailable from the business for four or more consecutive weeks without a crisis arising?",
+      "options": [
+        {
+          "score": 0,
+          "text": "Never — that would not be possible"
+        },
+        {
+          "score": 1,
+          "text": "Years ago, with extensive preparation"
+        },
+        {
+          "score": 2,
+          "text": "Within the past two years"
+        },
+        {
+          "score": 3,
+          "text": "Routinely or recently, without disruption"
+        }
+      ]
+    },
+    "hr": {
+      "q": "Kada ste posljednji put bili odsutni iz posla četiri ili više tjedana zaredom bez da je nastupila kriza?",
+      "options": [
+        {
+          "score": 0,
+          "text": "Nikad — to ne bi bilo moguće"
+        },
+        {
+          "score": 1,
+          "text": "Prije više godina, uz opsežnu pripremu"
+        },
+        {
+          "score": 2,
+          "text": "Unutar zadnje dvije godine"
+        },
+        {
+          "score": 3,
+          "text": "Rutinski ili nedavno, bez ometanja"
+        }
+      ]
+    }
+  },
+  {
+    "id": "Q4",
+    "dim": "nextgen",
+    "en": {
+      "q": "How clear is the next generation on whether they want to be involved in the family business?",
+      "options": [
+        {
+          "score": 0,
+          "text": "We have never discussed it explicitly"
+        },
+        {
+          "score": 1,
+          "text": "It has been hinted at but not decided"
+        },
+        {
+          "score": 2,
+          "text": "Some have expressed clear preferences"
+        },
+        {
+          "score": 3,
+          "text": "All have made considered, informed decisions"
+        }
+      ]
+    },
+    "hr": {
+      "q": "Koliko je sljedećoj generaciji jasno žele li biti uključeni u obiteljski posao?",
+      "options": [
+        {
+          "score": 0,
+          "text": "Nikad nismo eksplicitno razgovarali o tome"
+        },
+        {
+          "score": 1,
+          "text": "Naznačeno je, ali nije odlučeno"
+        },
+        {
+          "score": 2,
+          "text": "Neki su izrazili jasne preferencije"
+        },
+        {
+          "score": 3,
+          "text": "Svi su donijeli promišljene, informirane odluke"
+        }
+      ]
+    }
+  },
+  {
+    "id": "Q5",
+    "dim": "nextgen",
+    "en": {
+      "q": "Have any next-generation family members worked outside the family business in real roles for three or more years?",
+      "options": [
+        {
+          "score": 0,
+          "text": "No"
+        },
+        {
+          "score": 1,
+          "text": "One has, briefly"
+        },
+        {
+          "score": 2,
+          "text": "Some have, with substantial experience"
+        },
+        {
+          "score": 3,
+          "text": "All who plan to be involved have done so"
+        }
+      ]
+    },
+    "hr": {
+      "q": "Jesu li članovi sljedeće generacije radili izvan obiteljskog posla u stvarnim ulogama tri ili više godina?",
+      "options": [
+        {
+          "score": 0,
+          "text": "Ne"
+        },
+        {
+          "score": 1,
+          "text": "Jedan jest, kratko"
+        },
+        {
+          "score": 2,
+          "text": "Neki jesu, s ozbiljnim iskustvom"
+        },
+        {
+          "score": 3,
+          "text": "Svi koji planiraju biti uključeni"
+        }
+      ]
+    }
+  },
+  {
+    "id": "Q6",
+    "dim": "nextgen",
+    "en": {
+      "q": "How would you assess the next generation's readiness to lead the business today?",
+      "options": [
+        {
+          "score": 0,
+          "text": "Not ready — would struggle significantly"
+        },
+        {
+          "score": 1,
+          "text": "Limited — would need close ongoing support"
+        },
+        {
+          "score": 2,
+          "text": "Moderately ready — could lead with mentoring"
+        },
+        {
+          "score": 3,
+          "text": "Ready to lead independently"
+        }
+      ]
+    },
+    "hr": {
+      "q": "Kako biste procijenili spremnost sljedeće generacije da vodi posao danas?",
+      "options": [
+        {
+          "score": 0,
+          "text": "Nisu spremni — značajno bi se mučili"
+        },
+        {
+          "score": 1,
+          "text": "Ograničeno — trebali bi blisku podršku"
+        },
+        {
+          "score": 2,
+          "text": "Umjereno spremni — mogli bi voditi uz mentorstvo"
+        },
+        {
+          "score": 3,
+          "text": "Spremni voditi samostalno"
+        }
+      ]
+    }
+  },
+  {
+    "id": "Q7",
+    "dim": "governance",
+    "en": {
+      "q": "Do you have a written family constitution or charter?",
+      "options": [
+        {
+          "score": 0,
+          "text": "No, and we have not discussed it"
+        },
+        {
+          "score": 1,
+          "text": "We have talked about it but not written anything"
+        },
+        {
+          "score": 2,
+          "text": "A draft exists or is in progress"
+        },
+        {
+          "score": 3,
+          "text": "Yes — agreed and reviewed regularly"
+        }
+      ]
+    },
+    "hr": {
+      "q": "Imate li pisani obiteljski ustav ili povelju?",
+      "options": [
+        {
+          "score": 0,
+          "text": "Ne, i nismo razgovarali o tome"
+        },
+        {
+          "score": 1,
+          "text": "Razgovarali smo, ali ništa nije napisano"
+        },
+        {
+          "score": 2,
+          "text": "Nacrt postoji ili je u izradi"
+        },
+        {
+          "score": 3,
+          "text": "Da — usvojen i redovito pregledavan"
+        }
+      ]
+    }
+  },
+  {
+    "id": "Q8",
+    "dim": "governance",
+    "en": {
+      "q": "Does the operating business have an active board, including non-family members?",
+      "options": [
+        {
+          "score": 0,
+          "text": "No formal board"
+        },
+        {
+          "score": 1,
+          "text": "Family-only board"
+        },
+        {
+          "score": 2,
+          "text": "Board with one or two non-family advisors"
+        },
+        {
+          "score": 3,
+          "text": "Independent board with majority non-family directors"
+        }
+      ]
+    },
+    "hr": {
+      "q": "Ima li operativno poslovanje aktivnu upravu koja uključuje članove izvan obitelji?",
+      "options": [
+        {
+          "score": 0,
+          "text": "Nema formalne uprave"
+        },
+        {
+          "score": 1,
+          "text": "Uprava samo iz obitelji"
+        },
+        {
+          "score": 2,
+          "text": "Uprava s jednim ili dva neobiteljska savjetnika"
+        },
+        {
+          "score": 3,
+          "text": "Nezavisna uprava s većinom neobiteljskih direktora"
+        }
+      ]
+    }
+  },
+  {
+    "id": "Q9",
+    "dim": "governance",
+    "en": {
+      "q": "How are major business decisions formally made and documented?",
+      "options": [
+        {
+          "score": 0,
+          "text": "Informally — whoever is in the room decides"
+        },
+        {
+          "score": 1,
+          "text": "The founder decides; others are informed"
+        },
+        {
+          "score": 2,
+          "text": "Through structured discussions with key stakeholders"
+        },
+        {
+          "score": 3,
+          "text": "Through documented governance processes with clear roles"
+        }
+      ]
+    },
+    "hr": {
+      "q": "Kako se važne poslovne odluke formalno donose i dokumentiraju?",
+      "options": [
+        {
+          "score": 0,
+          "text": "Neformalno — odlučuje tko je u prostoriji"
+        },
+        {
+          "score": 1,
+          "text": "Osnivač odlučuje; ostali su obaviješteni"
+        },
+        {
+          "score": 2,
+          "text": "Strukturiranim raspravama s ključnim dionicima"
+        },
+        {
+          "score": 3,
+          "text": "Dokumentiranim upravljačkim procesima s jasnim ulogama"
+        }
+      ]
+    }
+  },
+  {
+    "id": "Q10",
+    "dim": "communication",
+    "en": {
+      "q": "Have you openly discussed succession with the next generation in the past twelve months?",
+      "options": [
+        {
+          "score": 0,
+          "text": "No — the topic feels too sensitive"
+        },
+        {
+          "score": 1,
+          "text": "Briefly, but not in depth"
+        },
+        {
+          "score": 2,
+          "text": "Yes, in one or two structured conversations"
+        },
+        {
+          "score": 3,
+          "text": "Yes, regularly and openly"
+        }
+      ]
+    },
+    "hr": {
+      "q": "Jeste li u zadnjih dvanaest mjeseci otvoreno razgovarali o sukcesiji sa sljedećom generacijom?",
+      "options": [
+        {
+          "score": 0,
+          "text": "Ne — tema je preosjetljiva"
+        },
+        {
+          "score": 1,
+          "text": "Kratko, ali ne u dubinu"
+        },
+        {
+          "score": 2,
+          "text": "Da, u jednom ili dva strukturirana razgovora"
+        },
+        {
+          "score": 3,
+          "text": "Da, redovito i otvoreno"
+        }
+      ]
+    }
+  },
+  {
+    "id": "Q11",
+    "dim": "communication",
+    "en": {
+      "q": "When family members disagree about the business, what typically happens?",
+      "options": [
+        {
+          "score": 0,
+          "text": "Disagreement is suppressed; tension lingers"
+        },
+        {
+          "score": 1,
+          "text": "The most senior person's view prevails"
+        },
+        {
+          "score": 2,
+          "text": "We discuss but resolution is informal"
+        },
+        {
+          "score": 3,
+          "text": "We have a structured process to surface and resolve disagreement"
+        }
+      ]
+    },
+    "hr": {
+      "q": "Kada se članovi obitelji ne slažu oko posla, što se obično događa?",
+      "options": [
+        {
+          "score": 0,
+          "text": "Neslaganje se potiskuje; napetost ostaje"
+        },
+        {
+          "score": 1,
+          "text": "Prevladava mišljenje najstarijeg"
+        },
+        {
+          "score": 2,
+          "text": "Razgovaramo, ali rješenje je neformalno"
+        },
+        {
+          "score": 3,
+          "text": "Imamo strukturiran proces za iznošenje i rješavanje neslaganja"
+        }
+      ]
+    }
+  },
+  {
+    "id": "Q12",
+    "dim": "communication",
+    "en": {
+      "q": "How well does the next generation understand the size and nature of the family wealth?",
+      "options": [
+        {
+          "score": 0,
+          "text": "They do not know"
+        },
+        {
+          "score": 1,
+          "text": "They know roughly but not specifically"
+        },
+        {
+          "score": 2,
+          "text": "They understand the operating business but not the broader picture"
+        },
+        {
+          "score": 3,
+          "text": "They have a complete and current understanding"
+        }
+      ]
+    },
+    "hr": {
+      "q": "Koliko dobro sljedeća generacija razumije veličinu i prirodu obiteljske imovine?",
+      "options": [
+        {
+          "score": 0,
+          "text": "Ne znaju"
+        },
+        {
+          "score": 1,
+          "text": "Znaju otprilike, ali ne specifično"
+        },
+        {
+          "score": 2,
+          "text": "Razumiju operativni posao, ali ne širu sliku"
+        },
+        {
+          "score": 3,
+          "text": "Imaju potpuno i aktualno razumijevanje"
+        }
+      ]
+    }
+  },
+  {
+    "id": "Q13",
+    "dim": "ownership",
+    "en": {
+      "q": "Is there a shareholders' agreement covering transfers, buyouts, and family member exits?",
+      "options": [
+        {
+          "score": 0,
+          "text": "No formal agreement"
+        },
+        {
+          "score": 1,
+          "text": "A basic agreement, not recently reviewed"
+        },
+        {
+          "score": 2,
+          "text": "A comprehensive agreement, reviewed within five years"
+        },
+        {
+          "score": 3,
+          "text": "Comprehensive, regularly reviewed and stress-tested"
+        }
+      ]
+    },
+    "hr": {
+      "q": "Postoji li dioničarski sporazum koji pokriva prijenose, otkupe i izlaske članova obitelji?",
+      "options": [
+        {
+          "score": 0,
+          "text": "Nema formalnog sporazuma"
+        },
+        {
+          "score": 1,
+          "text": "Osnovni sporazum, nije nedavno pregledan"
+        },
+        {
+          "score": 2,
+          "text": "Cjelovit sporazum, pregledan unutar pet godina"
+        },
+        {
+          "score": 3,
+          "text": "Cjelovit, redovito pregledavan i testiran"
+        }
+      ]
+    }
+  },
+  {
+    "id": "Q14",
+    "dim": "ownership",
+    "en": {
+      "q": "What happens if a family shareholder divorces or dies unexpectedly?",
+      "options": [
+        {
+          "score": 0,
+          "text": "We have not planned for that"
+        },
+        {
+          "score": 1,
+          "text": "Some informal understanding exists"
+        },
+        {
+          "score": 2,
+          "text": "Documented but not legally airtight"
+        },
+        {
+          "score": 3,
+          "text": "Fully documented, legally robust, family-aligned"
+        }
+      ]
+    },
+    "hr": {
+      "q": "Što se događa ako se član obitelji dioničar razvede ili neočekivano umre?",
+      "options": [
+        {
+          "score": 0,
+          "text": "Nismo to predvidjeli"
+        },
+        {
+          "score": 1,
+          "text": "Postoji neformalno razumijevanje"
+        },
+        {
+          "score": 2,
+          "text": "Dokumentirano, ali ne pravno čvrsto"
+        },
+        {
+          "score": 3,
+          "text": "Potpuno dokumentirano, pravno čvrsto, obiteljski usklađeno"
+        }
+      ]
+    }
+  },
+  {
+    "id": "Q15",
+    "dim": "ownership",
+    "en": {
+      "q": "Have ownership and operational leadership been intentionally separated as roles?",
+      "options": [
+        {
+          "score": 0,
+          "text": "No — the same people own and run the business"
+        },
+        {
+          "score": 1,
+          "text": "We have discussed it but not implemented"
+        },
+        {
+          "score": 2,
+          "text": "Partial separation in some areas"
+        },
+        {
+          "score": 3,
+          "text": "Fully separated with clear governance"
+        }
+      ]
+    },
+    "hr": {
+      "q": "Jesu li vlasništvo i operativno vodstvo namjerno razdvojeni kao uloge?",
+      "options": [
+        {
+          "score": 0,
+          "text": "Ne — isti ljudi posjeduju i vode posao"
+        },
+        {
+          "score": 1,
+          "text": "Razgovarali smo, ali nismo implementirali"
+        },
+        {
+          "score": 2,
+          "text": "Djelomično razdvojeni u nekim područjima"
+        },
+        {
+          "score": 3,
+          "text": "Potpuno razdvojeni s jasnim upravljanjem"
+        }
+      ]
+    }
+  },
+  {
+    "id": "Q16",
+    "dim": "legacy",
+    "en": {
+      "q": "Have you written down what the family wealth and business are for — beyond financial return?",
+      "options": [
+        {
+          "score": 0,
+          "text": "No"
+        },
+        {
+          "score": 1,
+          "text": "We have an implicit understanding"
+        },
+        {
+          "score": 2,
+          "text": "Discussed but not written"
+        },
+        {
+          "score": 3,
+          "text": "Yes — articulated and shared with the family"
+        }
+      ]
+    },
+    "hr": {
+      "q": "Jeste li zapisali za što služe obiteljska imovina i posao — iznad financijskog povrata?",
+      "options": [
+        {
+          "score": 0,
+          "text": "Ne"
+        },
+        {
+          "score": 1,
+          "text": "Imamo implicitno razumijevanje"
+        },
+        {
+          "score": 2,
+          "text": "Razgovarali smo, ali nije zapisano"
+        },
+        {
+          "score": 3,
+          "text": "Da — artikulirano i podijeljeno s obitelji"
+        }
+      ]
+    }
+  },
+  {
+    "id": "Q17",
+    "dim": "legacy",
+    "en": {
+      "q": "Is there a vehicle (foundation, philanthropic structure, mission-driven entity) that expresses the family's purpose?",
+      "options": [
+        {
+          "score": 0,
+          "text": "No"
+        },
+        {
+          "score": 1,
+          "text": "We have discussed but not established one"
+        },
+        {
+          "score": 2,
+          "text": "Yes, but lightly used"
+        },
+        {
+          "score": 3,
+          "text": "Yes — active and well-resourced"
+        }
+      ]
+    },
+    "hr": {
+      "q": "Postoji li vozilo (zaklada, filantropska struktura, entitet vođen misijom) koje izražava svrhu obitelji?",
+      "options": [
+        {
+          "score": 0,
+          "text": "Ne"
+        },
+        {
+          "score": 1,
+          "text": "Razgovarali smo, ali nismo osnovali"
+        },
+        {
+          "score": 2,
+          "text": "Da, ali lagano korišteno"
+        },
+        {
+          "score": 3,
+          "text": "Da — aktivno i dobro resursirano"
+        }
+      ]
+    }
+  },
+  {
+    "id": "Q18",
+    "dim": "legacy",
+    "en": {
+      "q": "When you imagine the family business in fifty years, how vivid is that picture?",
+      "options": [
+        {
+          "score": 0,
+          "text": "I have not thought that far"
+        },
+        {
+          "score": 1,
+          "text": "Vague hope it continues"
+        },
+        {
+          "score": 2,
+          "text": "General direction with values"
+        },
+        {
+          "score": 3,
+          "text": "A clear vision shared by the current generation"
+        }
+      ]
+    },
+    "hr": {
+      "q": "Kada zamislite obiteljski posao za pedeset godina, koliko je ta slika živa?",
+      "options": [
+        {
+          "score": 0,
+          "text": "Nisam razmišljao tako daleko"
+        },
+        {
+          "score": 1,
+          "text": "Maglovita nada da se nastavlja"
+        },
+        {
+          "score": 2,
+          "text": "Opći smjer s vrijednostima"
+        },
+        {
+          "score": 3,
+          "text": "Jasna vizija koju dijeli sadašnja generacija"
+        }
+      ]
+    }
+  }
+]

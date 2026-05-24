@@ -1,0 +1,19 @@
+// @ts-check
+import { defineConfig } from 'astro/config';
+import react from '@astrojs/react';
+
+// Astro config. Output is fully static (no SSR). Vercel auto-detects the
+// `dist/` directory after `npm run build`. The React integration is only
+// used for the assessment quiz (interactive island); every other page is
+// pure server-rendered HTML.
+export default defineConfig({
+  site: 'https://www.danijelpevec.com',
+  output: 'static',
+  trailingSlash: 'ignore',
+  integrations: [react()],
+  // Emit /blog/index.html, /assessment/index.html — clean URLs at every depth,
+  // and the HR root resolves to /hr/ rather than /hr.html.
+  build: {
+    format: 'directory',
+  },
+});

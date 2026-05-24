@@ -1,0 +1,32 @@
+---
+import { getT, type Lang } from "../lib/i18n";
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = getT(lang);
+---
+<section class="section-pad" id="who">
+  <div class="container">
+    <div class="two-col">
+      <div class="col-left">
+        <div class="section-head reveal">
+          <div class="eyebrow">{t.who.eyebrow}</div>
+          <h2>{t.who.title} <span class="accent italic">{t.who.titleAccent}</span></h2>
+          <p class="lead">{t.who.lead}</p>
+        </div>
+      </div>
+      <div>
+        <div class="who-list reveal-stagger">
+          {t.who.items.map((item, i) => (
+            <div class="who-item reveal">
+              <span class="num">0{i + 1}.</span>
+              <span class="label">{item}</span>
+            </div>
+          ))}
+        </div>
+        <div class="disclaimer reveal">
+          <p>{t.who.disclaimer}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
