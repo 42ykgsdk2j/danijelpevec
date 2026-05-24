@@ -1964,6 +1964,17 @@ section { position: relative; }
   color: var(--ink-3);
   font-style: italic;
 }
+@media (max-width: 640px) {
+  /* The CTA label is long; on phones the fixed-width nowrap button overflows
+     the card and gets clipped. Let it fill the card and wrap instead. */
+  .assessment-cta-box .btn-primary {
+    width: 100%;
+    white-space: normal;
+    padding-left: 20px;
+    padding-right: 20px;
+    text-align: center;
+  }
+}
 
 /* ============================================
    Assessment page (assessment.html)
