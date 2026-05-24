@@ -85,34 +85,32 @@ const links = [
       <line x1="6" y1="6" x2="18" y2="18" />
     </svg>
   </button>
+  <div class="toggle-group mobile-lang" role="group" aria-label="Language">
+    <a
+      href={lang === "en" ? Astro.url.pathname : altUrl}
+      class:list={[{ active: lang === "en" }]}
+      aria-current={lang === "en" ? "true" : undefined}
+      title={lang === "en" ? "English (current)" : "Switch to English"}
+    >EN</a>
+    <a
+      href={lang === "hr" ? Astro.url.pathname : altUrl}
+      class:list={[{ active: lang === "hr" }]}
+      aria-current={lang === "hr" ? "true" : undefined}
+      title={lang === "hr" ? "Hrvatski (trenutno)" : "Prebaci na hrvatski"}
+    >HR</a>
+  </div>
   {links.map((l) => (
     <a href={l.href} class="nav-link">
       <span>{l.label}</span>
     </a>
   ))}
-  <div class="mobile-drawer-bottom">
-    <div class="toggle-group" role="group" aria-label="Language">
-      <a
-        href={lang === "en" ? Astro.url.pathname : altUrl}
-        class:list={[{ active: lang === "en" }]}
-        aria-current={lang === "en" ? "true" : undefined}
-        title={lang === "en" ? "English (current)" : "Switch to English"}
-      >EN</a>
-      <a
-        href={lang === "hr" ? Astro.url.pathname : altUrl}
-        class:list={[{ active: lang === "hr" }]}
-        aria-current={lang === "hr" ? "true" : undefined}
-        title={lang === "hr" ? "Hrvatski (trenutno)" : "Prebaci na hrvatski"}
-      >HR</a>
-    </div>
-    <button class="btn btn-primary" data-open-modal>
-      {t.nav.cta}
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <line x1="5" y1="12" x2="19" y2="12" />
-        <polyline points="12 5 19 12 12 19" />
-      </svg>
-    </button>
-  </div>
+  <button class="btn btn-primary mobile-drawer-cta" data-open-modal>
+    {t.nav.cta}
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <line x1="5" y1="12" x2="19" y2="12" />
+      <polyline points="12 5 19 12 12 19" />
+    </svg>
+  </button>
 </aside>
 
 <script is:inline>
