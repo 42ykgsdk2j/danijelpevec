@@ -20,7 +20,10 @@ const blog = defineCollection({
     title: z.string(),
     excerpt: z.string(),
     category: z.string(),
-    date: z.coerce.date().transform((d) => d.toISOString().slice(0, 10)),
+    // Stored as full ISO datetime so two posts created on the same day sort
+    // correctly by time. Date-only frontmatter (e.g. "2026-04-22") parses to
+    // midnight UTC, so existing posts retain stable order.
+    date: z.coerce.date().transform((d) => d.toISOString()),
     readTime: z.number().int().min(1),
     // Optional cover image, shown between the byline and the body.
     cover: z.string().optional(),

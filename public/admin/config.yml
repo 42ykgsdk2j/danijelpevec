@@ -41,7 +41,7 @@ collections:
       - { name: title, label: Title, widget: string }
       - { name: excerpt, label: "Excerpt (1–2 sentences, shown on the blog index card)", widget: text }
       - { name: category, label: Category, widget: string, hint: "e.g. Succession, Wealth Transition, Continuity, Governance, Next Generation, Exit Strategy, Advisory, Family Dynamics, Legacy" }
-      - { name: date, label: "Date published", widget: datetime, format: "YYYY-MM-DD", time_format: false, date_format: "YYYY-MM-DD" }
+      - { name: date, label: "Date & time published", widget: datetime, format: "YYYY-MM-DDTHH:mm", picker_utc: false, hint: "Posts are sorted newest-first, so the time matters when two posts share a day." }
       - { name: readTime, label: "Read time (minutes)", widget: number, default: 7, value_type: int, min: 1 }
       - { name: cover, label: "Cover image", widget: image, required: false, hint: "Shown at the top of the article, after the byline. Optional." }
       - { name: coverAlt, label: "Cover image alt text", widget: string, required: false, hint: "Short description for screen readers and SEO. Skip if the image is purely decorative." }
@@ -63,7 +63,7 @@ collections:
       - { name: title, label: Naslov, widget: string }
       - { name: excerpt, label: "Sažetak (1–2 rečenice, pojavljuje se na popisu uvida)", widget: text }
       - { name: category, label: Kategorija, widget: string }
-      - { name: date, label: "Datum objave", widget: datetime, format: "YYYY-MM-DD", time_format: false, date_format: "YYYY-MM-DD" }
+      - { name: date, label: "Datum i vrijeme objave", widget: datetime, format: "YYYY-MM-DDTHH:mm", picker_utc: false, hint: "Objave su poredane od najnovije; vrijeme je važno kad dva članka dijele isti dan." }
       - { name: readTime, label: "Vrijeme čitanja (minuta)", widget: number, default: 7, value_type: int, min: 1 }
       - { name: cover, label: "Naslovna slika", widget: image, required: false, hint: "Prikazuje se na vrhu članka, ispod potpisa autora. Neobavezno." }
       - { name: coverAlt, label: "Opis naslovne slike (alt)", widget: string, required: false, hint: "Kratki opis za čitače zaslona i SEO. Preskočite ako je slika dekorativna." }
