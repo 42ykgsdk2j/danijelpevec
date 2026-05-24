@@ -422,6 +422,10 @@ section { position: relative; }
   transform-origin: right;
   transition: transform 320ms ease;
 }
+/* Spotlight on hover: when the cursor is anywhere over the nav-links row,
+   dim every sibling. The hovered item itself wins via the more specific
+   .nav-link:hover rule below and stays at --ink-0. */
+.nav-links:hover .nav-link { color: var(--ink-2); }
 .nav-link:hover { color: var(--ink-0); }
 .nav-link:hover > span::after { transform: scaleX(1); transform-origin: left; }
 .nav-link:not(:has(> span)):hover::after { transform: translateX(-50%) scaleX(1); transform-origin: left; }
