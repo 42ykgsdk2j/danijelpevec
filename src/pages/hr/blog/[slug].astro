@@ -59,6 +59,13 @@ const allInsightsLabel = t.blog.viewAll;
       <div class="article-byline"><span class="author-mono">DP</span><span class="who">Autor: <strong>Danijel Pevec</strong> · Savjetnik za obiteljski biznis</span></div>
     </div>
   </header>
+  {post.data.cover && (
+    <figure class="article-cover">
+      <div class="container">
+        <img src={post.data.cover} alt={post.data.coverAlt ?? ""} loading="lazy" />
+      </div>
+    </figure>
+  )}
   <article class="article-body">
     <div class="container">
       <Content />

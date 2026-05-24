@@ -1683,6 +1683,22 @@ section { position: relative; }
 .article-byline .who { color: var(--ink-1); }
 .article-byline .who strong { color: var(--ink-0); font-weight: 500; }
 
+/* Optional cover image between the byline (header) and the body. The
+   container matches the article-body width so the image sits visually
+   above the prose at the same column. */
+.article-cover {
+  margin: 0;
+  padding-top: 48px;
+}
+.article-cover .container { max-width: 820px; }
+.article-cover img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
+  border: 1px solid var(--line);
+}
+
 .article-body {
   padding-top: 56px;
   padding-bottom: 80px;

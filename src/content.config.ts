@@ -22,6 +22,9 @@ const blog = defineCollection({
     category: z.string(),
     date: z.coerce.date().transform((d) => d.toISOString().slice(0, 10)),
     readTime: z.number().int().min(1),
+    // Optional cover image, shown between the byline and the body.
+    cover: z.string().optional(),
+    coverAlt: z.string().optional(),
     // Legacy fields — kept optional so older files don't fail validation
     slug: z.string().optional(),
     lang: z.enum(["en", "hr"]).optional(),

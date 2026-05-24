@@ -43,6 +43,8 @@ collections:
       - { name: category, label: Category, widget: string, hint: "e.g. Succession, Wealth Transition, Continuity, Governance, Next Generation, Exit Strategy, Advisory, Family Dynamics, Legacy" }
       - { name: date, label: "Date published", widget: datetime, format: "YYYY-MM-DD", time_format: false, date_format: "YYYY-MM-DD" }
       - { name: readTime, label: "Read time (minutes)", widget: number, default: 7, value_type: int, min: 1 }
+      - { name: cover, label: "Cover image", widget: image, required: false, hint: "Shown at the top of the article, after the byline. Optional." }
+      - { name: coverAlt, label: "Cover image alt text", widget: string, required: false, hint: "Short description for screen readers and SEO. Skip if the image is purely decorative." }
       - { name: body, label: Body, widget: markdown }
 
   # ===================================================================
@@ -63,4 +65,6 @@ collections:
       - { name: category, label: Kategorija, widget: string }
       - { name: date, label: "Datum objave", widget: datetime, format: "YYYY-MM-DD", time_format: false, date_format: "YYYY-MM-DD" }
       - { name: readTime, label: "Vrijeme čitanja (minuta)", widget: number, default: 7, value_type: int, min: 1 }
+      - { name: cover, label: "Naslovna slika", widget: image, required: false, hint: "Prikazuje se na vrhu članka, ispod potpisa autora. Neobavezno." }
+      - { name: coverAlt, label: "Opis naslovne slike (alt)", widget: string, required: false, hint: "Kratki opis za čitače zaslona i SEO. Preskočite ako je slika dekorativna." }
       - { name: body, label: Tekst, widget: markdown }
