@@ -23,6 +23,7 @@
     { "source": "/colophon.html", "destination": "/colophon/", "permanent": true },
     { "source": "/colophon-hr.html", "destination": "/hr/colophon/", "permanent": true },
     { "source": "/colophon-hr", "destination": "/hr/colophon/", "permanent": true },
-    { "source": "/colophon-hr/", "destination": "/hr/colophon/", "permanent": true }
+    { "source": "/colophon-hr/", "destination": "/hr/colophon/", "permanent": true },
+    { "source": "/sitemap.xml", "destination": "/sitemap-index.xml", "permanent": true }
   ]
 }

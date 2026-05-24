@@ -1,6 +1,7 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 import react from '@astrojs/react';
+import sitemap from '@astrojs/sitemap';
 
 // Astro config. Output is fully static (no SSR). Vercel auto-detects the
 // `dist/` directory after `npm run build`. The React integration is only
@@ -10,7 +11,18 @@ export default defineConfig({
   site: 'https://www.danijelpevec.com',
   output: 'static',
   trailingSlash: 'ignore',
-  integrations: [react()],
+  integrations: [
+    react(),
+    sitemap({
+      // Pair every EN URL with its HR counterpart and vice-versa.
+      i18n: {
+        defaultLocale: 'en',
+        locales: { en: 'en', hr: 'hr' },
+      },
+      filter: (page) =>
+        !page.includes('/admin') && !page.includes('/api/'),
+    }),
+  ],
   // Emit /blog/index.html, /assessment/index.html — clean URLs at every depth,
   // and the HR root resolves to /hr/ rather than /hr.html.
   build: {

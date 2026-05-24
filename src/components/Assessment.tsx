@@ -1,9 +1,9 @@
 /**
  * Family Business Readiness Assessment — React island.
  *
- * Ported from src/legacy/assessment.jsx. Same three-state machine
- * (intro → questions → analyzing → results), same scoring logic. The CSS
- * classes match the legacy markup so styles.css keeps working unchanged.
+ * Three-state machine: intro → questions → analyzing → results. Scoring
+ * helpers live in src/lib/assessment.ts; question/dimension/profile data
+ * lives in src/data/assessment-*.json (edited via Decap or by hand).
  *
  * Triggers the contact modal via the `dp:open-modal` window event that
  * Modal.tsx listens for — no prop drilling required.

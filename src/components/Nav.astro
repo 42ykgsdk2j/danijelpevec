@@ -39,8 +39,18 @@ const links = [
     </div>
     <div class="nav-actions">
       <div class="toggle-group" role="group" aria-label="Language">
-        <a href={lang === "en" ? Astro.url.pathname : altUrl} class:list={["en-btn", { active: lang === "en" }]}>EN</a>
-        <a href={lang === "hr" ? Astro.url.pathname : altUrl} class:list={["hr-btn", { active: lang === "hr" }]}>HR</a>
+        <a
+          href={lang === "en" ? Astro.url.pathname : altUrl}
+          class:list={["en-btn", { active: lang === "en" }]}
+          aria-current={lang === "en" ? "true" : undefined}
+          title={lang === "en" ? "English (current)" : "Switch to English"}
+        >EN</a>
+        <a
+          href={lang === "hr" ? Astro.url.pathname : altUrl}
+          class:list={["hr-btn", { active: lang === "hr" }]}
+          aria-current={lang === "hr" ? "true" : undefined}
+          title={lang === "hr" ? "Hrvatski (trenutno)" : "Prebaci na hrvatski"}
+        >HR</a>
       </div>
       <button class="theme-toggle" data-theme-toggle aria-label="Toggle theme">
         <span data-theme-icon="dark">
@@ -82,8 +92,18 @@ const links = [
   ))}
   <div class="mobile-drawer-bottom">
     <div class="toggle-group" role="group" aria-label="Language">
-      <a href={lang === "en" ? Astro.url.pathname : altUrl} class:list={[{ active: lang === "en" }]}>EN</a>
-      <a href={lang === "hr" ? Astro.url.pathname : altUrl} class:list={[{ active: lang === "hr" }]}>HR</a>
+      <a
+        href={lang === "en" ? Astro.url.pathname : altUrl}
+        class:list={[{ active: lang === "en" }]}
+        aria-current={lang === "en" ? "true" : undefined}
+        title={lang === "en" ? "English (current)" : "Switch to English"}
+      >EN</a>
+      <a
+        href={lang === "hr" ? Astro.url.pathname : altUrl}
+        class:list={[{ active: lang === "hr" }]}
+        aria-current={lang === "hr" ? "true" : undefined}
+        title={lang === "hr" ? "Hrvatski (trenutno)" : "Prebaci na hrvatski"}
+      >HR</a>
     </div>
     <button class="btn btn-primary" data-open-modal>
       {t.nav.cta}
