@@ -2,18 +2,20 @@
 import { getCollection, render } from "astro:content";
 import BaseLayout from "../../../layouts/BaseLayout.astro";
 import { getT, url, SITE } from "../../../lib/i18n";
+import { langOf, slugOf } from "../../../content.config";
 
 export async function getStaticPaths() {
-  const posts = await getCollection("blog", ({ data }) => data.lang === "hr");
-  return posts.map((p) => ({ params: { slug: p.data.slug }, props: { post: p } }));
+  const posts = await getCollection("blog", (entry) => langOf(entry.id) === "hr");
+  return posts.map((p) => ({ params: { slug: slugOf(p.id) }, props: { post: p } }));
 }
 
 const { post } = Astro.props;
 const { Content } = await render(post);
 const lang = "hr" as const;
 const t = getT(lang);
-const enUrl = `${SITE}/blog/${post.data.slug}/`;
-const hrUrl = `${SITE}/hr/blog/${post.data.slug}/`;
+const slug = slugOf(post.id);
+const enUrl = `${SITE}/blog/${slug}/`;
+const hrUrl = `${SITE}/hr/blog/${slug}/`;
 function fmtDate(iso: string) {
   const d = new Date(iso);
   return d.toLocaleDateString("hr-HR", { year: "numeric", month: "short", day: "numeric" });

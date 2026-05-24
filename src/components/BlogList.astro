@@ -1,12 +1,13 @@
 ---
 import { getCollection } from "astro:content";
 import { getT, url, type Lang } from "../lib/i18n";
+import { langOf, slugOf } from "../content.config";
 
 interface Props { lang: Lang }
 const { lang } = Astro.props;
 const t = getT(lang);
 
-const all = await getCollection("blog", ({ data }) => data.lang === lang);
+const all = await getCollection("blog", (entry) => langOf(entry.id) === lang);
 const posts = all.sort((a, b) => b.data.date.localeCompare(a.data.date));
 
 function fmtDate(iso: string) {
@@ -31,7 +32,7 @@ const backLabel = lang === "hr" ? "Povratak na početnu" : "Back to home";
     <div class="container">
       <div class="blog-grid reveal-stagger">
         {posts.map((p) => (
-          <a class="blog-card reveal" href={url(lang, `blog/${p.data.slug}`)}>
+          <a class="blog-card reveal" href={url(lang, `blog/${slugOf(p.id)}`)}>
             <div class="blog-card-meta">
               <span class="blog-card-cat">{p.data.category}</span>
               <span class="blog-card-dot">·</span>
