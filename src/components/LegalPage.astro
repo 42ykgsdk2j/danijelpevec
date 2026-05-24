@@ -11,13 +11,11 @@ const t = getT(lang);
 const homeUrl = url(lang);
 const backLabel = lang === "hr" ? "Povratak na početnu" : "Back to home";
 ---
-<main>
-  <header class="blog-page-header reveal">
-    <div class="container">
-      <a href={homeUrl} class="blog-back"><span class="arr">→</span> {backLabel}</a>
-      <div class="eyebrow">{eyebrow}</div>
-      <h1>{title}</h1>
-      <slot />
-    </div>
-  </header>
-</main>
+<header class="blog-page-header reveal">
+  <div class="container">
+    <a href={homeUrl} class="blog-back"><span class="arr">→</span> {backLabel}</a>
+    <div class="eyebrow">{eyebrow}</div>
+    <h1>{title}</h1>
+    <slot />
+  </div>
+</header>

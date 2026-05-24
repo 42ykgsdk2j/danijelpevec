@@ -44,26 +44,24 @@ const allInsightsLabel = t.blog.viewAll;
     inLanguage: "en",
   }]}
 >
-  <main>
-    <article class="article-page reveal in">
-      <div class="container">
-        <a href={url(lang, "blog")} class="blog-back"><span class="arr">→</span> {allInsightsLabel}</a>
-        <div class="article-meta-row">
-          <span class="cat">{post.data.category}</span>
-          <span class="dot">·</span>
-          <time class="article-date" datetime={post.data.date}>{fmtDate(post.data.date)}</time>
-          <span class="dot">·</span>
-          <span class="readtime">{post.data.readTime} {t.blog.minRead}</span>
-        </div>
-        <h1 class="article-title">{post.data.title}</h1>
-        <p class="article-lede">{post.data.excerpt}</p>
-        <div class="article-byline"><span class="author-mono">DP</span><span class="who">Author: <strong>Danijel Pevec</strong> · Family Business Advisor</span></div>
+  <header class="article-header reveal in">
+    <div class="container">
+      <a href={url(lang, "blog")} class="blog-back"><span class="arr">→</span> {allInsightsLabel}</a>
+      <div class="article-meta-row">
+        <span class="cat">{post.data.category}</span>
+        <span class="dot">·</span>
+        <time class="article-date" datetime={post.data.date}>{fmtDate(post.data.date)}</time>
+        <span class="dot">·</span>
+        <span class="readtime">{post.data.readTime} {t.blog.minRead}</span>
       </div>
-      <article class="article-body">
-        <div class="container">
-          <Content />
-        </div>
-      </article>
-    </article>
-  </main>
+      <h1 class="article-title">{post.data.title}</h1>
+      <p class="article-deck">{post.data.excerpt}</p>
+      <div class="article-byline"><span class="author-mono">DP</span><span class="who">Author: <strong>Danijel Pevec</strong> · Family Business Advisor</span></div>
+    </div>
+  </header>
+  <article class="article-body">
+    <div class="container">
+      <Content />
+    </div>
+  </article>
 </BaseLayout>
