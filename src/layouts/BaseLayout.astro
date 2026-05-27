@@ -52,7 +52,9 @@ const siteName = "Danijel Pevec";
 <link rel="canonical" href={canonical} />
 {hreflangEn && <link rel="alternate" hreflang="en" href={hreflangEn} />}
 {hreflangHr && <link rel="alternate" hreflang="hr" href={hreflangHr} />}
-{hreflangEn && <link rel="alternate" hreflang="x-default" href={hreflangEn} />}
+{/* HR is the site's primary audience and the default locale — x-default
+    points to it so visitors from un-mapped locales land on HR. */}
+{hreflangHr && <link rel="alternate" hreflang="x-default" href={hreflangHr} />}
 
 <meta property="og:type" content={ogType} />
 <meta property="og:title" content={ogTitle ?? title} />

@@ -14,10 +14,11 @@ export default defineConfig({
   integrations: [
     react(),
     sitemap({
-      // Pair every EN URL with its HR counterpart and vice-versa.
+      // Pair every HR URL with its EN counterpart and vice-versa. HR is the
+      // default locale and sits at the root; EN lives under /en/.
       i18n: {
-        defaultLocale: 'en',
-        locales: { en: 'en', hr: 'hr' },
+        defaultLocale: 'hr',
+        locales: { hr: 'hr', en: 'en' },
       },
       filter: (page) =>
         !page.includes('/admin') && !page.includes('/api/'),

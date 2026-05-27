@@ -5,20 +5,20 @@ import { getT, url, SITE } from "../../lib/i18n";
 import { langOf, slugOf } from "../../content.config";
 
 export async function getStaticPaths() {
-  const posts = await getCollection("blog", (entry) => langOf(entry.id) === "en");
+  const posts = await getCollection("blog", (entry) => langOf(entry.id) === "hr");
   return posts.map((p) => ({ params: { slug: slugOf(p.id) }, props: { post: p } }));
 }
 
 const { post } = Astro.props;
 const { Content } = await render(post);
-const lang = "en" as const;
+const lang = "hr" as const;
 const t = getT(lang);
 const slug = slugOf(post.id);
-const enUrl = `${SITE}/blog/${slug}/`;
-const hrUrl = `${SITE}/hr/blog/${slug}/`;
+const enUrl = `${SITE}/en/blog/${slug}/`;
+const hrUrl = `${SITE}/blog/${slug}/`;
 function fmtDate(iso: string) {
   const d = new Date(iso);
-  return d.toLocaleDateString("en-GB", { year: "numeric", month: "short", day: "numeric" });
+  return d.toLocaleDateString("hr-HR", { year: "numeric", month: "short", day: "numeric" });
 }
 const allInsightsLabel = t.blog.viewAll;
 ---
@@ -26,7 +26,7 @@ const allInsightsLabel = t.blog.viewAll;
   lang={lang}
   title={`${post.data.title} | Danijel Pevec`}
   description={post.data.excerpt}
-  canonical={enUrl}
+  canonical={hrUrl}
   hreflangEn={enUrl}
   hreflangHr={hrUrl}
   ogType="article"
@@ -39,9 +39,9 @@ const allInsightsLabel = t.blog.viewAll;
     publisher: { "@type": "Person", name: "Danijel Pevec" },
     datePublished: post.data.date,
     dateModified: post.data.date,
-    mainEntityOfPage: enUrl,
+    mainEntityOfPage: hrUrl,
     articleSection: post.data.category,
-    inLanguage: "en",
+    inLanguage: "hr",
   }]}
 >
   <header class="article-header reveal in">
@@ -56,7 +56,7 @@ const allInsightsLabel = t.blog.viewAll;
       </div>
       <h1 class="article-title">{post.data.title}</h1>
       <p class="article-deck">{post.data.excerpt}</p>
-      <div class="article-byline"><span class="author-mono">DP</span><span class="who">Author: <strong>Danijel Pevec</strong> · Family Business Advisor</span></div>
+      <div class="article-byline"><span class="author-mono">DP</span><span class="who">Autor: <strong>Danijel Pevec</strong> · Savjetnik za obiteljski biznis</span></div>
     </div>
   </header>
   {post.data.cover && (

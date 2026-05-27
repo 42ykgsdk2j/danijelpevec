@@ -2,18 +2,18 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import LegalPage from "../components/LegalPage.astro";
 import { SITE } from "../lib/i18n";
-const lang = "en" as const;
+const lang = "hr" as const;
 ---
 <BaseLayout
   lang={lang}
-  title="Colophon | Danijel Pevec"
-  description="Colophon — about the type, typography and craft of danijelpevec.com."
+  title="Kolofon | Danijel Pevec"
+  description="Kolofon — o tipografiji i izradi danijelpevec.com."
   canonical={`${SITE}/colophon/`}
   hreflangEn={`${SITE}/colophon/`}
-  hreflangHr={`${SITE}/hr/colophon/`}
+  hreflangHr={`${SITE}/colophon/`}
 >
-  <LegalPage lang={lang} eyebrow="Colophon" title="Colophon">
-    <p class="lead">This site is set in Playfair Display and Inter. Words are chosen as carefully as the type that carries them.</p>
-    <p class="lead" style="margin-top:24px;">Quietly built. Long-form by intent.</p>
+  <LegalPage lang={lang} eyebrow="Kolofon" title="Kolofon">
+    <p class="lead">Ova stranica koristi fontove Playfair Display i Inter. Riječi su odabrane jednako pažljivo kao i tipografija koja ih nosi.</p>
+    <p class="lead" style="margin-top:24px;">Tiho izgrađeno. Dugotrajno po namjeri.</p>
   </LegalPage>
 </BaseLayout>

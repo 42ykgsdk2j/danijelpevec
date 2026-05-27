@@ -26,14 +26,14 @@ export function getT(lang: Lang): Translations {
 export const SITE = "https://www.danijelpevec.com";
 
 /**
- * URL builder. EN URLs are at root (`/blog`, `/assessment`); HR URLs live under
- * `/hr/` (`/hr/blog`, `/hr/assessment`). The home page is `/` for EN and `/hr/`
- * for HR.
+ * URL builder. HR is the default locale and lives at root (`/blog`,
+ * `/assessment`); EN URLs live under `/en/` (`/en/blog`, `/en/assessment`).
+ * The home page is `/` for HR and `/en/` for EN.
  */
 export function url(lang: Lang, path = ""): string {
   const clean = path.replace(/^\/+/, "");
-  if (lang === "hr") {
-    return clean ? `/hr/${clean}` : "/hr/";
+  if (lang === "en") {
+    return clean ? `/en/${clean}` : "/en/";
   }
   return clean ? `/${clean}` : "/";
 }
@@ -44,15 +44,14 @@ export function url(lang: Lang, path = ""): string {
  */
 export function counterpartUrl(currentLang: Lang, currentPath: string): string {
   // Normalise currentPath: ensure it starts with /
-  let p = currentPath.startsWith("/") ? currentPath : "/" + currentPath;
-  // Strip the .html extension for compare logic but preserve it on output
-  if (currentLang === "hr") {
-    // /hr/foo → /foo  (or "/hr/" → "/")
-    if (p === "/hr/" || p === "/hr") return "/";
-    return p.replace(/^\/hr\//, "/");
+  const p = currentPath.startsWith("/") ? currentPath : "/" + currentPath;
+  if (currentLang === "en") {
+    // /en/foo → /foo  (or "/en/" → "/")
+    if (p === "/en/" || p === "/en") return "/";
+    return p.replace(/^\/en\//, "/");
   } else {
-    // /foo → /hr/foo  (or "/" → "/hr/")
-    if (p === "/" || p === "") return "/hr/";
-    return "/hr" + p;
+    // /foo → /en/foo  (or "/" → "/en/")
+    if (p === "/" || p === "") return "/en/";
+    return "/en" + p;
   }
 }
