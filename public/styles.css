@@ -880,15 +880,14 @@ section { position: relative; }
   margin-top: 48px;
 }
 .approach-list-item {
-  display: grid;
-  grid-template-columns: 24px 1fr;
-  gap: 20px;
+  display: block;
   padding: 18px 0;
   border-bottom: 1px solid var(--line-soft);
   font-size: clamp(16px, 1.2vw, 18px);
   color: var(--ink-1);
   line-height: 1.5;
 }
+.approach-list-item:last-child { border-bottom: none; }
 .approach-coda {
   margin-top: 56px;
   font-family: var(--serif);
@@ -920,7 +919,10 @@ section { position: relative; }
   position: relative;
   transition: all 360ms cubic-bezier(0.2, 0.8, 0.2, 1);
   overflow: hidden;
-  min-height: 360px;
+  /* Cards used to host title + paragraph + glyph icon; with the icon
+     dropped, 360px left them visibly hollow. 240px keeps the cards
+     visually substantial without forcing empty space. */
+  min-height: 240px;
 }
 .service-card::before {
   content: "";
