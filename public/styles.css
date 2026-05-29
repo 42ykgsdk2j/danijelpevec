@@ -702,7 +702,7 @@ section { position: relative; }
 
 .two-col {
   display: grid;
-  grid-template-columns: minmax(220px, 0.9fr) 1.4fr;
+  grid-template-columns: 1.4fr minmax(220px, 0.9fr);
   gap: clamp(40px, 6vw, 100px);
   align-items: start;
 }
