@@ -939,13 +939,6 @@ section { position: relative; }
   transform: translateY(-4px);
 }
 .service-card:hover::before { transform: scaleX(1); }
-.service-card .num {
-  font-family: var(--serif);
-  font-size: 14px;
-  letter-spacing: 0.2em;
-  color: var(--gold);
-  font-style: italic;
-}
 .service-card h3 {
   font-size: clamp(22px, 1.7vw, 28px);
   font-weight: 400;
@@ -956,11 +949,6 @@ section { position: relative; }
   font-size: 15px;
   line-height: 1.6;
   color: var(--ink-2);
-}
-.service-card .glyph {
-  margin-top: auto;
-  color: var(--gold);
-  opacity: 0.5;
 }
 
 .start-cta {
