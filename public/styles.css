@@ -866,13 +866,6 @@ section { position: relative; }
   min-height: 220px;
 }
 .challenge-card:hover { background: var(--bg-3); }
-.challenge-card .ord {
-  font-family: var(--serif);
-  font-style: italic;
-  font-size: 14px;
-  color: var(--gold);
-  letter-spacing: 0.04em;
-}
 .challenge-card h3 {
   font-size: clamp(20px, 1.6vw, 24px);
   font-weight: 400;
