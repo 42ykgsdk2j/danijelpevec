@@ -707,6 +707,7 @@ section { position: relative; }
   align-items: start;
 }
 .two-col .col-left { position: sticky; top: 110px; }
+.two-col .col-left .section-head { margin-bottom: 0; }
 
 /* ============================================
    "Who I work with"
@@ -1423,7 +1424,7 @@ section { position: relative; }
   .menu-btn { display: inline-flex; }
   .nav-cta { display: none; }
   .hero-sub-row { grid-template-columns: 1fr; }
-  .two-col { grid-template-columns: 1fr; }
+  .two-col { grid-template-columns: 1fr; gap: 24px; }
   .two-col .col-left { position: static; }
   .services-grid { grid-template-columns: 1fr; }
   .about-grid { grid-template-columns: 1fr; }
