@@ -114,25 +114,6 @@ h1, h2, h3, h4 {
 
 p { margin: 0; text-wrap: pretty; }
 
-.eyebrow {
-  font-family: var(--sans);
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--gold);
-  display: inline-flex;
-  align-items: center;
-  gap: 12px;
-}
-.eyebrow::before {
-  content: "";
-  display: block;
-  width: 28px;
-  height: 1px;
-  background: var(--gold);
-}
-
 .lead {
   font-size: clamp(18px, 1.4vw, 22px);
   line-height: 1.55;
@@ -1309,9 +1290,6 @@ section { position: relative; }
   transform: rotate(90deg);
 }
 
-.modal-eyebrow {
-  margin-bottom: 14px;
-}
 .modal h2 {
   font-size: clamp(28px, 3vw, 40px);
   font-weight: 400;

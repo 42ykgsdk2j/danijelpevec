@@ -153,7 +153,6 @@ export default function Modal({ t }: Props) {
 
         {!submitted ? (
           <>
-            <div className="modal-eyebrow eyebrow">{t.eyebrow}</div>
             <h2>{t.titleA} <span className="accent">{t.titleAccent}</span></h2>
             <p className="modal-sub">{t.sub}</p>
 
