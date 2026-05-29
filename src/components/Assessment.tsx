@@ -100,6 +100,7 @@ function Intro({ ui, lang, onBegin }: { ui: UI; lang: Lang; onBegin: () => void 
     <section className="assessment-section section-pad assessment-intro">
       <div className="container">
         <div className="assessment-card reveal in">
+          <div className="eyebrow">{ui.intro.eyebrow}</div>
           <h1 className="assessment-title">
             {ui.intro.title}<br />
             {ui.intro.titleAccent}
@@ -193,6 +194,7 @@ function Analyzing({ ui, onComplete }: { ui: UI; onComplete: () => void }) {
     <section className="assessment-section section-pad assessment-analyzing-wrap">
       <div className="container">
         <div className="assessment-card assessment-analyzing-card">
+          <div className="eyebrow">{ui.analyzing.eyebrow}</div>
           <div className="assessment-analyzing-message" key={msgIndex}>
             {messages[msgIndex]}
             <span className="assessment-analyzing-dots"><span></span><span></span><span></span></span>
@@ -220,6 +222,7 @@ function Results({
     <section className="assessment-section section-pad assessment-results">
       <div className="container">
         <div className="assessment-card assessment-results-card reveal in">
+          <div className="eyebrow">{ui.results.eyebrow}</div>
           <h1 className="assessment-results-title">{profile.title}</h1>
 
           <div className="assessment-overall">
