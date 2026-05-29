@@ -649,30 +649,6 @@ section { position: relative; }
   align-items: end;
 }
 
-.hero-eyebrow-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 32px;
-  margin-bottom: clamp(48px, 8vw, 80px);
-  flex-wrap: wrap;
-}
-
-.hero-meta {
-  display: flex;
-  align-items: center;
-  gap: 24px;
-  font-size: 11px;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--ink-2);
-  font-weight: 500;
-}
-.hero-meta .dot {
-  width: 4px; height: 4px; border-radius: 50%;
-  background: var(--gold);
-}
-
 .hero-headline {
   font-size: clamp(44px, 7.5vw, 116px);
   font-weight: 400;
@@ -913,13 +889,6 @@ section { position: relative; }
   color: var(--ink-1);
   line-height: 1.5;
 }
-.approach-list-item .marker {
-  font-family: var(--serif);
-  font-style: italic;
-  color: var(--gold);
-  font-size: 18px;
-}
-
 .approach-coda {
   margin-top: 56px;
   font-family: var(--serif);
@@ -1545,7 +1514,6 @@ section { position: relative; }
   .theme-toggle, .menu-btn { width: 38px; height: 38px; }
   .nav-actions .toggle-group button,
   .nav-actions .toggle-group a { padding: 6px 10px; font-size: 11px; }
-  .hero-eyebrow-row { flex-direction: column; align-items: flex-start; gap: 16px; }
   .hero-marquee { gap: 20px; }
   .form-row { grid-template-columns: 1fr; gap: 0; }
   .alpha-block { grid-template-columns: 1fr; text-align: left; }
