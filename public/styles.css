@@ -665,13 +665,6 @@ section { position: relative; }
   gap: 24px;
   align-items: flex-start;
 }
-.hero-cta-block .small {
-  font-size: 12px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--ink-2);
-}
-
 .hero-marquee {
   margin-top: clamp(80px, 12vw, 140px);
   padding: 28px 0;
