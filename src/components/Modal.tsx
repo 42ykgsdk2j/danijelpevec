@@ -153,7 +153,7 @@ export default function Modal({ t }: Props) {
 
         {!submitted ? (
           <>
-            <h2>{t.titleA} <span className="accent">{t.titleAccent}</span></h2>
+            <h2>{t.titleA} {t.titleAccent}</h2>
             <p className="modal-sub">{t.sub}</p>
 
             <form onSubmit={onSubmit} noValidate>
@@ -235,7 +235,7 @@ export default function Modal({ t }: Props) {
                 <polyline points="20 6 9 17 4 12" />
               </svg>
             </div>
-            <h2>{t.successTitle}<span className="accent italic">{t.successAccent}</span></h2>
+            <h2>{t.successTitle}{t.successAccent}</h2>
             <p>{t.successSub}</p>
             <button className="btn btn-ghost" onClick={close}>{t.close}</button>
           </div>

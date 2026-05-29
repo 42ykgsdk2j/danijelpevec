@@ -102,7 +102,7 @@ function Intro({ ui, lang, onBegin }: { ui: UI; lang: Lang; onBegin: () => void 
         <div className="assessment-card reveal in">
           <h1 className="assessment-title">
             {ui.intro.title}<br />
-            <span className="accent italic">{ui.intro.titleAccent}</span>
+            {ui.intro.titleAccent}
           </h1>
           <p className="assessment-lead">{ui.intro.lead}</p>
           <div className="assessment-meta-row">

@@ -100,8 +100,6 @@ img { max-width: 100%; display: block; }
    ============================================ */
 
 .serif { font-family: var(--serif); font-weight: 400; }
-.italic { font-style: italic; }
-
 h1, h2, h3, h4 {
   font-family: var(--serif);
   font-weight: 500;
@@ -681,7 +679,6 @@ section { position: relative; }
   letter-spacing: -0.015em;
 }
 .section-head h2 .accent {
-  font-style: italic;
   color: var(--gold);
 }
 
@@ -724,7 +721,6 @@ section { position: relative; }
 .who-item:hover { background: var(--gold-soft); }
 .who-item .num {
   font-family: var(--serif);
-  font-style: italic;
   font-size: 18px;
   color: var(--gold);
 }
@@ -752,7 +748,6 @@ section { position: relative; }
 }
 .disclaimer p {
   font-family: var(--serif);
-  font-style: italic;
   font-size: clamp(17px, 1.4vw, 21px);
   color: var(--ink-1);
   line-height: 1.55;
@@ -804,7 +799,6 @@ section { position: relative; }
 
 .approach-quote {
   font-family: var(--serif);
-  font-style: italic;
   font-size: clamp(28px, 4vw, 52px);
   line-height: 1.2;
   color: var(--ink-0);
@@ -821,7 +815,7 @@ section { position: relative; }
   width: 1px;
   background: var(--gold);
 }
-.approach-quote .accent { color: var(--gold); font-style: italic; }
+.approach-quote .accent { color: var(--gold); }
 
 .approach-list {
   display: grid;
@@ -840,7 +834,6 @@ section { position: relative; }
 .approach-coda {
   margin-top: 56px;
   font-family: var(--serif);
-  font-style: italic;
   font-size: clamp(22px, 2.2vw, 30px);
   line-height: 1.3;
   color: var(--gold);
@@ -930,7 +923,7 @@ section { position: relative; }
   font-weight: 400;
   max-width: 26ch;
 }
-.start-cta-text .accent { color: var(--gold); font-style: italic; }
+.start-cta-text .accent { color: var(--gold); }
 
 /* ============================================
    About
@@ -1033,7 +1026,6 @@ section { position: relative; }
 }
 .about-card .meta-list .row .val {
   font-family: var(--serif);
-  font-style: italic;
   color: var(--ink-1);
   text-align: right;
 }
@@ -1046,7 +1038,6 @@ section { position: relative; }
 }
 .about-text p.lead {
   font-family: var(--serif);
-  font-style: italic;
   font-size: clamp(20px, 1.7vw, 26px);
   line-height: 1.4;
   color: var(--ink-0);
@@ -1142,10 +1133,9 @@ section { position: relative; }
   max-width: 18ch;
   margin: 0 auto 32px;
 }
-.final-cta h2 .accent { font-style: italic; color: var(--gold); }
+.final-cta h2 .accent { color: var(--gold); }
 .final-cta p {
   font-family: var(--serif);
-  font-style: italic;
   font-size: clamp(18px, 1.5vw, 22px);
   color: var(--ink-2);
   margin-bottom: 48px;
@@ -1185,7 +1175,6 @@ section { position: relative; }
 .footer-brand p {
   margin-top: 16px;
   font-family: var(--serif);
-  font-style: italic;
   font-size: 16px;
   line-height: 1.5;
   color: var(--ink-2);
@@ -1265,10 +1254,9 @@ section { position: relative; }
   line-height: 1.1;
   margin-bottom: 12px;
 }
-.modal h2 .accent { font-style: italic; color: var(--gold); }
+.modal h2 .accent { color: var(--gold); }
 .modal-sub {
   font-family: var(--serif);
-  font-style: italic;
   font-size: 17px;
   color: var(--ink-2);
   margin-bottom: 36px;
@@ -1308,7 +1296,6 @@ section { position: relative; }
 .field input::placeholder, .field textarea::placeholder {
   color: var(--ink-3);
   font-family: var(--serif);
-  font-style: italic;
 }
 .field.error input, .field.error textarea, .field.error select {
   border-color: var(--error);
@@ -1317,7 +1304,6 @@ section { position: relative; }
   font-size: 11px;
   color: var(--error);
   letter-spacing: 0.08em;
-  font-style: italic;
 }
 
 .form-row {
@@ -1337,7 +1323,6 @@ section { position: relative; }
 .modal-foot .note {
   font-size: 12px;
   color: var(--ink-3);
-  font-style: italic;
   font-family: var(--serif);
   max-width: 28ch;
 }
@@ -1618,7 +1603,6 @@ section { position: relative; }
   color: var(--ink-1);
   font-weight: 300;
   font-family: var(--serif);
-  font-style: italic;
   max-width: 60ch;
 }
 
@@ -1859,7 +1843,6 @@ section { position: relative; }
   margin-top: 24px;
   font-size: 12px;
   color: var(--ink-3);
-  font-style: italic;
 }
 @media (max-width: 640px) {
   /* The CTA label is long; on phones the fixed-width nowrap button overflows
@@ -1962,7 +1945,6 @@ section { position: relative; }
   font-size: 13px;
   line-height: 1.5;
   color: var(--ink-2);
-  font-style: italic;
   margin-bottom: 32px;
 }
 
@@ -2235,7 +2217,6 @@ section { position: relative; }
   font-size: clamp(17px, 1.4vw, 19px);
   line-height: 1.55;
   color: var(--ink-0);
-  font-style: italic;
 }
 
 .assessment-dim-bars {
@@ -2353,7 +2334,6 @@ section { position: relative; }
   font-size: 12px;
   line-height: 1.55;
   color: var(--ink-3);
-  font-style: italic;
   text-align: center;
 }
 
