@@ -1065,22 +1065,6 @@ section { position: relative; }
   line-height: 1.65;
   color: var(--ink-1);
 }
-.about-text p.lead {
-  font-family: var(--serif);
-  font-size: clamp(20px, 1.7vw, 26px);
-  line-height: 1.4;
-  color: var(--ink-0);
-  font-weight: 400;
-}
-.about-text .pull {
-  font-family: var(--serif);
-  font-size: clamp(18px, 1.5vw, 22px);
-  line-height: 1.4;
-  color: var(--gold);
-  border-left: 1px solid var(--gold);
-  padding-left: 24px;
-  font-style: italic;
-}
 
 /* Alpha capitalis */
 .alpha-block {
