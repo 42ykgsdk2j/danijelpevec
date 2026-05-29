@@ -26,8 +26,8 @@ collections:
   # Blog posts (EN)
   # ===================================================================
   - name: blog_en
-    label: "Insights (English)"
-    label_singular: "Insight"
+    label: "Blog (English)"
+    label_singular: "Post"
     folder: src/content/blog/en
     create: true
     extension: md
@@ -39,7 +39,7 @@ collections:
     # so users don't have to think about slugs at all.
     fields:
       - { name: title, label: Title, widget: string }
-      - { name: excerpt, label: "Excerpt (1–2 sentences, shown on the blog index card)", widget: text }
+      - { name: excerpt, label: "Excerpt (1–2 sentences, shown on the Blog index card)", widget: text }
       - { name: category, label: Category, widget: string, hint: "e.g. Succession, Wealth Transition, Continuity, Governance, Next Generation, Exit Strategy, Advisory, Family Dynamics, Legacy" }
       - { name: date, label: "Date & time published", widget: datetime, format: "YYYY-MM-DDTHH:mm", picker_utc: false, hint: "Posts are sorted newest-first, so the time matters when two posts share a day." }
       - { name: readTime, label: "Read time (minutes)", widget: number, default: 7, value_type: int, min: 1 }
@@ -51,8 +51,8 @@ collections:
   # Blog posts (HR)
   # ===================================================================
   - name: blog_hr
-    label: "Uvidi (hrvatski)"
-    label_singular: "Uvid"
+    label: "Objave (hrvatski)"
+    label_singular: "Objava"
     folder: src/content/blog/hr
     create: true
     extension: md
@@ -61,7 +61,7 @@ collections:
     summary: "{{title}} — {{date | date('YYYY-MM-DD')}}"
     fields:
       - { name: title, label: Naslov, widget: string }
-      - { name: excerpt, label: "Sažetak (1–2 rečenice, pojavljuje se na popisu uvida)", widget: text }
+      - { name: excerpt, label: "Sažetak (1–2 rečenice, pojavljuje se na popisu objava)", widget: text }
       - { name: category, label: Kategorija, widget: string }
       - { name: date, label: "Datum i vrijeme objave", widget: datetime, format: "YYYY-MM-DDTHH:mm", picker_utc: false, hint: "Objave su poredane od najnovije; vrijeme je važno kad dva članka dijele isti dan." }
       - { name: readTime, label: "Vrijeme čitanja (minuta)", widget: number, default: 7, value_type: int, min: 1 }
