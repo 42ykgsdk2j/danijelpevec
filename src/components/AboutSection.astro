@@ -19,14 +19,6 @@ const t = getT(lang);
           <div class="role">{t.about.role}</div>
           <div class="name" style="margin-top: 6px;">{t.about.name}</div>
         </div>
-        <div class="meta-list">
-          {t.about.meta.map((m) => (
-            <div class="row">
-              <span class="lbl">{m.lbl}</span>
-              <span class="val">{m.val}</span>
-            </div>
-          ))}
-        </div>
       </div>
 
       <div class="about-text reveal">
@@ -37,21 +29,6 @@ const t = getT(lang);
         <p>{t.about.p3}</p>
         <p>{t.about.p4}</p>
         <p>{t.about.closing}</p>
-
-        <div class="alpha-block">
-          <div class="alpha-logo"></div>
-          <div class="alpha-text">
-            <span class="alpha-name">{t.about.alphaName}</span>
-            <span class="alpha-desc">{t.about.alphaDesc}</span>
-          </div>
-          <a href="https://www.alphacapitalis.com" target="_blank" rel="noopener noreferrer" class="alpha-link">
-            {t.about.alphaLink}
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <line x1="7" y1="17" x2="17" y2="7" />
-              <polyline points="7 7 17 7 17 17" />
-            </svg>
-          </a>
-        </div>
       </div>
     </div>
   </div>
