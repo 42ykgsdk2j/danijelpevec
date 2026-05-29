@@ -3,15 +3,12 @@ import { getT, type Lang } from "../lib/i18n";
 interface Props { lang: Lang }
 const { lang } = Astro.props;
 const t = getT(lang);
-// Roman numerals for the markers — String.fromCharCode(8544 + i) maps to Ⅰ, Ⅱ, …
-const roman = ["Ⅰ", "Ⅱ", "Ⅲ", "Ⅳ", "Ⅴ", "Ⅵ", "Ⅶ", "Ⅷ"];
 ---
 <section class="section-pad" id="approach">
   <div class="container">
     <div class="two-col">
       <div class="col-left">
         <div class="reveal">
-          <div class="eyebrow" style="margin-bottom: 32px;">{t.approach.eyebrow}</div>
           <div class="approach-quote">
             {t.approach.quoteA} <span class="accent">{t.approach.quoteAccent}</span> {t.approach.quoteB}
           </div>
@@ -20,9 +17,8 @@ const roman = ["Ⅰ", "Ⅱ", "Ⅲ", "Ⅳ", "Ⅴ", "Ⅵ", "Ⅶ", "Ⅷ"];
       <div class="reveal">
         <p class="lead" style="margin-bottom: 8px;">{t.approach.lead}</p>
         <div class="approach-list reveal-stagger">
-          {t.approach.items.map((item, i) => (
+          {t.approach.items.map((item) => (
             <div class="approach-list-item reveal">
-              <span class="marker">— {roman[i]}.</span>
               <span>{item}</span>
             </div>
           ))}

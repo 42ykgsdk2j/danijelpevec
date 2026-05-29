@@ -2,17 +2,17 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Assessment from "../components/Assessment.tsx";
 import { getT, SITE } from "../lib/i18n";
-import assessmentUi from "../data/assessment-ui.en.json";
-const lang = "en" as const;
+import assessmentUi from "../data/assessment-ui.hr.json";
+const lang = "hr" as const;
 const t = getT(lang);
 ---
 <BaseLayout
   lang={lang}
-  title="Family Business Readiness Assessment | Danijel Pevec"
-  description="A seven-minute private reflection on six dimensions that determine whether what you've built will last beyond you. No registration. Instant results."
+  title="Procjena spremnosti obiteljskog biznisa | Danijel Pevec"
+  description="Sedmominutna privatna refleksija o šest dimenzija koje određuju hoće li ono što ste izgradili trajati i dalje od vas. Bez registracije. Trenutni rezultati."
   canonical={`${SITE}/assessment/`}
   hreflangEn={`${SITE}/assessment/`}
-  hreflangHr={`${SITE}/hr/assessment/`}
+  hreflangHr={`${SITE}/assessment/`}
 >
   <Assessment client:load ui={assessmentUi} lang={lang} />
 </BaseLayout>

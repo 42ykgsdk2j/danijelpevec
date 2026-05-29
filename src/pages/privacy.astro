@@ -2,18 +2,18 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import LegalPage from "../components/LegalPage.astro";
 import { SITE } from "../lib/i18n";
-const lang = "en" as const;
+const lang = "hr" as const;
 ---
 <BaseLayout
   lang={lang}
-  title="Privacy Policy | Danijel Pevec"
-  description="Privacy Policy — Danijel Pevec, Family Business Advisor."
+  title="Politika privatnosti | Danijel Pevec"
+  description="Politika privatnosti — Danijel Pevec, savjetnik za obiteljski biznis."
   canonical={`${SITE}/privacy/`}
   hreflangEn={`${SITE}/privacy/`}
-  hreflangHr={`${SITE}/hr/privacy/`}
+  hreflangHr={`${SITE}/privacy/`}
 >
-  <LegalPage lang={lang} eyebrow="Privacy" title="Privacy Policy">
-    <p class="lead">Detailed privacy policy is being prepared. In the meantime, every conversation initiated through this site is treated in strict confidence.</p>
-    <p class="lead" style="margin-top:24px;">Until the full policy is published you can reach out at <a href="mailto:inquiry@danijelpevec.com">inquiry@danijelpevec.com</a>.</p>
+  <LegalPage lang={lang} title="Politika privatnosti">
+    <p class="lead">Detaljna politika privatnosti je u pripremi. Do tada, svaki razgovor pokrenut putem ove stranice tretira se u strogoj povjerljivosti.</p>
+    <p class="lead" style="margin-top:24px;">Do objave potpune politike, možete nas kontaktirati na <a href="mailto:pevec.danijel@alphacapitalis.com">pevec.danijel@alphacapitalis.com</a>.</p>
   </LegalPage>
 </BaseLayout>

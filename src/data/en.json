@@ -1,10 +1,10 @@
 {
   "nav": {
     "approach": "Approach",
-    "who": "Who we work with",
-    "work": "How we work",
+    "who": "Who I work with",
+    "work": "How I work",
     "about": "About",
-    "blog": "Insights",
+    "blog": "Blog",
     "assessment": "Assessment",
     "contact": "Contact",
     "cta": "Private conversation"
@@ -13,14 +13,11 @@
     "tag": "Family Business Advisor"
   },
   "hero": {
-    "meta1": "Est. Advisory Practice",
-    "meta2": "Family Business",
-    "meta3": "By Invitation",
     "headlineA": "Building a business",
     "headlineB": "is one thing.",
     "headlineC": "Building a legacy",
     "headlineD": "is something else.",
-    "sub": "We help founders and their families build a legacy through the decisions that shape growth, succession and generational transition.",
+    "sub": "I help founders and their families build a legacy through the decisions that shape growth, succession and generational transition.",
     "ctaSmall": "First step",
     "cta": "Request a private conversation",
     "m1Num": "I.",
@@ -31,62 +28,44 @@
     "m3": "Long-term, never transactional"
   },
   "who": {
-    "eyebrow": "Who we work with",
-    "title": "For founders and families thinking",
+    "eyebrow": "Who I work with",
+    "title": "Founders and families thinking",
     "titleAccent": "beyond the next quarter.",
-    "lead": "We work with a small number of founders and families. This work is not for everyone. It requires openness, trust and a willingness to have difficult conversations.",
+    "lead": "I work with a small number of founders and families. This work is not for everyone. It requires openness, trust and a willingness to have difficult conversations.",
     "items": [
       "Founders who have built something valuable and are starting to think about what comes next",
       "Family-owned businesses preparing for transition between generations",
       "Next-generation leaders stepping into responsibility",
       "Families who want clarity, alignment and long-term structure"
     ],
-    "disclaimer": "If you are looking for quick answers or transactional advice, we're probably not the right fit."
+    "disclaimer": "If you are looking for quick answers or transactional advice, I'm probably not the right fit."
   },
   "challenges": {
     "eyebrow": "The real challenges",
     "title": "What no one",
     "titleAccent": "talks about.",
-    "lead": "Building the business was hard. What comes next is often harder. These are not technical problems — they are human, strategic and generational.",
+    "lead": "Building the business was hard. What comes next is often harder. These are not technical problems — they are human, strategic and generational. And they don't solve themselves.",
     "items": [
-      {
-        "ord": "i.",
-        "text": "You built something valuable, but letting go is unclear"
-      },
-      {
-        "ord": "ii.",
-        "text": "The next generation is not fully ready — or not fully aligned"
-      },
-      {
-        "ord": "iii.",
-        "text": "Decisions are becoming more complex, not simpler"
-      },
-      {
-        "ord": "iv.",
-        "text": "Conversations within the family are avoided or left unresolved"
-      },
-      {
-        "ord": "v.",
-        "text": "You have success, but not the structure to sustain it long-term"
-      },
-      {
-        "ord": "vi.",
-        "text": "The legacy you imagined is not yet the one you are building"
-      }
+      { "ord": "i.", "text": "You built something valuable, but letting go is unclear" },
+      { "ord": "ii.", "text": "The next generation is not fully ready — or not fully aligned" },
+      { "ord": "iii.", "text": "Decisions are becoming more complex, not simpler" },
+      { "ord": "iv.", "text": "Conversations within the family are avoided or left unresolved" },
+      { "ord": "v.", "text": "You have success, but not the structure to sustain it long-term" },
+      { "ord": "vi.", "text": "The legacy you imagined is not yet the one you are building" }
     ],
     "coda": "Most advisors focus on the numbers. Very few help you navigate what truly matters."
   },
   "approach": {
-    "eyebrow": "Our approach",
-    "quoteA": "We work at the point where",
+    "eyebrow": "My approach",
+    "quoteA": "I work at the point where",
     "quoteAccent": "business, family",
     "quoteB": "and long-term decisions meet.",
-    "lead": "Most advisors focus on specific areas — finance, tax, legal or strategy. We don't.",
+    "lead": "Most advisors focus on specific areas — finance, tax, legal or strategy. I don't.",
     "items": [
-      "We look beyond short-term results",
-      "We understand both the numbers and the people behind them",
-      "We create clarity in situations where there are no simple answers",
-      "We help families align before making critical decisions"
+      "I look beyond short-term results",
+      "I understand both the numbers and the people behind them",
+      "I create clarity in situations where there are no simple answers",
+      "I help families align before making critical decisions"
     ],
     "coda": "This is not consulting in the traditional sense. It is long-term thinking applied to real situations, with real consequences. Because the most important decisions are never purely financial."
   },
@@ -94,21 +73,21 @@
     "eyebrow": "How we work together",
     "title": "Closely involved",
     "titleAccent": "in what matters most.",
-    "lead": "We work with a small number of clients. Each situation is unique and requires an approach that reflects its complexity and stage.",
+    "lead": "I work with a small number of clients, staying closely involved in the decisions that matter most. Each situation is unique and requires an approach that reflects its complexity and stage.",
     "services": [
       {
-        "num": "Service I.",
+        "num": "",
         "title": "Private advisory",
         "desc": "One-on-one conversations focused on key decisions, clarity and direction."
       },
       {
-        "num": "Service II.",
+        "num": "",
         "title": "Family business sessions",
         "desc": "Structured discussions with family members to align perspectives and move forward together."
       },
       {
-        "num": "Service III.",
-        "title": "Long-term advisory",
+        "num": "",
+        "title": "Long-term advisory relationships",
         "desc": "Ongoing support through periods of growth, transition and generational change."
       }
     ],
@@ -119,26 +98,17 @@
   "about": {
     "eyebrow": "About",
     "name": "Danijel Pevec",
-    "role": "Founder & Family Business Advisors",
+    "role": "Family Business Advisor",
     "meta": [
-      {
-        "lbl": "Based in",
-        "val": "Zagreb, Croatia"
-      },
-      {
-        "lbl": "Practice",
-        "val": "By invitation"
-      },
-      {
-        "lbl": "Affiliation",
-        "val": "Alpha Capitalis"
-      }
+      { "lbl": "Based in", "val": "Zagreb, Croatia" },
+      { "lbl": "Practice", "val": "By invitation" },
+      { "lbl": "Affiliation", "val": "Alpha Capitalis" }
     ],
-    "lead": "We've experienced both growth and loss — and how decisions made at the wrong time can define the future of a business and a family.",
-    "p1": "We work with founders and their families on the decisions that shape what comes next. Over time, we've seen this from different perspectives — as advisors, as founders, and as part of next-generation family businesses.",
-    "p2": "We've seen what it takes to build something valuable. And we've also seen how quickly things can become fragile when key decisions are delayed, avoided or misunderstood.",
+    "lead": "I've experienced both growth and loss — and how decisions made at the wrong time can define the future of a business and a family.",
+    "p1": "I work with founders and their families on the decisions that shape what comes next. Over time, I've seen this from different perspectives — as an advisor, as a founder, and as part of a next-generation family business.",
+    "p2": "I've seen what it takes to build something valuable. And I've also seen how quickly things can become fragile when key decisions are delayed, avoided or misunderstood.",
     "pull": "The most difficult challenges are rarely technical. They are personal, strategic and often generational.",
-    "p3": "Our role is to help families navigate these moments with clarity, structure and a long-term perspective.",
+    "p3": "That experience shaped how I approach this work. My role is to help families navigate these moments with clarity, structure and a long-term perspective.",
     "p4": "But this work goes beyond the business itself. It is about continuity, responsibility and what is carried forward.",
     "closing": "Because building a business is one thing. Building something that lasts beyond you is something else.",
     "alphaName": "Alpha Capitalis",
@@ -146,13 +116,13 @@
     "alphaLink": "Visit"
   },
   "blog": {
-    "eyebrow": "Insights",
+    "eyebrow": "Blog",
     "title": "Notes on family business,",
     "titleAccent": "succession and legacy.",
     "lead": "Long-form essays on the decisions founders and families face — succession, governance, generational transition and the human work behind every transaction.",
     "minRead": "min read",
-    "viewAll": "Read all insights",
-    "pageTitle": "Insights on family business, succession and legacy",
+    "viewAll": "Read all posts",
+    "pageTitle": "Blog — notes on family business, succession and legacy",
     "pageLead": "Essays on succession planning, generational wealth, family governance and the long-term decisions that shape what comes next.",
     "backHome": "Back to home",
     "relatedTitle": "Continue reading",
@@ -171,7 +141,7 @@
   "final": {
     "eyebrow": "The first step",
     "titleA": "If you are thinking about",
-    "titleB": "the future",
+    "titleB": "the future of your business and your family",
     "titleC": ", this is where it",
     "titleAccent": "starts.",
     "sub": "The first step is a private conversation.",
@@ -181,7 +151,7 @@
     "eyebrow": "Private conversation",
     "titleA": "Let's start with",
     "titleAccent": "a conversation.",
-    "sub": "Share a few details and we'll be in touch personally within two business days.",
+    "sub": "Share a few details and I'll be in touch personally within two business days.",
     "name": "Your name",
     "namePh": "Full name",
     "role": "Your role",
@@ -206,14 +176,14 @@
     "note": "Strict confidentiality. No mailing list, no follow-up sales.",
     "successTitle": "Thank you",
     "successAccent": "— received.",
-    "successSub": "We'll read your note personally and reply within two business days. Until then, take care.",
+    "successSub": "I'll read your note personally and reply within two business days. Until then, take care.",
     "close": "Close",
     "err": {
       "name": "Please share your name",
       "email": "A valid email is required",
       "message": "Tell me a little about your situation",
       "consent": "Please confirm to continue",
-      "submit": "We couldn't send your message. Please try again, or email directly."
+      "submit": "I couldn't send your message. Please try again, or email directly."
     }
   },
   "footer": {
@@ -225,7 +195,7 @@
     "privacy": "Privacy",
     "imprint": "Imprint",
     "colophon": "Colophon",
-    "email": "inquiry@danijelpevec.com",
+    "email": "pevec.danijel@alphacapitalis.com",
     "city": "Zagreb · Croatia",
     "hours": "By appointment"
   }

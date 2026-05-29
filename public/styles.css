@@ -100,8 +100,6 @@ img { max-width: 100%; display: block; }
    ============================================ */
 
 .serif { font-family: var(--serif); font-weight: 400; }
-.italic { font-style: italic; }
-
 h1, h2, h3, h4 {
   font-family: var(--serif);
   font-weight: 500;
@@ -113,25 +111,6 @@ h1, h2, h3, h4 {
 }
 
 p { margin: 0; text-wrap: pretty; }
-
-.eyebrow {
-  font-family: var(--sans);
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--gold);
-  display: inline-flex;
-  align-items: center;
-  gap: 12px;
-}
-.eyebrow::before {
-  content: "";
-  display: block;
-  width: 28px;
-  height: 1px;
-  background: var(--gold);
-}
 
 .lead {
   font-size: clamp(18px, 1.4vw, 22px);
@@ -649,30 +628,6 @@ section { position: relative; }
   align-items: end;
 }
 
-.hero-eyebrow-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 32px;
-  margin-bottom: clamp(48px, 8vw, 80px);
-  flex-wrap: wrap;
-}
-
-.hero-meta {
-  display: flex;
-  align-items: center;
-  gap: 24px;
-  font-size: 11px;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--ink-2);
-  font-weight: 500;
-}
-.hero-meta .dot {
-  width: 4px; height: 4px; border-radius: 50%;
-  background: var(--gold);
-}
-
 .hero-headline {
   font-size: clamp(44px, 7.5vw, 116px);
   font-weight: 400;
@@ -708,38 +663,6 @@ section { position: relative; }
   gap: 24px;
   align-items: flex-start;
 }
-.hero-cta-block .small {
-  font-size: 12px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--ink-2);
-}
-
-.hero-marquee {
-  margin-top: clamp(80px, 12vw, 140px);
-  padding: 28px 0;
-  border-top: 1px solid var(--line);
-  border-bottom: 1px solid var(--line);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 40px;
-  flex-wrap: wrap;
-}
-.hero-marquee .item {
-  font-family: var(--serif);
-  font-style: italic;
-  font-size: clamp(16px, 1.4vw, 20px);
-  color: var(--ink-2);
-}
-.hero-marquee .item .num {
-  font-style: normal;
-  color: var(--gold);
-  font-size: clamp(22px, 2.2vw, 30px);
-  font-weight: 500;
-  margin-right: 14px;
-}
-
 /* ============================================
    Sections — generic
    ============================================ */
@@ -756,7 +679,6 @@ section { position: relative; }
   letter-spacing: -0.015em;
 }
 .section-head h2 .accent {
-  font-style: italic;
   color: var(--gold);
 }
 
@@ -799,7 +721,6 @@ section { position: relative; }
 .who-item:hover { background: var(--gold-soft); }
 .who-item .num {
   font-family: var(--serif);
-  font-style: italic;
   font-size: 18px;
   color: var(--gold);
 }
@@ -827,7 +748,6 @@ section { position: relative; }
 }
 .disclaimer p {
   font-family: var(--serif);
-  font-style: italic;
   font-size: clamp(17px, 1.4vw, 21px);
   color: var(--ink-1);
   line-height: 1.55;
@@ -866,13 +786,6 @@ section { position: relative; }
   min-height: 220px;
 }
 .challenge-card:hover { background: var(--bg-3); }
-.challenge-card .ord {
-  font-family: var(--serif);
-  font-style: italic;
-  font-size: 14px;
-  color: var(--gold);
-  letter-spacing: 0.04em;
-}
 .challenge-card h3 {
   font-size: clamp(20px, 1.6vw, 24px);
   font-weight: 400;
@@ -893,7 +806,6 @@ section { position: relative; }
 
 .approach-quote {
   font-family: var(--serif);
-  font-style: italic;
   font-size: clamp(28px, 4vw, 52px);
   line-height: 1.2;
   color: var(--ink-0);
@@ -910,7 +822,7 @@ section { position: relative; }
   width: 1px;
   background: var(--gold);
 }
-.approach-quote .accent { color: var(--gold); font-style: italic; }
+.approach-quote .accent { color: var(--gold); }
 
 .approach-list {
   display: grid;
@@ -918,26 +830,17 @@ section { position: relative; }
   margin-top: 48px;
 }
 .approach-list-item {
-  display: grid;
-  grid-template-columns: 24px 1fr;
-  gap: 20px;
+  display: block;
   padding: 18px 0;
   border-bottom: 1px solid var(--line-soft);
   font-size: clamp(16px, 1.2vw, 18px);
   color: var(--ink-1);
   line-height: 1.5;
 }
-.approach-list-item .marker {
-  font-family: var(--serif);
-  font-style: italic;
-  color: var(--gold);
-  font-size: 18px;
-}
-
+.approach-list-item:last-child { border-bottom: none; }
 .approach-coda {
   margin-top: 56px;
   font-family: var(--serif);
-  font-style: italic;
   font-size: clamp(22px, 2.2vw, 30px);
   line-height: 1.3;
   color: var(--gold);
@@ -965,7 +868,10 @@ section { position: relative; }
   position: relative;
   transition: all 360ms cubic-bezier(0.2, 0.8, 0.2, 1);
   overflow: hidden;
-  min-height: 360px;
+  /* Cards used to host title + paragraph + glyph icon; with the icon
+     dropped, 360px left them visibly hollow. 240px keeps the cards
+     visually substantial without forcing empty space. */
+  min-height: 240px;
 }
 .service-card::before {
   content: "";
@@ -984,13 +890,6 @@ section { position: relative; }
   transform: translateY(-4px);
 }
 .service-card:hover::before { transform: scaleX(1); }
-.service-card .num {
-  font-family: var(--serif);
-  font-size: 14px;
-  letter-spacing: 0.2em;
-  color: var(--gold);
-  font-style: italic;
-}
 .service-card h3 {
   font-size: clamp(22px, 1.7vw, 28px);
   font-weight: 400;
@@ -1001,11 +900,6 @@ section { position: relative; }
   font-size: 15px;
   line-height: 1.6;
   color: var(--ink-2);
-}
-.service-card .glyph {
-  margin-top: auto;
-  color: var(--gold);
-  opacity: 0.5;
 }
 
 .start-cta {
@@ -1036,7 +930,7 @@ section { position: relative; }
   font-weight: 400;
   max-width: 26ch;
 }
-.start-cta-text .accent { color: var(--gold); font-style: italic; }
+.start-cta-text .accent { color: var(--gold); }
 
 /* ============================================
    About
@@ -1139,7 +1033,6 @@ section { position: relative; }
 }
 .about-card .meta-list .row .val {
   font-family: var(--serif);
-  font-style: italic;
   color: var(--ink-1);
   text-align: right;
 }
@@ -1152,7 +1045,6 @@ section { position: relative; }
 }
 .about-text p.lead {
   font-family: var(--serif);
-  font-style: italic;
   font-size: clamp(20px, 1.7vw, 26px);
   line-height: 1.4;
   color: var(--ink-0);
@@ -1248,10 +1140,9 @@ section { position: relative; }
   max-width: 18ch;
   margin: 0 auto 32px;
 }
-.final-cta h2 .accent { font-style: italic; color: var(--gold); }
+.final-cta h2 .accent { color: var(--gold); }
 .final-cta p {
   font-family: var(--serif);
-  font-style: italic;
   font-size: clamp(18px, 1.5vw, 22px);
   color: var(--ink-2);
   margin-bottom: 48px;
@@ -1291,7 +1182,6 @@ section { position: relative; }
 .footer-brand p {
   margin-top: 16px;
   font-family: var(--serif);
-  font-style: italic;
   font-size: 16px;
   line-height: 1.5;
   color: var(--ink-2);
@@ -1364,9 +1254,6 @@ section { position: relative; }
   transform: rotate(90deg);
 }
 
-.modal-eyebrow {
-  margin-bottom: 14px;
-}
 .modal h2 {
   font-size: clamp(28px, 3vw, 40px);
   font-weight: 400;
@@ -1374,10 +1261,9 @@ section { position: relative; }
   line-height: 1.1;
   margin-bottom: 12px;
 }
-.modal h2 .accent { font-style: italic; color: var(--gold); }
+.modal h2 .accent { color: var(--gold); }
 .modal-sub {
   font-family: var(--serif);
-  font-style: italic;
   font-size: 17px;
   color: var(--ink-2);
   margin-bottom: 36px;
@@ -1417,7 +1303,6 @@ section { position: relative; }
 .field input::placeholder, .field textarea::placeholder {
   color: var(--ink-3);
   font-family: var(--serif);
-  font-style: italic;
 }
 .field.error input, .field.error textarea, .field.error select {
   border-color: var(--error);
@@ -1426,7 +1311,6 @@ section { position: relative; }
   font-size: 11px;
   color: var(--error);
   letter-spacing: 0.08em;
-  font-style: italic;
 }
 
 .form-row {
@@ -1446,7 +1330,6 @@ section { position: relative; }
 .modal-foot .note {
   font-size: 12px;
   color: var(--ink-3);
-  font-style: italic;
   font-family: var(--serif);
   max-width: 28ch;
 }
@@ -1559,8 +1442,6 @@ section { position: relative; }
   .theme-toggle, .menu-btn { width: 38px; height: 38px; }
   .nav-actions .toggle-group button,
   .nav-actions .toggle-group a { padding: 6px 10px; font-size: 11px; }
-  .hero-eyebrow-row { flex-direction: column; align-items: flex-start; gap: 16px; }
-  .hero-marquee { gap: 20px; }
   .form-row { grid-template-columns: 1fr; gap: 0; }
   .alpha-block { grid-template-columns: 1fr; text-align: left; }
   .footer-grid { grid-template-columns: 1fr; }
@@ -1729,7 +1610,6 @@ section { position: relative; }
   color: var(--ink-1);
   font-weight: 300;
   font-family: var(--serif);
-  font-style: italic;
   max-width: 60ch;
 }
 
@@ -1970,7 +1850,6 @@ section { position: relative; }
   margin-top: 24px;
   font-size: 12px;
   color: var(--ink-3);
-  font-style: italic;
 }
 @media (max-width: 640px) {
   /* The CTA label is long; on phones the fixed-width nowrap button overflows
@@ -2073,7 +1952,6 @@ section { position: relative; }
   font-size: 13px;
   line-height: 1.5;
   color: var(--ink-2);
-  font-style: italic;
   margin-bottom: 32px;
 }
 
@@ -2346,7 +2224,6 @@ section { position: relative; }
   font-size: clamp(17px, 1.4vw, 19px);
   line-height: 1.55;
   color: var(--ink-0);
-  font-style: italic;
 }
 
 .assessment-dim-bars {
@@ -2464,7 +2341,6 @@ section { position: relative; }
   font-size: 12px;
   line-height: 1.55;
   color: var(--ink-3);
-  font-style: italic;
   text-align: center;
 }
 

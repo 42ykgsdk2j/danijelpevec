@@ -7,21 +7,19 @@ const t = getT(lang);
 <section class="challenges-section section-pad">
   <div class="container">
     <div class="section-head reveal" style="text-align: center; max-width: 920px; margin: 0 auto 80px; justify-items: center;">
-      <div class="eyebrow">{t.challenges.eyebrow}</div>
-      <h2>{t.challenges.title} <span class="accent italic">{t.challenges.titleAccent}</span></h2>
+      <h2>{t.challenges.title} {t.challenges.titleAccent}</h2>
       <p class="lead" style="max-width: 60ch; margin: 0 auto;">{t.challenges.lead}</p>
     </div>
 
     <div class="challenge-grid reveal-stagger">
       {t.challenges.items.map((item) => (
         <div class="challenge-card reveal">
-          <span class="ord">{item.ord}</span>
           <h3>{item.text}</h3>
         </div>
       ))}
     </div>
 
-    <p class="reveal" style="margin-top: 72px; text-align: center; font-family: var(--serif); font-style: italic; font-size: clamp(20px, 1.8vw, 26px); color: var(--gold); line-height: 1.4; max-width: 30ch; margin-left: auto; margin-right: auto;">
+    <p class="reveal" style="margin-top: 72px; text-align: center; font-family: var(--serif); font-size: clamp(20px, 1.8vw, 26px); color: var(--gold); line-height: 1.4; max-width: 30ch; margin-left: auto; margin-right: auto;">
       {t.challenges.coda}
     </p>
   </div>

@@ -11,22 +11,22 @@ import AboutSection from "../../components/AboutSection.astro";
 import FinalCta from "../../components/FinalCta.astro";
 import { SITE } from "../../lib/i18n";
 
-const lang = "hr" as const;
+const lang = "en" as const;
 ---
 <BaseLayout
   lang={lang}
-  title="Danijel Pevec — Pouzdan kompas za osnivače i obiteljske tvrtke"
-  description="Pomažem osnivačima i njihovim obiteljima izgraditi nasljeđe kroz odluke koje oblikuju rast, sukcesiju i tranziciju među generacijama."
-  canonical={`${SITE}/hr/`}
-  hreflangEn={`${SITE}/`}
-  hreflangHr={`${SITE}/hr/`}
+  title="Danijel Pevec — Trusted Compass for Founders & Family Businesses"
+  description="I help founders and their families build a legacy through the decisions that shape growth, succession and generational transition."
+  canonical={`${SITE}/en/`}
+  hreflangEn={`${SITE}/en/`}
+  hreflangHr={`${SITE}/`}
 >
   <Hero lang={lang} />
   <WhoSection lang={lang} />
   <ChallengesSection lang={lang} />
-  <AssessmentCtaSection lang={lang} />
   <ApproachSection lang={lang} />
   <WorkSection lang={lang} />
+  <AssessmentCtaSection lang={lang} />
   <BlogSection lang={lang} />
   <AboutSection lang={lang} />
   <FinalCta lang={lang} />
