@@ -235,6 +235,28 @@ section { position: relative; }
   outline-offset: 3px;
 }
 
+/* Disabled state for the gold primary CTA — used by the contact form
+   submit while required fields are empty, and by the chat send while
+   busy. Mutes the gold and disables the hover lift/glow. */
+.btn-primary:disabled,
+.btn-primary[aria-disabled="true"] {
+  cursor: not-allowed;
+  opacity: 0.45;
+  filter: saturate(0.6);
+  text-shadow: none;
+  box-shadow: none;
+}
+.btn-primary:disabled:hover,
+.btn-primary[aria-disabled="true"]:hover {
+  transform: none;
+  background:
+    radial-gradient(180px circle at 50% 50%,
+                    rgba(255, 250, 220, 0.45),
+                    rgba(255, 250, 220, 0) 60%),
+    var(--gold-shine);
+  box-shadow: none;
+}
+
 .btn-ghost {
   color: var(--ink-0);
   padding: 18px 30px;
@@ -1370,15 +1392,59 @@ section { position: relative; }
     max-height: none;
     border: 0;
     border-radius: 0;
-    padding: clamp(24px, 6vw, 36px) clamp(20px, 5vw, 28px);
-    padding-top: max(clamp(24px, 6vw, 36px), env(safe-area-inset-top));
-    padding-bottom: max(clamp(24px, 6vw, 36px), env(safe-area-inset-bottom));
+    /* Padding moves into .modal-scroll on mobile so the sticky
+       .modal-foot can stretch edge-to-edge with its own top border. */
+    padding: 0;
+    overflow: hidden;
     box-shadow: none;
-    /* Bypass the parent's translate/scale so the modal doesn't animate
-       into a transformed position on a full-screen surface. */
+    /* Stretch the form to fill the modal so .modal-foot pins to the
+       bottom regardless of how much content is above it. */
+    display: flex;
+    flex-direction: column;
+    /* Bypass the parent's translate/scale on a full-screen surface. */
     transform: none;
   }
   .modal-backdrop.open .modal { transform: none; }
+
+  /* Push the close button below the notch on devices with one. */
+  .modal-close {
+    top: max(16px, env(safe-area-inset-top));
+    right: max(16px, env(safe-area-inset-right));
+  }
+
+  /* The form fills the modal and is itself a flex column so its
+     scrollable body grows and its footer stays pinned. */
+  .modal-form {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
+  }
+  .modal-scroll {
+    flex: 1;
+    overflow-y: auto;
+    padding: clamp(24px, 6vw, 36px) clamp(20px, 5vw, 28px);
+    padding-top: max(clamp(56px, 14vw, 76px), calc(env(safe-area-inset-top) + 48px));
+    /* WebKit smooth scrolling inside the modal */
+    -webkit-overflow-scrolling: touch;
+  }
+  /* Sticky footer with the submit button. Edge-to-edge with a hairline
+     top border and a thin shadow so the scrolled form fields under it
+     don't visually bleed into the action area. */
+  .modal-foot {
+    flex-shrink: 0;
+    margin: 0;
+    padding: 14px clamp(20px, 5vw, 28px);
+    padding-bottom: max(14px, env(safe-area-inset-bottom));
+    background: var(--bg-1);
+    border-top: 1px solid var(--line);
+    box-shadow: 0 -8px 16px rgba(0, 0, 0, 0.06);
+  }
+  .modal-foot .btn-primary {
+    width: 100%;
+    justify-content: center;
+  }
+
   /* Body scroll lock — the JS-driven position-fixed handles the iOS
      case, but this rule covers any non-iOS mobile + acts as a defensive
      fallback. */

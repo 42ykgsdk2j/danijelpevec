@@ -16,7 +16,7 @@
  *     `required` + `aria-required`; inputs with errors carry `aria-invalid`
  *     and `aria-describedby` pointing at the inline error span (role="alert").
  */
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 type T = {
   eyebrow: string;
@@ -184,6 +184,17 @@ export default function Modal({ t, lang }: Props) {
     return e;
   }
 
+  // Drives the submit button's enabled state — the button stays disabled
+  // until name, a valid email, and a non-empty message are all present.
+  // Re-runs only when the inputs that gate validity change.
+  const isFormValid = useMemo(
+    () =>
+      form.name.trim().length > 0 &&
+      /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.trim()) &&
+      form.message.trim().length > 0,
+    [form.name, form.email, form.message],
+  );
+
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
     const errs = validate();
@@ -252,12 +263,12 @@ export default function Modal({ t, lang }: Props) {
         </button>
 
         {!submitted ? (
-          <>
-            <div className="modal-eyebrow eyebrow">{t.eyebrow}</div>
-            <h2 id="modal-title">{t.titleA} {t.titleAccent}</h2>
-            <p className="modal-sub">{t.sub}</p>
+          <form onSubmit={onSubmit} noValidate className="modal-form">
+            <div className="modal-scroll">
+              <div className="modal-eyebrow eyebrow">{t.eyebrow}</div>
+              <h2 id="modal-title">{t.titleA} {t.titleAccent}</h2>
+              <p className="modal-sub">{t.sub}</p>
 
-            <form onSubmit={onSubmit} noValidate>
               <div className="form-row">
                 <div className={`field${errors.name ? " error" : ""}`}>
                   <label htmlFor="contact-name">{t.name} <span className="req" aria-hidden="true">*</span></label>
@@ -355,18 +366,18 @@ export default function Modal({ t, lang }: Props) {
                   <span className="err" role="alert">{errors.submit}</span>
                 </div>
               )}
+            </div>
 
-              <div className="modal-foot">
-                <button type="submit" className="btn btn-primary" disabled={submitting}>
-                  {submitting ? "…" : t.submit}
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                    <line x1="5" y1="12" x2="19" y2="12" />
-                    <polyline points="12 5 19 12 12 19" />
-                  </svg>
-                </button>
-              </div>
-            </form>
-          </>
+            <div className="modal-foot">
+              <button type="submit" className="btn btn-primary" disabled={submitting || !isFormValid}>
+                {submitting ? "…" : t.submit}
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <line x1="5" y1="12" x2="19" y2="12" />
+                  <polyline points="12 5 19 12 12 19" />
+                </svg>
+              </button>
+            </div>
+          </form>
         ) : (
           <div className="modal-success">
             <div className="seal">
