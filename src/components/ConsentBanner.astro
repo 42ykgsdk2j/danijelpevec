@@ -1,15 +1,24 @@
 ---
 /**
- * Consent banner — coordinates with the gtag Consent Mode v2 default in
- * BaseLayout. Shown when `localStorage.dp_consent_v1` is not set yet
- * (`hidden` is applied inline so the banner never flashes for users
- * who've already chosen). Accept calls `window.dpGrantConsent()` to
- * flip GA's `analytics_storage` on and inject Clarity. Reject stores
- * the decision and leaves both tools dormant.
+ * Consent banner + Configure modal.
  *
- * The container is `position: fixed; bottom: 0; z-index: 953` (above
- * the chat panel + launcher, below the contact modal so the modal can
- * cover the banner if both are visible).
+ * Top level (banner): one-line message, "Configure" text button, "Accept"
+ * gold button. The banner is shown when `localStorage.dp_consent_v1` is
+ * unset.
+ *
+ * Configure modal: two category rows — "Required" (toggle disabled, always
+ * on) and "Marketing" (toggle on by default; user can flip off). Single
+ * "Save" button applies the user's selection.
+ *
+ * Saving behaviour:
+ *   - Marketing toggle ON  → window.dpGrantConsent() — gtag analytics_
+ *     storage + functionality_storage flip to granted, Clarity loads.
+ *   - Marketing toggle OFF → no consent update; Consent Mode stays denied.
+ *   - Either way → localStorage.dp_consent_v1 stores "granted" or
+ *     "denied" so the banner doesn't re-appear next visit.
+ *
+ * Accept (top-level) is equivalent to Configure → Save with defaults
+ * (Marketing on).
  */
 import { getT, url, type Lang } from "../lib/i18n";
 
@@ -34,9 +43,9 @@ const privacyHref = url(lang, "privacy");
     <div class="consent-banner-actions">
       <button
         type="button"
-        class="btn btn-ghost consent-reject"
-        data-consent-reject
-      >{t.consent.reject}</button>
+        class="consent-link"
+        data-consent-configure
+      >{t.consent.configure}</button>
       <button
         type="button"
         class="btn btn-primary consent-accept"
@@ -46,10 +55,66 @@ const privacyHref = url(lang, "privacy");
   </div>
 </div>
 
+<div
+  id="consent-config"
+  class="consent-config-backdrop"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="consent-config-title"
+  hidden
+>
+  <div class="consent-config">
+    <h2 id="consent-config-title" class="consent-config-title">{t.consent.configureTitle}</h2>
+    <p class="consent-config-intro">{t.consent.configureIntro}</p>
+
+    <div class="consent-row consent-row-disabled">
+      <div class="consent-row-text">
+        <div class="consent-row-label">
+          <strong>{t.consent.required}</strong>
+          <span class="consent-row-pill">{t.consent.alwaysOn}</span>
+        </div>
+        <p class="consent-row-desc">{t.consent.requiredDesc}</p>
+      </div>
+      <span class="consent-toggle is-on is-disabled" aria-hidden="true">
+        <span class="consent-toggle-thumb"></span>
+      </span>
+    </div>
+
+    <div class="consent-row">
+      <label class="consent-row-text" for="consent-marketing">
+        <div class="consent-row-label">
+          <strong>{t.consent.marketing}</strong>
+          <span class="consent-row-pill consent-row-pill-rec">{t.consent.marketingRecommended}</span>
+        </div>
+        <p class="consent-row-desc">{t.consent.marketingDesc}</p>
+      </label>
+      <label class="consent-toggle is-on" for="consent-marketing">
+        <input
+          type="checkbox"
+          id="consent-marketing"
+          class="consent-toggle-input"
+          data-consent-marketing
+          checked
+        />
+        <span class="consent-toggle-thumb"></span>
+      </label>
+    </div>
+
+    <div class="consent-config-actions">
+      <button
+        type="button"
+        class="btn btn-primary"
+        data-consent-save
+      >{t.consent.save}</button>
+    </div>
+  </div>
+</div>
+
 <script is:inline>
   (function () {
     var banner = document.getElementById("consent-banner");
-    if (!banner) return;
+    var config = document.getElementById("consent-config");
+    if (!banner || !config) return;
     var STORAGE_KEY = "dp_consent_v1";
 
     function getStored() {
@@ -58,33 +123,80 @@ const privacyHref = url(lang, "privacy");
     function setStored(value) {
       try { localStorage.setItem(STORAGE_KEY, value); } catch (e) { /* blocked */ }
     }
-    function show() { banner.hidden = false; }
-    function hide() { banner.hidden = true; }
 
-    // First-paint check — show the banner only if no choice has been
-    // recorded yet. (The decision was already applied by the head
-    // script in BaseLayout, this just controls the banner's visibility.)
-    if (!getStored()) show();
+    function hideBanner() { banner.hidden = true; }
+    function showBanner() { banner.hidden = false; }
 
+    function openConfig() {
+      config.hidden = false;
+      document.body.classList.add("consent-config-open");
+      var first = config.querySelector("[data-consent-marketing], [data-consent-save]");
+      if (first) setTimeout(function () { first.focus(); }, 50);
+    }
+    function closeConfig() {
+      config.hidden = true;
+      document.body.classList.remove("consent-config-open");
+    }
+
+    function grantMarketing() {
+      if (typeof window.dpGrantConsent === "function") {
+        window.dpGrantConsent();
+      }
+    }
+
+    // First-paint: show the banner only if no choice has been recorded.
+    if (!getStored()) showBanner();
+
+    // Top-level Accept — same effect as Configure → Save with defaults.
     var acceptBtn = banner.querySelector("[data-consent-accept]");
-    var rejectBtn = banner.querySelector("[data-consent-reject]");
-
     if (acceptBtn) {
       acceptBtn.addEventListener("click", function () {
         setStored("granted");
-        if (typeof window.dpGrantConsent === "function") {
-          window.dpGrantConsent();
+        grantMarketing();
+        hideBanner();
+      });
+    }
+
+    // Configure → open modal.
+    var configureBtn = banner.querySelector("[data-consent-configure]");
+    if (configureBtn) {
+      configureBtn.addEventListener("click", openConfig);
+    }
+
+    // Save in modal — apply marketing toggle, persist, close everything.
+    var saveBtn = config.querySelector("[data-consent-save]");
+    var marketingCheckbox = config.querySelector("[data-consent-marketing]");
+    if (saveBtn && marketingCheckbox) {
+      saveBtn.addEventListener("click", function () {
+        if (marketingCheckbox.checked) {
+          setStored("granted");
+          grantMarketing();
+        } else {
+          setStored("denied");
         }
-        hide();
+        closeConfig();
+        hideBanner();
       });
     }
-    if (rejectBtn) {
-      rejectBtn.addEventListener("click", function () {
-        setStored("denied");
-        // Nothing to grant. Consent Mode v2 already starts with everything
-        // denied, so a no-op here is the right behaviour.
-        hide();
-      });
+
+    // Reflect toggle state into the visual switch class.
+    if (marketingCheckbox) {
+      var marketingSwitch = marketingCheckbox.closest(".consent-toggle");
+      function syncSwitch() {
+        if (!marketingSwitch) return;
+        marketingSwitch.classList.toggle("is-on", marketingCheckbox.checked);
+      }
+      marketingCheckbox.addEventListener("change", syncSwitch);
+      syncSwitch();
     }
+
+    // Esc closes the configure modal but doesn't dismiss the underlying
+    // banner — the user still has to choose explicitly.
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && !config.hidden) {
+        e.preventDefault();
+        closeConfig();
+      }
+    });
   })();
 </script>

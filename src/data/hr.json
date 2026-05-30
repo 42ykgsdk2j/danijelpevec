@@ -172,7 +172,16 @@
     "privacyLink": "Saznajte više",
     "bodyAfterLink": ".",
     "accept": "Prihvati",
-    "reject": "Odbaci"
+    "configure": "Postavke",
+    "configureTitle": "Postavke kolačića",
+    "configureIntro": "Odaberite koje kolačiće dopuštate. Vaša odluka pohranjuje se na vašem uređaju.",
+    "required": "Obavezni",
+    "requiredDesc": "Potrebni za rad stranice — pamte odabir teme i odluku o kolačićima. Uvijek aktivni.",
+    "marketing": "Marketing",
+    "marketingRecommended": "Preporučeno",
+    "marketingDesc": "Analitika i uvidi u sesije koji mi pomažu poboljšati stranicu.",
+    "save": "Spremi",
+    "alwaysOn": "Uvijek uključeno"
   },
   "footer": {
     "tagline": "Pouzdan kompas za osnivače i obiteljske tvrtke.",

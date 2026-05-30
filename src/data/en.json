@@ -172,7 +172,16 @@
     "privacyLink": "Learn more",
     "bodyAfterLink": ".",
     "accept": "Accept",
-    "reject": "Reject"
+    "configure": "Configure",
+    "configureTitle": "Cookie preferences",
+    "configureIntro": "Choose which cookies you'd like to allow. Your decision is stored on your device.",
+    "required": "Required",
+    "requiredDesc": "Necessary for the site to work — saving your theme and consent choice. Always active.",
+    "marketing": "Marketing",
+    "marketingRecommended": "Recommended",
+    "marketingDesc": "Analytics and session insights that help me improve the site.",
+    "save": "Save",
+    "alwaysOn": "Always on"
   },
   "footer": {
     "tagline": "Trusted compass for founders and family businesses.",
