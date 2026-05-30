@@ -10,6 +10,7 @@ import BlogSection from "../../components/BlogSection.astro";
 import AboutSection from "../../components/AboutSection.astro";
 import FinalCta from "../../components/FinalCta.astro";
 import { SITE } from "../../lib/i18n";
+import { personJsonLd, businessJsonLd, websiteJsonLd } from "../../lib/seo";
 
 const lang = "en" as const;
 ---
@@ -20,6 +21,7 @@ const lang = "en" as const;
   canonical={`${SITE}/en/`}
   hreflangEn={`${SITE}/en/`}
   hreflangHr={`${SITE}/`}
+  jsonLd={[personJsonLd(lang), businessJsonLd(lang), websiteJsonLd(lang)]}
 >
   <Hero lang={lang} />
   <WhoSection lang={lang} />
