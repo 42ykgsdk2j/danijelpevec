@@ -1,11 +1,14 @@
 /**
- * Per-post chat island. Streams answers from /api/chat via @ai-sdk/react's
- * useChat hook. The post body + title are sent on every request as the
- * grounding context (see api/chat.ts for the system prompt).
+ * Per-post chat island — Intercom-style floating launcher + slide-up panel.
  *
- * UI: ChatGPT-inspired — pill input with embedded send button, auto-grow
- * textarea, user messages as small right-aligned bubbles, assistant
- * responses as flowing markdown text. Tuned to Danijel Pevec's palette.
+ * Streams answers from /api/chat via @ai-sdk/react's useChat hook. The post
+ * body + title are sent on every request as the grounding context (see
+ * api/chat.ts for the system prompt).
+ *
+ * Visual layout copies the Intercom Messenger pattern: white circular
+ * launcher at bottom-right (with an unread-reply dot), and a dark slide-up
+ * panel with an avatar/title header, a welcome bubble + AI-agent attribution,
+ * the conversation thread, a pill input, and a privacy footer.
  */
 import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport } from "ai";
@@ -15,10 +18,17 @@ import remarkGfm from "remark-gfm";
 
 interface UI {
   title: string;
+  subtitle: string;
   placeholder: string;
   send: string;
   error: string;
   disclaimer: string;
+  welcomeGreeting: string;
+  welcomeBody: string;
+  agentLabel: string;
+  justNow: string;
+  minimize: string;
+  openChat: string;
 }
 
 interface Props {
@@ -28,10 +38,11 @@ interface Props {
   ui: UI;
 }
 
-const MAX_TEXTAREA_HEIGHT = 200;
+const MAX_TEXTAREA_HEIGHT = 180;
 
 export default function BlogChat({ postTitle, postBody, lang, ui }: Props) {
   const [input, setInput] = useState("");
+  const [open, setOpen] = useState(false);
   const transport = useMemo(
     () =>
       new DefaultChatTransport({
@@ -43,14 +54,38 @@ export default function BlogChat({ postTitle, postBody, lang, ui }: Props) {
   const { messages, sendMessage, status, error, stop } = useChat({ transport });
   const taRef = useRef<HTMLTextAreaElement>(null);
   const listEndRef = useRef<HTMLDivElement>(null);
+  const launcherRef = useRef<HTMLButtonElement>(null);
+  const firstRender = useRef(true);
 
   useEffect(() => {
-    if (messages.length > 0) {
+    if (open && messages.length > 0) {
       listEndRef.current?.scrollIntoView({ behavior: "smooth", block: "nearest" });
     }
-  }, [messages]);
+  }, [messages, open]);
+
+  // Focus textarea on open, Esc to close.
+  useEffect(() => {
+    if (!open) return;
+    const ta = taRef.current;
+    if (ta) setTimeout(() => ta.focus(), 90);
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setOpen(false);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [open]);
+
+  // Return focus to launcher when panel closes (skip first render).
+  useEffect(() => {
+    if (firstRender.current) {
+      firstRender.current = false;
+      return;
+    }
+    if (!open) launcherRef.current?.focus();
+  }, [open]);
 
   const busy = status === "submitted" || status === "streaming";
+  const hasUnread = !open && messages.some((m) => m.role === "assistant");
 
   function adjustHeight() {
     const ta = taRef.current;
@@ -80,37 +115,133 @@ export default function BlogChat({ postTitle, postBody, lang, ui }: Props) {
   }
 
   return (
-    <section className="blog-chat-section">
-      <div className="container">
-        <div className="blog-chat">
-          <h3>{ui.title}</h3>
+    <>
+      {/* Closed-state launcher — white circle, dark chat-bubble icon, red
+          unread dot. */}
+      <button
+        ref={launcherRef}
+        type="button"
+        className="chat-launcher"
+        onClick={() => setOpen(true)}
+        aria-label={ui.openChat}
+        aria-expanded={open}
+        aria-controls="blog-chat-panel"
+        hidden={open}
+      >
+        <svg
+          width="28"
+          height="28"
+          viewBox="0 0 32 32"
+          fill="currentColor"
+          aria-hidden="true"
+        >
+          <path d="M16 3C8.82 3 3 8.16 3 14.53c0 3.66 1.95 6.91 4.97 9.02-.13 1.36-.6 3.18-1.27 4.6-.18.38.16.81.58.7 2.83-.7 5.27-2.13 6.31-3.04 0 0 1.43.21 2.41.21 7.18 0 13-5.16 13-11.49C29 8.16 23.18 3 16 3zm-5.5 13.4c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm5.5 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm5.5 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z" />
+        </svg>
+        {hasUnread && <span className="chat-launcher-dot" aria-hidden="true" />}
+      </button>
 
-          {messages.length > 0 && (
-            <div className="blog-chat-messages">
-              {messages.map((m) => {
-                const text = m.parts
-                  .map((p) => (p.type === "text" ? p.text : ""))
-                  .join("");
-                return (
-                  <div key={m.id} className={`blog-chat-msg blog-chat-msg-${m.role}`}>
-                    {m.role === "assistant" ? (
-                      <div className="blog-chat-msg-body">
-                        <ReactMarkdown remarkPlugins={[remarkGfm]}>{text}</ReactMarkdown>
-                      </div>
-                    ) : (
-                      <div className="blog-chat-msg-body">{text}</div>
-                    )}
-                  </div>
-                );
-              })}
-              <div ref={listEndRef} />
+      {/* Open-state minimize button — sits below the panel in the same corner,
+          smaller circle with a down-chevron. Clicking it minimizes back to
+          the launcher. */}
+      <button
+        type="button"
+        className="chat-minimize"
+        onClick={() => setOpen(false)}
+        aria-label={ui.minimize}
+        hidden={!open}
+      >
+        <svg
+          width="18"
+          height="18"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          aria-hidden="true"
+        >
+          <polyline points="6 9 12 15 18 9" />
+        </svg>
+      </button>
+
+      {/* Slide-up dark panel. */}
+      <div
+        id="blog-chat-panel"
+        className="chat-panel"
+        role="dialog"
+        aria-modal="false"
+        aria-labelledby="chat-panel-title"
+        hidden={!open}
+      >
+        <header className="chat-panel-header">
+          <div className="chat-panel-ident">
+            <span className="chat-panel-avatar" aria-hidden="true">DP</span>
+            <div className="chat-panel-meta">
+              <span id="chat-panel-title" className="chat-panel-title">{ui.title}</span>
+              <span className="chat-panel-subtitle">{ui.subtitle}</span>
             </div>
-          )}
+          </div>
+          <button
+            type="button"
+            className="chat-panel-close"
+            onClick={() => setOpen(false)}
+            aria-label={ui.minimize}
+          >
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.6"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden="true"
+            >
+              <line x1="18" y1="6" x2="6" y2="18" />
+              <line x1="6" y1="6" x2="18" y2="18" />
+            </svg>
+          </button>
+        </header>
 
-          {error && <p className="blog-chat-error">{ui.error}</p>}
+        <div className="chat-panel-body">
+          {/* Persistent welcome bubble — modeled on Intercom's initial greeting */}
+          <div className="chat-row chat-row-assistant">
+            <div className="chat-bubble">
+              <p className="chat-greeting">{ui.welcomeGreeting}</p>
+              <p>{ui.welcomeBody}</p>
+            </div>
+            <div className="chat-attribution">
+              {ui.agentLabel} · {ui.justNow}
+            </div>
+          </div>
 
-          <form onSubmit={onSubmit} className="blog-chat-form">
-            <div className="blog-chat-input-shell">
+          {messages.map((m) => {
+            const text = m.parts
+              .map((p) => (p.type === "text" ? p.text : ""))
+              .join("");
+            return (
+              <div key={m.id} className={`chat-row chat-row-${m.role}`}>
+                <div className="chat-bubble">
+                  {m.role === "assistant" ? (
+                    <ReactMarkdown remarkPlugins={[remarkGfm]}>{text}</ReactMarkdown>
+                  ) : (
+                    text
+                  )}
+                </div>
+              </div>
+            );
+          })}
+
+          {error && <p className="chat-error">{ui.error}</p>}
+
+          <div ref={listEndRef} />
+        </div>
+
+        <footer className="chat-panel-footer">
+          <form onSubmit={onSubmit} className="chat-form">
+            <div className="chat-input-shell">
               <textarea
                 ref={taRef}
                 value={input}
@@ -127,7 +258,7 @@ export default function BlogChat({ postTitle, postBody, lang, ui }: Props) {
                 <button
                   type="button"
                   onClick={() => stop()}
-                  className="blog-chat-send"
+                  className="chat-send"
                   aria-label="Stop"
                 >
                   <svg
@@ -143,7 +274,7 @@ export default function BlogChat({ postTitle, postBody, lang, ui }: Props) {
               ) : (
                 <button
                   type="submit"
-                  className="blog-chat-send"
+                  className="chat-send"
                   disabled={!input.trim()}
                   aria-label={ui.send}
                 >
@@ -165,10 +296,9 @@ export default function BlogChat({ postTitle, postBody, lang, ui }: Props) {
               )}
             </div>
           </form>
-
-          <p className="blog-chat-disclaimer">{ui.disclaimer}</p>
-        </div>
+          <p className="chat-disclaimer">{ui.disclaimer}</p>
+        </footer>
       </div>
-    </section>
+    </>
   );
 }
