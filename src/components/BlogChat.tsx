@@ -6,6 +6,8 @@
 import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport } from "ai";
 import { useEffect, useMemo, useRef, useState } from "react";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 interface UI {
   title: string;
@@ -59,13 +61,20 @@ export default function BlogChat({ postTitle, postBody, lang, ui }: Props) {
 
           {messages.length > 0 && (
             <div className="blog-chat-messages">
-              {messages.map((m) => (
-                <div key={m.id} className={`blog-chat-msg blog-chat-msg-${m.role}`}>
-                  {m.parts.map((p, i) =>
-                    p.type === "text" ? <span key={i}>{p.text}</span> : null,
-                  )}
-                </div>
-              ))}
+              {messages.map((m) => {
+                const text = m.parts
+                  .map((p) => (p.type === "text" ? p.text : ""))
+                  .join("");
+                return (
+                  <div key={m.id} className={`blog-chat-msg blog-chat-msg-${m.role}`}>
+                    {m.role === "assistant" ? (
+                      <ReactMarkdown remarkPlugins={[remarkGfm]}>{text}</ReactMarkdown>
+                    ) : (
+                      text
+                    )}
+                  </div>
+                );
+              })}
               <div ref={listEndRef} />
             </div>
           )}
