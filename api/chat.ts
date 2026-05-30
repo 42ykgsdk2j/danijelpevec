@@ -74,8 +74,6 @@ function cannedReply(text: string): Response {
 }
 
 export default async function handler(req: Request): Promise<Response> {
-  console.log("[chat] invoked, method:", req.method);
-
   if (req.method !== "POST") {
     return new Response(JSON.stringify({ error: "Method not allowed" }), {
       status: 405,
@@ -86,7 +84,6 @@ export default async function handler(req: Request): Promise<Response> {
   let body: z.infer<typeof BodySchema>;
   try {
     body = BodySchema.parse(await req.json());
-    console.log("[chat] body parsed, lang:", body.lang, "messages:", body.messages.length);
   } catch (err) {
     console.error("[chat] body parse error:", err);
     return new Response(JSON.stringify({ error: "Invalid request body" }), {
@@ -101,8 +98,7 @@ export default async function handler(req: Request): Promise<Response> {
   // Per-IP rate limit
   if (ratelimit) {
     const ip = getClientIp(req);
-    const { success, remaining } = await ratelimit.limit(ip);
-    console.log("[chat] ratelimit ip:", ip, "remaining:", remaining);
+    const { success } = await ratelimit.limit(ip);
     if (!success) {
       return cannedReply(
         langIsHr
@@ -175,7 +171,6 @@ INSTRUCTIONS:
 REMINDER: Write in English only. Do not switch languages at any point in your response.`;
 
   try {
-    console.log("[chat] calling streamText with model google/gemini-3.1-flash-lite");
     const result = streamText({
       model: "google/gemini-3.1-flash-lite",
       system: systemPrompt,
