@@ -75,20 +75,21 @@ const siteName = "Danijel Pevec";
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-{/* Preload-and-swap pattern so the Google Fonts stylesheet doesn't block first paint.
-    Browsers honor `media="print"` for the request, then the onload handler
-    flips it to `all` once the CSS has arrived. The <noscript> path keeps
-    the fonts working for users without JS. */}
+{/* Preload-and-swap pattern so the Google Fonts stylesheet doesn't block
+    first paint. The <noscript> link is the no-JS fallback. The font URL
+    only requests the weights actually used in the design (Inter 400/500/
+    600 + Playfair 400/500 + Playfair italic 400) — twelve variants used
+    to ship; now five. */}
 <link
   rel="preload"
   as="style"
-  href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500&family=Inter:wght@300;400;500;600;700&display=swap"
+  href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Inter:wght@400;500;600&display=swap"
   onload="this.onload=null;this.rel='stylesheet'"
 />
 <noscript>
   <link
     rel="stylesheet"
-    href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500&family=Inter:wght@300;400;500;600;700&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Inter:wght@400;500;600&display=swap"
   />
 </noscript>
 <link rel="stylesheet" href="/styles.css" />
@@ -116,7 +117,7 @@ const siteName = "Danijel Pevec";
 <Footer lang={lang} />
 <Modal lang={lang} />
 
-<script is:inline src="/btn-shine.js"></script>
-<script is:inline src="/scroll-reveal.js"></script>
+<script is:inline defer src="/btn-shine.js"></script>
+<script is:inline defer src="/scroll-reveal.js"></script>
 </body>
 </html>

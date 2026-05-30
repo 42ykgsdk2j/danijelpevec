@@ -56,7 +56,16 @@ const assessmentHref = url(lang, "assessment");
       <div>
         <h4>{t.footer.affTitle}</h4>
         <ul>
-          <li><a href="https://www.alphacapitalis.com" target="_blank" rel="noopener noreferrer">ALPHA CAPITALIS ↗</a></li>
+          <li>
+            <a
+              href="https://www.alphacapitalis.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={lang === "hr" ? "ALPHA CAPITALIS (otvara se u novoj kartici)" : "ALPHA CAPITALIS (opens in a new tab)"}
+            >
+              ALPHA CAPITALIS <span aria-hidden="true">↗</span>
+            </a>
+          </li>
         </ul>
       </div>
     </div>

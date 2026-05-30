@@ -47,7 +47,7 @@ export function websiteJsonLd(lang: Lang): Record<string, unknown> {
     "@type": "WebSite",
     "@id": `${SITE}/#website`,
     name: BUSINESS.personName,
-    url: SITE,
+    url: `${SITE}/`,
     inLanguage: lang === "hr" ? "hr-HR" : "en-GB",
     publisher: { "@id": PERSON_ID },
   };

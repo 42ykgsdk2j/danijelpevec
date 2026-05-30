@@ -33,16 +33,28 @@ const allInsightsLabel = t.blog.viewAll;
   ogType="article"
   jsonLd={[{
     "@context": "https://schema.org",
-    "@type": "Article",
+    "@type": "BlogPosting",
     headline: post.data.title,
     description: post.data.excerpt,
-    author: { "@type": "Person", name: "Danijel Pevec", url: SITE },
-    publisher: { "@type": "Person", name: "Danijel Pevec" },
+    image: [post.data.cover ? `${SITE}${post.data.cover}` : `${SITE}/og-image.png`],
+    author: {
+      "@type": "Person",
+      name: "Danijel Pevec",
+      url: `${SITE}/en/`,
+    },
+    publisher: {
+      "@type": "Organization",
+      name: "Family Business by Danijel Pevec",
+      logo: {
+        "@type": "ImageObject",
+        url: `${SITE}/og-image.png`,
+      },
+    },
     datePublished: post.data.date,
     dateModified: post.data.date,
-    mainEntityOfPage: enUrl,
+    mainEntityOfPage: { "@type": "WebPage", "@id": enUrl },
     articleSection: post.data.category,
-    inLanguage: "en",
+    inLanguage: "en-GB",
   }]}
 >
   <header class="article-header reveal in">
