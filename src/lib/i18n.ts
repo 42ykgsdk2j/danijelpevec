@@ -26,6 +26,38 @@ export function getT(lang: Lang): Translations {
 export const SITE = "https://www.danijelpevec.com";
 
 /**
+ * Single source of truth for the site-wide identity used in structured data
+ * (JSON-LD on the homepages) and anywhere else we need to spell out who the
+ * site is, where the practice is, or how to reach it. Keep this in sync with
+ * the Google Business Profile listing — Google cross-checks the two.
+ */
+export const BUSINESS = {
+  personName: "Danijel Pevec",
+  practiceName: "Family Business by Danijel Pevec",
+  jobTitle: {
+    hr: "Savjetnik za obiteljski biznis",
+    en: "Family Business Advisor",
+  },
+  description: {
+    hr: "Pomažem osnivačima i njihovim obiteljima izgraditi nasljeđe kroz odluke koje oblikuju rast, sukcesiju i tranziciju među generacijama.",
+    en: "I help founders and their families build a legacy through the decisions that shape growth, succession and generational transition.",
+  },
+  email: "pevec.danijel@alphacapitalis.com",
+  telephone: "+385992401771",
+  address: {
+    streetAddress: "Ulica Roberta Frangeša - Mihanovića 9",
+    postalCode: "10110",
+    addressLocality: "Zagreb",
+    addressCountry: "HR",
+  },
+  sameAs: [
+    "https://share.google/cay1syxahxDwS4s6D",
+    "https://www.linkedin.com/in/danijelpevec",
+    "https://www.alphacapitalis.com/",
+  ],
+} as const;
+
+/**
  * URL builder. HR is the default locale and lives at root (`/blog`,
  * `/assessment`); EN URLs live under `/en/` (`/en/blog`, `/en/assessment`).
  * The home page is `/` for HR and `/en/` for EN.

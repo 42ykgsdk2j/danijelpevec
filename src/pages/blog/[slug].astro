@@ -62,7 +62,7 @@ const allInsightsLabel = t.blog.viewAll;
   {post.data.cover && (
     <figure class="article-cover">
       <div class="container">
-        <img src={post.data.cover} alt={post.data.coverAlt ?? ""} loading="lazy" />
+        <img src={post.data.cover} alt={post.data.coverAlt ?? post.data.title} loading="lazy" />
       </div>
     </figure>
   )}
