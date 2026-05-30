@@ -6,7 +6,6 @@
     "about": "About",
     "blog": "Blog",
     "assessment": "Assessment",
-    "contact": "Contact",
     "cta": "Private conversation"
   },
   "brand": {
@@ -18,14 +17,7 @@
     "headlineC": "Building a legacy",
     "headlineD": "is something else.",
     "sub": "I help founders and their families build a legacy through the decisions that shape growth, succession and generational transition.",
-    "ctaSmall": "First step",
-    "cta": "Request a private conversation",
-    "m1Num": "I.",
-    "m1": "Trusted compass through transition",
-    "m2Num": "II.",
-    "m2": "A small number of clients",
-    "m3Num": "III.",
-    "m3": "Long-term, never transactional"
+    "cta": "Request a private conversation"
   },
   "who": {
     "eyebrow": "Who I work with",
@@ -37,8 +29,7 @@
       "Family-owned businesses preparing for transition between generations",
       "Next-generation leaders stepping into responsibility",
       "Families who want clarity, alignment and long-term structure"
-    ],
-    "disclaimer": "If you are looking for quick answers or transactional advice, I'm probably not the right fit."
+    ]
   },
   "challenges": {
     "eyebrow": "The real challenges",
@@ -46,21 +37,19 @@
     "titleAccent": "talks about.",
     "lead": "Building the business was hard. What comes next is often harder. These are not technical problems — they are human, strategic and generational. And they don't solve themselves.",
     "items": [
-      { "ord": "i.", "text": "You built something valuable, but letting go is unclear" },
-      { "ord": "ii.", "text": "The next generation is not fully ready — or not fully aligned" },
-      { "ord": "iii.", "text": "Decisions are becoming more complex, not simpler" },
-      { "ord": "iv.", "text": "Conversations within the family are avoided or left unresolved" },
-      { "ord": "v.", "text": "You have success, but not the structure to sustain it long-term" },
-      { "ord": "vi.", "text": "The legacy you imagined is not yet the one you are building" }
-    ],
-    "coda": "Most advisors focus on the numbers. Very few help you navigate what truly matters."
+      { "text": "You built something valuable, but letting go is unclear" },
+      { "text": "The next generation is not fully ready — or not fully aligned" },
+      { "text": "Decisions are becoming more complex, not simpler" },
+      { "text": "Conversations within the family are avoided or left unresolved" },
+      { "text": "You have success, but not the structure to sustain it long-term" },
+      { "text": "The legacy you imagined is not yet the one you are building" }
+    ]
   },
   "approach": {
     "eyebrow": "My approach",
     "quoteA": "I work at the point where",
     "quoteAccent": "business, family",
     "quoteB": "and long-term decisions meet.",
-    "lead": "Most advisors focus on specific areas — finance, tax, legal or strategy. I don't.",
     "items": [
       "I look beyond short-term results",
       "I understand both the numbers and the people behind them",
@@ -76,17 +65,14 @@
     "lead": "I work with a small number of clients, staying closely involved in the decisions that matter most. Each situation is unique and requires an approach that reflects its complexity and stage.",
     "services": [
       {
-        "num": "",
         "title": "Private advisory",
         "desc": "One-on-one conversations focused on key decisions, clarity and direction."
       },
       {
-        "num": "",
         "title": "Family business sessions",
         "desc": "Structured discussions with family members to align perspectives and move forward together."
       },
       {
-        "num": "",
         "title": "Long-term advisory relationships",
         "desc": "Ongoing support through periods of growth, transition and generational change."
       }
@@ -99,21 +85,13 @@
     "eyebrow": "About",
     "name": "Danijel Pevec",
     "role": "Family Business Advisor",
-    "meta": [
-      { "lbl": "Based in", "val": "Zagreb, Croatia" },
-      { "lbl": "Practice", "val": "By invitation" },
-      { "lbl": "Affiliation", "val": "ALPHA CAPITALIS" }
-    ],
     "lead": "I've experienced both growth and loss — and how decisions made at the wrong time can define the future of a business and a family.",
     "p1": "I work with founders and their families on the decisions that shape what comes next. Over time, I've seen this from different perspectives — as an advisor, as a founder, and as part of a next-generation family business.",
     "p2": "I've seen what it takes to build something valuable. And I've also seen how quickly things can become fragile when key decisions are delayed, avoided or misunderstood.",
     "pull": "The most difficult challenges are rarely technical. They are personal, strategic and often generational.",
     "p3": "That experience shaped how I approach this work. My role is to help families navigate these moments with clarity, structure and a long-term perspective.",
     "p4": "But this work goes beyond the business itself. It is about continuity, responsibility and what is carried forward.",
-    "closing": "Because building a business is one thing. Building something that lasts beyond you is something else.",
-    "alphaName": "ALPHA CAPITALIS",
-    "alphaDesc": "Finance, tax, audit and advisory — the foundation that allows these decisions to be implemented.",
-    "alphaLink": "Visit"
+    "closing": "Because building a business is one thing. Building something that lasts beyond you is something else."
   },
   "blog": {
     "eyebrow": "Blog",
@@ -123,12 +101,7 @@
     "minRead": "min read",
     "viewAll": "Read all posts",
     "pageTitle": "Blog — notes on family business, succession and legacy",
-    "pageLead": "Essays on succession planning, generational wealth, family governance and the long-term decisions that shape what comes next.",
-    "backHome": "Back to home",
-    "relatedTitle": "Continue reading",
-    "ctaTitle": "These conversations don't happen on a page.",
-    "ctaSub": "If anything here speaks to your situation, the next step is a private conversation.",
-    "ctaBtn": "Request a private conversation"
+    "pageLead": "Essays on succession planning, generational wealth, family governance and the long-term decisions that shape what comes next."
   },
   "blogChat": {
     "title": "Ask about this post",
@@ -177,7 +150,6 @@
     "message": "What's on your mind",
     "messagePh": "A few sentences about your situation. Take your time.",
     "submit": "Send privately",
-    "cancel": "Cancel",
     "successTitle": "Thank you, your inquiry has been received",
     "successAccent": "",
     "successSub": "I'll read your note personally and propose next steps.",
@@ -195,10 +167,7 @@
     "contactTitle": "Contact",
     "affTitle": "Affiliation",
     "copy": "© 2026 Danijel Pevec. All rights reserved.",
-    "privacy": "Privacy",
-    "imprint": "Imprint",
     "email": "pevec.danijel@alphacapitalis.com",
-    "city": "Zagreb · Croatia",
-    "hours": "By appointment"
+    "city": "Zagreb · Croatia"
   }
 }

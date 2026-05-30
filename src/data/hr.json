@@ -6,7 +6,6 @@
     "about": "O meni",
     "blog": "Objave",
     "assessment": "Procjena",
-    "contact": "Kontakt",
     "cta": "Privatni razgovor"
   },
   "brand": {
@@ -18,14 +17,7 @@
     "headlineC": "Izgraditi nasljeđe",
     "headlineD": "nešto je drugo.",
     "sub": "Pomažem osnivačima i njihovim obiteljima izgraditi nasljeđe kroz odluke koje oblikuju rast, sukcesiju i tranziciju među generacijama.",
-    "ctaSmall": "Prvi korak",
-    "cta": "Zatraži privatni razgovor",
-    "m1Num": "I.",
-    "m1": "Pouzdan kompas kroz tranziciju",
-    "m2Num": "II.",
-    "m2": "Mali broj klijenata",
-    "m3Num": "III.",
-    "m3": "Dugoročno, nikada transakcijski"
+    "cta": "Zatraži privatni razgovor"
   },
   "who": {
     "eyebrow": "S kim radim",
@@ -37,8 +29,7 @@
       "Obiteljske tvrtke koje se pripremaju za prijenos između generacija",
       "Sljedeća generacija lidera koja preuzima odgovornost",
       "Obitelji koje žele jasnoću, usklađenost i dugoročnu strukturu"
-    ],
-    "disclaimer": "Ako tražite brze odgovore ili transakcijske savjete, vjerojatno nisam pravi izbor."
+    ]
   },
   "challenges": {
     "eyebrow": "Pravi izazovi",
@@ -46,21 +37,19 @@
     "titleAccent": "nitko ne govori.",
     "lead": "Izgradnja posla bila je teška. Ono što slijedi često je teže. Ovo nisu tehnički problemi — oni su ljudski, strateški i generacijski. I ne rješavaju se sami.",
     "items": [
-      { "ord": "i.", "text": "Izgradili ste nešto vrijedno, ali pustiti nije jasno" },
-      { "ord": "ii.", "text": "Sljedeća generacija nije potpuno spremna — ili nije potpuno usklađena" },
-      { "ord": "iii.", "text": "Odluke postaju sve složenije, a ne jednostavnije" },
-      { "ord": "iv.", "text": "Razgovori u obitelji izbjegavaju se ili ostaju nedovršeni" },
-      { "ord": "v.", "text": "Imate uspjeh, ali ne i strukturu da ga dugoročno održite" },
-      { "ord": "vi.", "text": "Nasljeđe koje ste zamislili još nije ono koje gradite" }
-    ],
-    "coda": "Većina savjetnika fokusira se na brojeve. Vrlo malo njih pomaže vam u onome što istinski vrijedi."
+      { "text": "Izgradili ste nešto vrijedno, ali pustiti nije jasno" },
+      { "text": "Sljedeća generacija nije potpuno spremna — ili nije potpuno usklađena" },
+      { "text": "Odluke postaju sve složenije, a ne jednostavnije" },
+      { "text": "Razgovori u obitelji izbjegavaju se ili ostaju nedovršeni" },
+      { "text": "Imate uspjeh, ali ne i strukturu da ga dugoročno održite" },
+      { "text": "Nasljeđe koje ste zamislili još nije ono koje gradite" }
+    ]
   },
   "approach": {
     "eyebrow": "Moj pristup",
     "quoteA": "Radim na točki gdje se",
     "quoteAccent": "posao, obitelj",
     "quoteB": "i dugoročne odluke susreću.",
-    "lead": "Većina savjetnika fokusira se na specifična područja — financije, porez, pravo ili strategiju. Ja ne.",
     "items": [
       "Gledam dalje od kratkoročnih rezultata",
       "Razumijem i brojeve i ljude iza njih",
@@ -76,17 +65,14 @@
     "lead": "Radim s malim brojem klijenata, blisko uključen u odluke koje su najvažnije. Svaka je situacija jedinstvena i zahtijeva pristup koji odražava njezinu složenost i fazu.",
     "services": [
       {
-        "num": "",
         "title": "Privatno savjetovanje",
         "desc": "Razgovori jedan na jedan usmjereni na ključne odluke, jasnoću i smjer."
       },
       {
-        "num": "",
         "title": "Obiteljske sesije",
         "desc": "Strukturirani razgovori s članovima obitelji za usklađivanje perspektiva i zajednički korak naprijed."
       },
       {
-        "num": "",
         "title": "Dugoročna savjetnička suradnja",
         "desc": "Stalna podrška kroz razdoblja rasta, tranzicije i generacijskih promjena."
       }
@@ -99,21 +85,13 @@
     "eyebrow": "O meni",
     "name": "Danijel Pevec",
     "role": "Savjetnik za obiteljski biznis",
-    "meta": [
-      { "lbl": "Sjedište", "val": "Zagreb, Hrvatska" },
-      { "lbl": "Praksa", "val": "Po pozivu" },
-      { "lbl": "Suradnja", "val": "ALPHA CAPITALIS" }
-    ],
     "lead": "Iskusio sam i rast i gubitak — i kako odluke donesene u krivo vrijeme mogu definirati budućnost posla i obitelji.",
     "p1": "Radim s osnivačima i njihovim obiteljima na odlukama koje oblikuju ono što slijedi. Tijekom vremena vidio sam to iz različitih perspektiva — kao savjetnik, kao osnivač i kao dio obiteljskog biznisa sljedeće generacije.",
     "p2": "Vidio sam što je potrebno da se izgradi nešto vrijedno. I vidio sam kako brzo stvari mogu postati krhke kada se ključne odluke odgađaju, izbjegavaju ili krivo razumiju.",
     "pull": "Najteži izazovi rijetko su tehnički. Oni su osobni, strateški i često generacijski.",
     "p3": "To iskustvo oblikovalo je moj pristup ovom poslu. Moja je uloga pomoći obiteljima da prođu kroz te trenutke s jasnoćom, strukturom i dugoročnom perspektivom.",
     "p4": "Ali ovaj posao ide dalje od posla samog. Riječ je o kontinuitetu, odgovornosti i onome što se nosi dalje.",
-    "closing": "Jer izgraditi posao jedna je stvar. Izgraditi nešto što traje dalje od vas nešto je drugo.",
-    "alphaName": "ALPHA CAPITALIS",
-    "alphaDesc": "Financije, porez, revizija i savjetovanje — temelj koji omogućuje provedbu ovih odluka.",
-    "alphaLink": "Posjeti"
+    "closing": "Jer izgraditi posao jedna je stvar. Izgraditi nešto što traje dalje od vas nešto je drugo."
   },
   "blog": {
     "eyebrow": "Objave",
@@ -123,12 +101,7 @@
     "minRead": "min čitanja",
     "viewAll": "Pročitaj sve objave",
     "pageTitle": "Objave — bilješke o obiteljskim tvrtkama, sukcesiji i nasljeđu",
-    "pageLead": "Eseji o planiranju sukcesije, generacijskoj imovini, obiteljskom upravljanju i dugoročnim odlukama koje oblikuju ono što slijedi.",
-    "backHome": "Povratak na početnu",
-    "relatedTitle": "Nastavite čitati",
-    "ctaTitle": "Ovi razgovori ne događaju se na stranici.",
-    "ctaSub": "Ako vam nešto ovdje odgovara situaciji, sljedeći je korak privatni razgovor.",
-    "ctaBtn": "Zatraži privatni razgovor"
+    "pageLead": "Eseji o planiranju sukcesije, generacijskoj imovini, obiteljskom upravljanju i dugoročnim odlukama koje oblikuju ono što slijedi."
   },
   "blogChat": {
     "title": "Pitajte o ovoj objavi",
@@ -177,7 +150,6 @@
     "message": "Što vam je na umu",
     "messagePh": "Nekoliko rečenica o vašoj situaciji. Bez žurbe.",
     "submit": "Pošalji privatno",
-    "cancel": "Odustani",
     "successTitle": "Hvala, Vaš upit je zaprimljen",
     "successAccent": "",
     "successSub": "Osobno ću pročitati vašu poruku i predložiti daljnje korake.",
@@ -195,10 +167,7 @@
     "contactTitle": "Kontakt",
     "affTitle": "Suradnja",
     "copy": "© 2026 Danijel Pevec. Sva prava pridržana.",
-    "privacy": "Privatnost",
-    "imprint": "Impressum",
     "email": "pevec.danijel@alphacapitalis.com",
-    "city": "Zagreb · Hrvatska",
-    "hours": "Po dogovoru"
+    "city": "Zagreb · Hrvatska"
   }
 }
