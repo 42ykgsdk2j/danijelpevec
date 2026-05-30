@@ -2933,7 +2933,7 @@ section { position: relative; }
   margin: 0;
 }
 .consent-banner-body a {
-  color: var(--gold);
+  color: inherit;
   text-decoration: underline;
   text-underline-offset: 2px;
 }
