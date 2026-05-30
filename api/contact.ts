@@ -77,26 +77,37 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       ? `Hi ${name},\n\nThank you for your message. I'll read it personally and get back to you.\n\n— Danijel Pevec`
       : `Poštovani/a ${name},\n\nHvala na poruci. Osobno ću je pročitati i javiti Vam se povratno.\n\n— Danijel Pevec`;
 
-  try {
-    const notify = await resend.emails.send({
+  const [notifyResult, ackResult] = await Promise.allSettled([
+    resend.emails.send({
       from,
       to,
       replyTo: email,
       subject: `Private conversation request — ${name}`,
       text: internalText,
-    });
-    if (notify.error) {
-      console.error("Resend notify error:", notify.error);
-      return res.status(502).json({ error: "Could not deliver the message. Please try again, or email directly." });
-    }
-  } catch (err) {
-    console.error("Resend notify exception:", err);
-    return res.status(500).json({ error: "Could not deliver the message. Please try again, or email directly." });
+    }),
+    resend.emails.send({
+      from,
+      to: email,
+      replyTo: to,
+      subject: ackSubject,
+      text: ackText,
+    }),
+  ]);
+
+  if (ackResult.status === "rejected") {
+    console.error("Resend ack error (non-fatal):", ackResult.reason);
+  } else if (ackResult.value.error) {
+    console.error("Resend ack error (non-fatal):", ackResult.value.error);
   }
 
-  resend.emails
-    .send({ from, to: email, replyTo: to, subject: ackSubject, text: ackText })
-    .catch((err) => console.error("Resend ack error (non-fatal):", err));
+  if (notifyResult.status === "rejected") {
+    console.error("Resend notify exception:", notifyResult.reason);
+    return res.status(500).json({ error: "Could not deliver the message. Please try again, or email directly." });
+  }
+  if (notifyResult.value.error) {
+    console.error("Resend notify error:", notifyResult.value.error);
+    return res.status(502).json({ error: "Could not deliver the message. Please try again, or email directly." });
+  }
 
   return res.status(200).json({ ok: true });
 }
