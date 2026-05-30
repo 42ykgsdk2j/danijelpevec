@@ -4,7 +4,8 @@
  * grounding context (see api/chat.ts for the system prompt).
  */
 import { useChat } from "@ai-sdk/react";
-import { useEffect, useRef, useState } from "react";
+import { DefaultChatTransport } from "ai";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 interface UI {
   title: string;
@@ -23,10 +24,15 @@ interface Props {
 
 export default function BlogChat({ postTitle, postBody, lang, ui }: Props) {
   const [input, setInput] = useState("");
-  const { messages, sendMessage, status, error } = useChat({
-    api: "/api/chat",
-    body: { postTitle, postBody, lang },
-  });
+  const transport = useMemo(
+    () =>
+      new DefaultChatTransport({
+        api: "/api/chat",
+        body: { postTitle, postBody, lang },
+      }),
+    [postTitle, postBody, lang],
+  );
+  const { messages, sendMessage, status, error } = useChat({ transport });
   const listEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
