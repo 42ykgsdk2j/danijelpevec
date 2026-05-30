@@ -29,3 +29,6 @@ yarn-error.log*
 
 # old assets we don't want to ship
 uploads/
+
+# audit reports — kept locally for reference, not shipped
+audit-*.md
