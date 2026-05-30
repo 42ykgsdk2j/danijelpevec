@@ -104,6 +104,17 @@ const siteName = "Danijel Pevec";
   })();
 </script>
 
+{/* Google Analytics (gtag.js) — measurement ID G-K37Z56T2J2.
+    The loader is async so it doesn't block first paint; the inline
+    init below queues `dataLayer` before the loader resolves. */}
+<script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-K37Z56T2J2"></script>
+<script is:inline>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-K37Z56T2J2');
+</script>
+
 {jsonLd.map((data) => (
   <script type="application/ld+json" set:html={JSON.stringify(data)} />
 ))}
