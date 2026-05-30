@@ -2,6 +2,10 @@
  * Per-post chat island. Streams answers from /api/chat via @ai-sdk/react's
  * useChat hook. The post body + title are sent on every request as the
  * grounding context (see api/chat.ts for the system prompt).
+ *
+ * UI: ChatGPT-inspired — pill input with embedded send button, auto-grow
+ * textarea, user messages as small right-aligned bubbles, assistant
+ * responses as flowing markdown text. Tuned to Danijel Pevec's palette.
  */
 import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport } from "ai";
@@ -24,6 +28,8 @@ interface Props {
   ui: UI;
 }
 
+const MAX_TEXTAREA_HEIGHT = 200;
+
 export default function BlogChat({ postTitle, postBody, lang, ui }: Props) {
   const [input, setInput] = useState("");
   const transport = useMemo(
@@ -34,7 +40,8 @@ export default function BlogChat({ postTitle, postBody, lang, ui }: Props) {
       }),
     [postTitle, postBody, lang],
   );
-  const { messages, sendMessage, status, error } = useChat({ transport });
+  const { messages, sendMessage, status, error, stop } = useChat({ transport });
+  const taRef = useRef<HTMLTextAreaElement>(null);
   const listEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -45,13 +52,32 @@ export default function BlogChat({ postTitle, postBody, lang, ui }: Props) {
 
   const busy = status === "submitted" || status === "streaming";
 
-  const onSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  function adjustHeight() {
+    const ta = taRef.current;
+    if (!ta) return;
+    ta.style.height = "auto";
+    ta.style.height = `${Math.min(ta.scrollHeight, MAX_TEXTAREA_HEIGHT)}px`;
+  }
+
+  function handleSend() {
     const text = input.trim();
     if (!text || busy) return;
     sendMessage({ text });
     setInput("");
-  };
+    requestAnimationFrame(adjustHeight);
+  }
+
+  function onSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    handleSend();
+  }
+
+  function onKeyDown(e: React.KeyboardEvent<HTMLTextAreaElement>) {
+    if (e.key === "Enter" && !e.shiftKey && !e.nativeEvent.isComposing) {
+      e.preventDefault();
+      handleSend();
+    }
+  }
 
   return (
     <section className="blog-chat-section">
@@ -68,9 +94,11 @@ export default function BlogChat({ postTitle, postBody, lang, ui }: Props) {
                 return (
                   <div key={m.id} className={`blog-chat-msg blog-chat-msg-${m.role}`}>
                     {m.role === "assistant" ? (
-                      <ReactMarkdown remarkPlugins={[remarkGfm]}>{text}</ReactMarkdown>
+                      <div className="blog-chat-msg-body">
+                        <ReactMarkdown remarkPlugins={[remarkGfm]}>{text}</ReactMarkdown>
+                      </div>
                     ) : (
-                      text
+                      <div className="blog-chat-msg-body">{text}</div>
                     )}
                   </div>
                 );
@@ -82,21 +110,60 @@ export default function BlogChat({ postTitle, postBody, lang, ui }: Props) {
           {error && <p className="blog-chat-error">{ui.error}</p>}
 
           <form onSubmit={onSubmit} className="blog-chat-form">
-            <input
-              type="text"
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              placeholder={ui.placeholder}
-              disabled={busy}
-              aria-label={ui.placeholder}
-            />
-            <button
-              type="submit"
-              className="btn btn-primary"
-              disabled={busy || !input.trim()}
-            >
-              {busy ? "…" : ui.send}
-            </button>
+            <div className="blog-chat-input-shell">
+              <textarea
+                ref={taRef}
+                value={input}
+                onChange={(e) => {
+                  setInput(e.target.value);
+                  adjustHeight();
+                }}
+                onKeyDown={onKeyDown}
+                placeholder={ui.placeholder}
+                aria-label={ui.placeholder}
+                rows={1}
+              />
+              {busy ? (
+                <button
+                  type="button"
+                  onClick={() => stop()}
+                  className="blog-chat-send"
+                  aria-label="Stop"
+                >
+                  <svg
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    aria-hidden="true"
+                  >
+                    <rect x="6" y="6" width="12" height="12" rx="1.5" />
+                  </svg>
+                </button>
+              ) : (
+                <button
+                  type="submit"
+                  className="blog-chat-send"
+                  disabled={!input.trim()}
+                  aria-label={ui.send}
+                >
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2.2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    aria-hidden="true"
+                  >
+                    <line x1="12" y1="19" x2="12" y2="5" />
+                    <polyline points="5 12 12 5 19 12" />
+                  </svg>
+                </button>
+              )}
+            </div>
           </form>
 
           <p className="blog-chat-disclaimer">{ui.disclaimer}</p>
