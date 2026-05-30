@@ -75,12 +75,15 @@ export default function BlogChat({ postTitle, postBody, lang, ui }: Props) {
   }, [open]);
 
   // Return focus to launcher when panel closes (skip first render).
+  // preventScroll keeps the page from jumping toward the launcher if
+  // the browser thinks it's not "in view" — the launcher is fixed so
+  // this is defensive.
   useEffect(() => {
     if (firstRender.current) {
       firstRender.current = false;
       return;
     }
-    if (!open) launcherRef.current?.focus();
+    if (!open) launcherRef.current?.focus({ preventScroll: true });
   }, [open]);
 
   // Body scroll lock while the chat is open — only on mobile (≤480px)
@@ -113,6 +116,16 @@ export default function BlogChat({ postTitle, postBody, lang, ui }: Props) {
     body.classList.add("chat-open");
 
     return () => {
+      // The site has `html { scroll-behavior: smooth }` globally, which
+      // would animate the scrollTo below — making the page visibly glide
+      // to its previous position when the user closes the chat. Pin
+      // scroll-behavior to "auto" for the restoration, then put it back
+      // on the next frame so other smooth-scrolling on the page is
+      // unaffected.
+      const html = document.documentElement;
+      const prevBehavior = html.style.scrollBehavior;
+      html.style.scrollBehavior = "auto";
+
       body.style.position = prev.position;
       body.style.top = prev.top;
       body.style.left = prev.left;
@@ -120,8 +133,11 @@ export default function BlogChat({ postTitle, postBody, lang, ui }: Props) {
       body.style.width = prev.width;
       body.style.overflow = prev.overflow;
       body.classList.remove("chat-open");
-      // Restore the scroll position without smooth-scrolling animation.
       window.scrollTo(0, scrollY);
+
+      requestAnimationFrame(() => {
+        html.style.scrollBehavior = prevBehavior;
+      });
     };
   }, [open]);
 
