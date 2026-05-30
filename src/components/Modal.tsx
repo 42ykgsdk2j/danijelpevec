@@ -89,7 +89,7 @@ export default function Modal({ t, lang }: Props) {
     const e: Record<string, string> = {};
     if (!form.name.trim()) e.name = t.err.name;
     if (!form.email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) e.email = t.err.email;
-    if (!form.message.trim() || form.message.trim().length < 10) e.message = t.err.message;
+    if (!form.message.trim()) e.message = t.err.message;
     return e;
   }
 

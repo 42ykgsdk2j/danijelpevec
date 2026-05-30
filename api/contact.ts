@@ -48,7 +48,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   if (!name) return res.status(400).json({ error: "Name is required." });
   if (!email || !EMAIL_RE.test(email)) return res.status(400).json({ error: "A valid email is required." });
-  if (message.length < 10) return res.status(400).json({ error: "Please share a few sentences about your situation." });
+  if (!message) return res.status(400).json({ error: "Please share a brief note about your situation." });
 
   const role = (body.role || "").trim();
   const company = (body.company || "").trim();
