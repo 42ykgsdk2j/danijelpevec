@@ -17,6 +17,7 @@
  *     and `aria-describedby` pointing at the inline error span (role="alert").
  */
 import { useEffect, useMemo, useRef, useState } from "react";
+import { useBodyScrollLock } from "../lib/useBodyScrollLock";
 
 type T = {
   eyebrow: string;
@@ -87,58 +88,17 @@ export default function Modal({ t, lang }: Props) {
     }
   }, [open]);
 
-  // Body scroll lock — desktop uses plain overflow:hidden (the modal is
-  // a centered card with a backdrop, no need for more). Mobile (≤480px)
-  // needs the iOS position-fixed pattern because the modal goes full-
-  // screen and the scroll context lives on <html>, not <body>.
+  // Body scroll lock — mobile only. Uses the shared reference-counted
+  // hook so opening this modal while the BlogChat panel is also open
+  // doesn't strand the body in `position: fixed`.
+  useBodyScrollLock(open);
+
+  // `modal-open` class toggle is kept for the desktop overflow: hidden
+  // fallback (CSS rule in styles.css). The shared hook handles the
+  // mobile position-fixed pattern.
   useEffect(() => {
-    if (!open) return;
-    const isMobile =
-      typeof window !== "undefined" &&
-      window.matchMedia("(max-width: 480px)").matches;
-    const body = document.body;
-    body.classList.add("modal-open");
-
-    if (!isMobile) {
-      return () => body.classList.remove("modal-open");
-    }
-
-    const scrollY = window.scrollY;
-    const prev = {
-      position: body.style.position,
-      top: body.style.top,
-      left: body.style.left,
-      right: body.style.right,
-      width: body.style.width,
-      overflow: body.style.overflow,
-    };
-    body.style.position = "fixed";
-    body.style.top = `-${scrollY}px`;
-    body.style.left = "0";
-    body.style.right = "0";
-    body.style.width = "100%";
-    body.style.overflow = "hidden";
-
-    return () => {
-      // Pin scroll-behavior to auto for the restore so the page doesn't
-      // smooth-scroll back to where it was.
-      const html = document.documentElement;
-      const prevBehavior = html.style.scrollBehavior;
-      html.style.scrollBehavior = "auto";
-
-      body.style.position = prev.position;
-      body.style.top = prev.top;
-      body.style.left = prev.left;
-      body.style.right = prev.right;
-      body.style.width = prev.width;
-      body.style.overflow = prev.overflow;
-      body.classList.remove("modal-open");
-      window.scrollTo(0, scrollY);
-
-      requestAnimationFrame(() => {
-        html.style.scrollBehavior = prevBehavior;
-      });
-    };
+    document.body.classList.toggle("modal-open", open);
+    return () => document.body.classList.remove("modal-open");
   }, [open]);
 
   // Keyboard handling while the modal is open: Esc closes; Tab/Shift+Tab is

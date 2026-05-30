@@ -21,7 +21,8 @@ const links = [
   { href: root + "#about", label: t.nav.about },
 ];
 ---
-<nav class="nav scrolled" data-lang={lang}>
+<header class="nav scrolled" role="banner" data-lang={lang}>
+  <nav class="nav-inner-wrap" aria-label={lang === "hr" ? "Glavna navigacija" : "Main navigation"}>
   <div class="container nav-inner">
     <a href={root} class="brand" aria-label="Danijel Pevec">
       <div class="brand-mono">DP</div>
@@ -79,7 +80,8 @@ const links = [
       </button>
     </div>
   </div>
-</nav>
+  </nav>
+</header>
 
 <div class="scrim" data-scrim></div>
 <aside id="mobile-drawer" class="mobile-drawer" data-drawer role="dialog" aria-modal="true" aria-label={t.nav.cta} hidden>

@@ -15,7 +15,7 @@
   --ink-0: #f5f1e8;         /* headings */
   --ink-1: #e8e2d2;         /* body */
   --ink-2: #a8a99c;         /* muted */
-  --ink-3: #6d6f66;         /* faint */
+  --ink-3: #8b8f86;         /* faint — darkened from #6d6f66 to clear WCAG AA at 11px on --bg-0/1 */
 
   --gold: #c9a961;          /* primary accent */
   --gold-bright: #f0d186;   /* hover */
@@ -48,7 +48,7 @@
   --ink-0: #0a1628;
   --ink-1: #1a2b44;
   --ink-2: #4a5a6e;
-  --ink-3: #8a96a5;
+  --ink-3: #5e6a7a;         /* darkened from #8a96a5 to clear WCAG AA at 11px on cream */
 
   /* Darker tints so 11px uppercase labels (.eyebrow, .blog-card-cat, etc.)
      and the field-error red clear WCAG AA 4.5:1 body-text contrast on the
@@ -237,12 +237,13 @@ section { position: relative; }
 
 /* Disabled state for the gold primary CTA — used by the contact form
    submit while required fields are empty, and by the chat send while
-   busy. Mutes the gold and disables the hover lift/glow. */
+   busy. Drops opacity to mute the button. The saturate() filter was
+   removed because compounding it with opacity dropped label contrast
+   below ~3:1 on light theme. */
 .btn-primary:disabled,
 .btn-primary[aria-disabled="true"] {
   cursor: not-allowed;
-  opacity: 0.45;
-  filter: saturate(0.6);
+  opacity: 0.5;
   text-shadow: none;
   box-shadow: none;
 }
@@ -536,8 +537,9 @@ section { position: relative; }
 }
 
 .theme-toggle {
-  width: 38px;
-  height: 38px;
+  /* 44×44 meets WCAG 2.5.5 minimum target size at every viewport. */
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
   border: 1px solid var(--line);
   background: var(--bg-2);
@@ -579,8 +581,8 @@ section { position: relative; }
 
 .menu-btn {
   display: none;
-  width: 38px;
-  height: 38px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
   border: 1px solid var(--line);
   background: var(--bg-2);
@@ -1365,8 +1367,7 @@ section { position: relative; }
   }
   .nav-inner { gap: 6px; }
   .nav-actions { gap: 8px; }
-  /* Lift the round buttons to the 44×44 touch target minimum (WCAG 2.5.5). */
-  .theme-toggle, .menu-btn { width: 44px; height: 44px; }
+  /* .theme-toggle and .menu-btn are 44×44 globally now (WCAG 2.5.5). */
   .nav-actions .toggle-group button,
   .nav-actions .toggle-group a,
   .nav-actions .toggle-group span { padding: 10px 12px; font-size: 11px; }

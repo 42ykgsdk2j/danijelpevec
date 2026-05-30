@@ -105,15 +105,15 @@
   },
   "blogChat": {
     "title": "Pitajte o ovoj objavi",
-    "subtitle": "Tu sam da pomognem",
+    "subtitle": "AI asistent treniran na ovom članku",
     "placeholder": "Postavite pitanje…",
     "send": "Pošalji",
     "error": "Nešto je pošlo po krivu. Pokušajte ponovno.",
     "disclaimer": "Odgovor generira AI na temelju ove objave. Za osobni savjet zatražite privatni razgovor.",
-    "welcomeBody": "Pitajte bilo što o ovom članku — odgovorit ću na temelju njegovog sadržaja.",
-    "agentLabel": "Danijel Pevec · AI Agent",
-    "justNow": "upravo sada",
-    "minimize": "Smanji razgovor",
+    "welcomeBody": "Bok — ja sam AI asistent treniran na ovom članku. Pitajte bilo što o njemu i odgovorit ću iz sadržaja. Za osobni savjet zatražite privatni razgovor s Danijelom.",
+    "agentLabel": "AI asistent · Blog Danijela Pevca",
+    "minimize": "Skupi razgovor",
+    "close": "Zatvori razgovor",
     "openChat": "Otvori razgovor"
   },
   "assessmentCta": {

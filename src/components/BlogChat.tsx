@@ -15,6 +15,7 @@ import { DefaultChatTransport } from "ai";
 import { useEffect, useMemo, useRef, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import { useBodyScrollLock } from "../lib/useBodyScrollLock";
 
 interface UI {
   title: string;
@@ -25,8 +26,8 @@ interface UI {
   disclaimer: string;
   welcomeBody: string;
   agentLabel: string;
-  justNow: string;
   minimize: string;
+  close: string;
   openChat: string;
 }
 
@@ -54,6 +55,7 @@ export default function BlogChat({ postTitle, postBody, lang, ui }: Props) {
   const taRef = useRef<HTMLTextAreaElement>(null);
   const listEndRef = useRef<HTMLDivElement>(null);
   const launcherRef = useRef<HTMLButtonElement>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
   const firstRender = useRef(true);
 
   useEffect(() => {
@@ -62,13 +64,33 @@ export default function BlogChat({ postTitle, postBody, lang, ui }: Props) {
     }
   }, [messages, open]);
 
-  // Focus textarea on open, Esc to close.
+  // Focus textarea on open, Esc to close, Tab/Shift+Tab trapped inside
+  // the panel so keyboard users can't escape into the page beneath while
+  // the panel claims `aria-modal="true"`.
   useEffect(() => {
     if (!open) return;
     const ta = taRef.current;
     if (ta) setTimeout(() => ta.focus(), 90);
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setOpen(false);
+      if (e.key === "Escape") {
+        setOpen(false);
+        return;
+      }
+      if (e.key !== "Tab" || !panelRef.current) return;
+      const focusables = panelRef.current.querySelectorAll<HTMLElement>(
+        'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])',
+      );
+      if (focusables.length === 0) return;
+      const first = focusables[0];
+      const last = focusables[focusables.length - 1];
+      const active = document.activeElement as HTMLElement | null;
+      if (e.shiftKey && active === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && active === last) {
+        e.preventDefault();
+        first.focus();
+      }
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
@@ -86,59 +108,16 @@ export default function BlogChat({ postTitle, postBody, lang, ui }: Props) {
     if (!open) launcherRef.current?.focus({ preventScroll: true });
   }, [open]);
 
-  // Body scroll lock while the chat is open — only on mobile (≤480px)
-  // where the panel goes full-screen. On iOS the scroll context lives on
-  // <html>, not <body>, so plain `overflow: hidden` on body doesn't lock
-  // it. The reliable pattern is `position: fixed` on body with the
-  // current scrollY captured into `top: -<scrollY>px`. On close we undo
-  // the styles and restore the scroll position so the page doesn't jump.
+  // Body scroll lock — mobile only. Shared reference-counted hook so
+  // opening this chat panel while the contact modal is also open doesn't
+  // collide on cleanup.
+  useBodyScrollLock(open);
+
+  // `chat-open` class toggle is still set so CSS / external tools can
+  // observe the panel state. The shared hook handles the actual lock.
   useEffect(() => {
-    if (!open) return;
-    const mql = window.matchMedia("(max-width: 480px)");
-    if (!mql.matches) return;
-
-    const scrollY = window.scrollY;
-    const body = document.body;
-    const prev = {
-      position: body.style.position,
-      top: body.style.top,
-      left: body.style.left,
-      right: body.style.right,
-      width: body.style.width,
-      overflow: body.style.overflow,
-    };
-    body.style.position = "fixed";
-    body.style.top = `-${scrollY}px`;
-    body.style.left = "0";
-    body.style.right = "0";
-    body.style.width = "100%";
-    body.style.overflow = "hidden";
-    body.classList.add("chat-open");
-
-    return () => {
-      // The site has `html { scroll-behavior: smooth }` globally, which
-      // would animate the scrollTo below — making the page visibly glide
-      // to its previous position when the user closes the chat. Pin
-      // scroll-behavior to "auto" for the restoration, then put it back
-      // on the next frame so other smooth-scrolling on the page is
-      // unaffected.
-      const html = document.documentElement;
-      const prevBehavior = html.style.scrollBehavior;
-      html.style.scrollBehavior = "auto";
-
-      body.style.position = prev.position;
-      body.style.top = prev.top;
-      body.style.left = prev.left;
-      body.style.right = prev.right;
-      body.style.width = prev.width;
-      body.style.overflow = prev.overflow;
-      body.classList.remove("chat-open");
-      window.scrollTo(0, scrollY);
-
-      requestAnimationFrame(() => {
-        html.style.scrollBehavior = prevBehavior;
-      });
-    };
+    document.body.classList.toggle("chat-open", open);
+    return () => document.body.classList.remove("chat-open");
   }, [open]);
 
   const busy = status === "submitted" || status === "streaming";
@@ -222,12 +201,14 @@ export default function BlogChat({ postTitle, postBody, lang, ui }: Props) {
         </svg>
       </button>
 
-      {/* Slide-up dark panel. */}
+      {/* Slide-up panel. aria-modal="true" + focus trap + body scroll
+          lock match the contact modal's dialog semantics. */}
       <div
+        ref={panelRef}
         id="blog-chat-panel"
         className="chat-panel"
         role="dialog"
-        aria-modal="false"
+        aria-modal="true"
         aria-labelledby="chat-panel-title"
         hidden={!open}
       >
@@ -243,7 +224,7 @@ export default function BlogChat({ postTitle, postBody, lang, ui }: Props) {
             type="button"
             className="chat-panel-close"
             onClick={() => setOpen(false)}
-            aria-label={ui.minimize}
+            aria-label={ui.close}
           >
             <svg
               width="20"
@@ -263,14 +244,14 @@ export default function BlogChat({ postTitle, postBody, lang, ui }: Props) {
         </header>
 
         <div className="chat-panel-body">
-          {/* Persistent welcome bubble — modeled on Intercom's initial greeting */}
+          {/* Persistent welcome bubble — labelled as AI so users aren't
+              misled. No timestamp; the static "Just now" was a small lie
+              once the chat had been open for any length of time. */}
           <div className="chat-row chat-row-assistant">
             <div className="chat-bubble">
               <p>{ui.welcomeBody}</p>
             </div>
-            <div className="chat-attribution">
-              {ui.agentLabel} · {ui.justNow}
-            </div>
+            <div className="chat-attribution">{ui.agentLabel}</div>
           </div>
 
           {messages.map((m) => {
@@ -307,7 +288,7 @@ export default function BlogChat({ postTitle, postBody, lang, ui }: Props) {
                 }}
                 onKeyDown={onKeyDown}
                 placeholder={ui.placeholder}
-                aria-label={ui.placeholder}
+                aria-labelledby="chat-panel-title"
                 rows={1}
               />
               {busy ? (
