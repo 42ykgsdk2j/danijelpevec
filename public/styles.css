@@ -1332,16 +1332,10 @@ section { position: relative; }
 .modal-foot {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-end;
   gap: 24px;
   margin-top: 16px;
   flex-wrap: wrap;
-}
-.modal-foot .note {
-  font-size: 12px;
-  color: var(--ink-3);
-  font-family: var(--serif);
-  max-width: 28ch;
 }
 
 /* Modal success state */

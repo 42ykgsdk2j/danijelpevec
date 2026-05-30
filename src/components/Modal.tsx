@@ -25,14 +25,12 @@ type T = {
   stages: string[];
   message: string;
   messagePh: string;
-  consent: string;
   submit: string;
-  note: string;
   successTitle: string;
   successAccent: string;
   successSub: string;
   close: string;
-  err: { name: string; email: string; message: string; consent: string; submit: string };
+  err: { name: string; email: string; message: string; submit: string };
 };
 
 interface Props {
@@ -46,10 +44,9 @@ interface FormState {
   email: string;
   stage: string;
   message: string;
-  consent: boolean;
 }
 
-const initial: FormState = { name: "", role: "", company: "", email: "", stage: "", message: "", consent: false };
+const initial: FormState = { name: "", role: "", company: "", email: "", stage: "", message: "" };
 
 export default function Modal({ t }: Props) {
   const [open, setOpen] = useState(false);
@@ -92,7 +89,6 @@ export default function Modal({ t }: Props) {
     if (!form.name.trim()) e.name = t.err.name;
     if (!form.email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) e.email = t.err.email;
     if (!form.message.trim() || form.message.trim().length < 10) e.message = t.err.message;
-    if (!form.consent) e.consent = t.err.consent;
     return e;
   }
 
@@ -116,7 +112,6 @@ export default function Modal({ t }: Props) {
           email: form.email,
           stage: form.stage,
           message: form.message,
-          consent: form.consent ? "Yes" : "No",
           _subject: `Private conversation request from ${form.name}`,
         }),
       });
@@ -201,16 +196,6 @@ export default function Modal({ t }: Props) {
                 {errors.message && <span className="err">{errors.message}</span>}
               </div>
 
-              <div className={`field${errors.consent ? " error" : ""}`} style={{ flexDirection: "row", alignItems: "flex-start", gap: 12 }}>
-                <input type="checkbox" id="consent" checked={form.consent}
-                  onChange={(e) => update("consent", e.target.checked)}
-                  style={{ width: "auto", accentColor: "var(--gold)", marginTop: 4 }} />
-                <label htmlFor="consent" style={{ letterSpacing: 0, textTransform: "none", fontSize: 13, color: "var(--ink-2)", fontWeight: 400, lineHeight: 1.5, cursor: "pointer" }}>
-                  {t.consent}
-                  {errors.consent && <span className="err" style={{ display: "block", marginTop: 4 }}>{errors.consent}</span>}
-                </label>
-              </div>
-
               {errors.submit && (
                 <div className="field error" style={{ marginTop: 4 }}>
                   <span className="err" role="alert">{errors.submit}</span>
@@ -218,7 +203,6 @@ export default function Modal({ t }: Props) {
               )}
 
               <div className="modal-foot">
-                <span className="note">{t.note}</span>
                 <button type="submit" className="btn btn-primary" disabled={submitting}>
                   {submitting ? "…" : t.submit}
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">

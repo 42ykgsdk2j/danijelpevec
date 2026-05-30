@@ -169,10 +169,8 @@
     ],
     "message": "What's on your mind",
     "messagePh": "A few sentences about your situation. Take your time.",
-    "consent": "I understand this is a private conversation and treated in strict confidence.",
     "submit": "Send privately",
     "cancel": "Cancel",
-    "note": "Strict confidentiality. No mailing list, no follow-up sales.",
     "successTitle": "Thank you",
     "successAccent": "— received.",
     "successSub": "I'll read your note personally and reply within two business days. Until then, take care.",
@@ -181,7 +179,6 @@
       "name": "Please share your name",
       "email": "A valid email is required",
       "message": "Tell me a little about your situation",
-      "consent": "Please confirm to continue",
       "submit": "I couldn't send your message. Please try again, or email directly."
     }
   },
