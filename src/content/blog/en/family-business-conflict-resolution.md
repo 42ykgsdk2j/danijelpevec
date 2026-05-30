@@ -102,4 +102,4 @@ readTime: 9
 <details><summary>Can suppressing conflict ever be the right choice?</summary><p>Rarely. Suppressed conflict accumulates rather than dissipates. Most "harmonious" family businesses in which difficult things go unsaid are paying for the harmony in honesty, and tend to collapse on transition.</p></details>
 </section>
 
-<section class="article-cta"><h3>These conversations don't happen on a page.</h3><p>If anything here speaks to your situation, the next step is a private conversation.</p><a class="btn btn-primary" href="../index.html#top">Request a private conversation →</a></section>
+<section class="article-cta"><h3>These conversations don't happen on a page.</h3><p>If anything here speaks to your situation, the next step is a private conversation.</p><button class="btn btn-primary" data-open-modal>Request a private conversation →</button></section>

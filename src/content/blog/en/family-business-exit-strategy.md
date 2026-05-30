@@ -110,4 +110,4 @@ readTime: 9
 <details><summary>What is the third option — hold under professional management?</summary><p>Family retains ownership; a non-family CEO runs the business; a board governs it. This is increasingly common in larger family businesses and is the natural answer when the next generation wants to be owners but not operators.</p></details>
 </section>
 
-<section class="article-cta"><h3>These conversations don't happen on a page.</h3><p>If anything here speaks to your situation, the next step is a private conversation.</p><a class="btn btn-primary" href="../index.html#top">Request a private conversation →</a></section>
+<section class="article-cta"><h3>These conversations don't happen on a page.</h3><p>If anything here speaks to your situation, the next step is a private conversation.</p><button class="btn btn-primary" data-open-modal>Request a private conversation →</button></section>

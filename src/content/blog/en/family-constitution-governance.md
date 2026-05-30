@@ -106,4 +106,4 @@ readTime: 9
 <details><summary>How long does it take to draft a family constitution?</summary><p>Typically six months to two years, depending on family size and complexity. The drafting process — interviews, iteration, ratification — is itself the most valuable part of the exercise.</p></details>
 </section>
 
-<section class="article-cta"><h3>These conversations don't happen on a page.</h3><p>If anything here speaks to your situation, the next step is a private conversation.</p><a class="btn btn-primary" href="../index.html#top">Request a private conversation →</a></section>
+<section class="article-cta"><h3>These conversations don't happen on a page.</h3><p>If anything here speaks to your situation, the next step is a private conversation.</p><button class="btn btn-primary" data-open-modal>Request a private conversation →</button></section>

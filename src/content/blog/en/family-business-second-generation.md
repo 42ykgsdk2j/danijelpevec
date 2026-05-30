@@ -78,4 +78,4 @@ readTime: 10
 <details><summary>Should the eldest child always be the successor?</summary><p>No. Birth order is a poor predictor of capability. Many successful family businesses choose successors based on demonstrated leadership and operating fit, while preserving fair ownership across all children through structure rather than role.</p></details>
 </section>
 
-<section class="article-cta"><h3>These conversations don't happen on a page.</h3><p>If anything here speaks to your situation, the next step is a private conversation.</p><a class="btn btn-primary" href="../index.html#top">Request a private conversation →</a></section>
+<section class="article-cta"><h3>These conversations don't happen on a page.</h3><p>If anything here speaks to your situation, the next step is a private conversation.</p><button class="btn btn-primary" data-open-modal>Request a private conversation →</button></section>

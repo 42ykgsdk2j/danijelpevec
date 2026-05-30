@@ -92,4 +92,4 @@ readTime: 8
 <details><summary>What if a next-generation member doesn't want to join the business?</summary><p>That choice deserves equal weight. Forcing entry produces poor leaders and worse family relationships. Ownership and leadership can be separated — a non-operating family member can still be a thoughtful, engaged owner.</p></details>
 </section>
 
-<section class="article-cta"><h3>These conversations don't happen on a page.</h3><p>If anything here speaks to your situation, the next step is a private conversation.</p><a class="btn btn-primary" href="../index.html#top">Request a private conversation →</a></section>
+<section class="article-cta"><h3>These conversations don't happen on a page.</h3><p>If anything here speaks to your situation, the next step is a private conversation.</p><button class="btn btn-primary" data-open-modal>Request a private conversation →</button></section>
