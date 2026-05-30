@@ -17,10 +17,12 @@
     "astro": "^5.16.4",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "resend": "^4.8.0",
     "typescript": "^5.9.3"
   },
   "devDependencies": {
     "@types/react": "^18.3.12",
-    "@types/react-dom": "^18.3.1"
+    "@types/react-dom": "^18.3.1",
+    "@vercel/node": "^3.2.29"
   }
 }
