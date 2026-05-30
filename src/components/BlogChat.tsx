@@ -84,14 +84,45 @@ export default function BlogChat({ postTitle, postBody, lang, ui }: Props) {
     if (!open) launcherRef.current?.focus();
   }, [open]);
 
-  // Body scroll lock while the chat is open — important on mobile where
-  // the panel goes full-screen and background scroll would compete with
-  // the chat's own scroll container. CSS scopes the lock to ≤480px so
-  // desktop users can still scroll the article behind the panel.
+  // Body scroll lock while the chat is open — only on mobile (≤480px)
+  // where the panel goes full-screen. On iOS the scroll context lives on
+  // <html>, not <body>, so plain `overflow: hidden` on body doesn't lock
+  // it. The reliable pattern is `position: fixed` on body with the
+  // current scrollY captured into `top: -<scrollY>px`. On close we undo
+  // the styles and restore the scroll position so the page doesn't jump.
   useEffect(() => {
-    document.body.classList.toggle("chat-open", open);
+    if (!open) return;
+    const mql = window.matchMedia("(max-width: 480px)");
+    if (!mql.matches) return;
+
+    const scrollY = window.scrollY;
+    const body = document.body;
+    const prev = {
+      position: body.style.position,
+      top: body.style.top,
+      left: body.style.left,
+      right: body.style.right,
+      width: body.style.width,
+      overflow: body.style.overflow,
+    };
+    body.style.position = "fixed";
+    body.style.top = `-${scrollY}px`;
+    body.style.left = "0";
+    body.style.right = "0";
+    body.style.width = "100%";
+    body.style.overflow = "hidden";
+    body.classList.add("chat-open");
+
     return () => {
-      document.body.classList.remove("chat-open");
+      body.style.position = prev.position;
+      body.style.top = prev.top;
+      body.style.left = prev.left;
+      body.style.right = prev.right;
+      body.style.width = prev.width;
+      body.style.overflow = prev.overflow;
+      body.classList.remove("chat-open");
+      // Restore the scroll position without smooth-scrolling animation.
+      window.scrollTo(0, scrollY);
     };
   }, [open]);
 
