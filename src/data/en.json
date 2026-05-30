@@ -171,8 +171,8 @@
     "messagePh": "A few sentences about your situation. Take your time.",
     "submit": "Send privately",
     "cancel": "Cancel",
-    "successTitle": "Thank you",
-    "successAccent": "— received.",
+    "successTitle": "Thank you, your inquiry has been received",
+    "successAccent": "",
     "successSub": "I'll read your note personally and propose next steps.",
     "close": "Close",
     "err": {

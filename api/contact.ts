@@ -71,7 +71,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     message,
   ].filter((line): line is string => line !== null).join("\n");
 
-  const ackSubject = lang === "en" ? "Thank you — received" : "Hvala — primljeno";
+  const ackSubject = lang === "en" ? "Thank you, your inquiry has been received" : "Hvala, Vaš upit je zaprimljen";
   const ackText =
     lang === "en"
       ? `Hi ${name},\n\nThank you for your message. I'll read it personally and get back to you.\n\n— Danijel Pevec`
