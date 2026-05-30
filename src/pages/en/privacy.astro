@@ -7,13 +7,100 @@ const lang = "en" as const;
 <BaseLayout
   lang={lang}
   title="Privacy Policy | Danijel Pevec"
-  description="Privacy Policy — Danijel Pevec, Family Business Advisor."
+  description="Privacy policy — what personal data this site collects, which processors are involved, and your rights under GDPR."
   canonical={`${SITE}/en/privacy/`}
   hreflangEn={`${SITE}/en/privacy/`}
   hreflangHr={`${SITE}/privacy/`}
 >
   <LegalPage lang={lang} eyebrow="Privacy" title="Privacy Policy">
-    <p class="lead">Detailed privacy policy is being prepared. In the meantime, every conversation initiated through this site is treated in strict confidence.</p>
-    <p class="lead" style="margin-top:24px;">Until the full policy is published you can reach out at <a href="mailto:pevec.danijel@alphacapitalis.com">pevec.danijel@alphacapitalis.com</a>.</p>
+    <p class="lead">This notice describes what personal data this site collects, why, who it is shared with, and your rights. Written concisely — consistent with the practice of a private advisor working with a small number of clients.</p>
+
+    <h2 class="legal-h2">Controller</h2>
+    <p class="lead">Danijel Pevec<br />Ulica Roberta Frangeša - Mihanovića 9<br />10110 Zagreb, Croatia<br />Email: <a href="mailto:pevec.danijel@alphacapitalis.com">pevec.danijel@alphacapitalis.com</a></p>
+    <p class="lead">Direct any data-protection question to the email above.</p>
+
+    <h2 class="legal-h2">What data I collect</h2>
+    <p class="lead"><strong>Contact form.</strong> When you submit the "Private conversation" form: name, email, role (optional), company / family office (optional), current stage (optional), and your message. The data is delivered directly to me by email.</p>
+    <p class="lead"><strong>Blog AI chat.</strong> When you use the on-article AI assistant: the text of your question, and your IP address used only to limit abuse — at most 20 questions per IP within 24 hours. Questions are not retained by me.</p>
+    <p class="lead"><strong>Optional analytics.</strong> Loaded only if you click "Accept" in the cookie banner on first visit: Google Analytics (anonymised aggregate page views) and Microsoft Clarity (session replays + heatmaps).</p>
+    <p class="lead"><strong>Technical logs.</strong> Vercel, the hosting platform, automatically records standard access logs (IP address, user agent, URL, timestamp) for security and troubleshooting.</p>
+    <p class="lead"><strong>Browser-local preferences.</strong> Your theme choice (light/dark) and your cookie decision are kept in your browser's <code>localStorage</code>. This is not personal data within the meaning of the GDPR — it stays on your device.</p>
+
+    <h2 class="legal-h2">Lawful basis</h2>
+    <ul class="legal-ul">
+      <li>Contact form — <strong>consent</strong> (GDPR Art. 6(1)(a)). Submitting the form is an explicit opt-in.</li>
+      <li>AI chat and technical logs — <strong>legitimate interest</strong> (Art. 6(1)(f)) — providing functionality, security, and troubleshooting.</li>
+      <li>Google Analytics + Microsoft Clarity — <strong>consent</strong> (banner). Neither loads until you choose "Accept".</li>
+    </ul>
+
+    <h2 class="legal-h2">Recipients and processors</h2>
+    <ul class="legal-ul">
+      <li><strong>Resend</strong> — delivers email from the contact form (USA)</li>
+      <li><strong>Vercel</strong> — hosting and access logs (USA; European edge in Frankfurt)</li>
+      <li><strong>Vercel AI Gateway → Google Gemini</strong> — generates AI answers in the blog chat (USA/EU)</li>
+      <li><strong>Upstash</strong> — Redis-backed rate limiting for the AI chat (EU)</li>
+      <li><strong>Google Analytics</strong> — only with consent (USA)</li>
+      <li><strong>Microsoft Clarity</strong> — only with consent (USA/EU)</li>
+      <li><strong>GitHub</strong> — content management, used only by the site administrator (USA)</li>
+    </ul>
+
+    <h2 class="legal-h2">International transfers</h2>
+    <p class="lead">Some processors are based outside the European Economic Area (notably the USA). Transfers rely on the European Commission's Standard Contractual Clauses (SCCs) and the supplementary measures set out in each provider's terms.</p>
+
+    <h2 class="legal-h2">Retention</h2>
+    <ul class="legal-ul">
+      <li>Contact-form messages — up to 24 months after our last exchange, unless an advisory engagement is established (in which case for the duration of obligations under that engagement).</li>
+      <li>Technical access logs (Vercel) — 30 to 90 days.</li>
+      <li>AI chat — questions are not stored; the rate-limit counter is cleared after 24 hours.</li>
+      <li>Google Analytics — 14 months (default).</li>
+      <li>Microsoft Clarity — up to 90 days.</li>
+    </ul>
+
+    <h2 class="legal-h2">Cookies and similar technologies</h2>
+    <div class="legal-table-wrap">
+      <table class="legal-table">
+        <thead>
+          <tr><th>Name</th><th>Owner</th><th>Purpose</th><th>Duration</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>dp_theme</td><td>this site</td><td>remembers your theme choice</td><td>persistent (until cleared)</td></tr>
+          <tr><td>dp_consent_v1</td><td>this site</td><td>remembers your cookie decision</td><td>persistent (until cleared)</td></tr>
+          <tr><td>_ga, _ga_*</td><td>Google Analytics</td><td>analytics (consent only)</td><td>2 years</td></tr>
+          <tr><td>_clck, _clsk, MUID</td><td>Microsoft Clarity</td><td>session replay (consent only)</td><td>up to 1 year</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="lead">You can change your cookie decision at any time:</p>
+    <p class="lead"><button type="button" class="btn btn-ghost" data-consent-reset>Change cookie preferences</button></p>
+
+    <h2 class="legal-h2">Your rights</h2>
+    <p class="lead">You have the right to:</p>
+    <ul class="legal-ul">
+      <li>access the personal data concerning you</li>
+      <li>rectify inaccurate data</li>
+      <li>erase data ("right to be forgotten")</li>
+      <li>restrict processing</li>
+      <li>data portability</li>
+      <li>object to processing based on legitimate interest</li>
+      <li>withdraw your consent at any time, without affecting the lawfulness of processing before withdrawal</li>
+    </ul>
+    <p class="lead">Send your request to <a href="mailto:pevec.danijel@alphacapitalis.com">pevec.danijel@alphacapitalis.com</a>. I'll reply within 30 days.</p>
+
+    <h2 class="legal-h2">Right to lodge a complaint</h2>
+    <p class="lead">If you believe a request hasn't been resolved adequately, you can complain to the Croatian supervisory authority — <strong>AZOP</strong>, Selska cesta 136, 10000 Zagreb. More at <a href="https://www.azop.hr" target="_blank" rel="noopener noreferrer">azop.hr</a>.</p>
+
+    <h2 class="legal-h2">Changes</h2>
+    <p class="lead">This notice may be updated occasionally to reflect changes in law, tooling, or processing. The date of the last revision is shown at the bottom.</p>
+
+    <p class="lead" style="margin-top:32px; color: var(--ink-3);">Last updated: May 2026.</p>
   </LegalPage>
+
+  <script is:inline>
+    document.querySelectorAll("[data-consent-reset]").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        try { localStorage.removeItem("dp_consent_v1"); } catch (e) {}
+        location.reload();
+      });
+    });
+  </script>
 </BaseLayout>

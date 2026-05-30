@@ -7,13 +7,100 @@ const lang = "hr" as const;
 <BaseLayout
   lang={lang}
   title="Politika privatnosti | Danijel Pevec"
-  description="Politika privatnosti — Danijel Pevec, savjetnik za obiteljski biznis."
+  description="Politika privatnosti — koji se podatci prikupljaju na ovoj stranici, koji izvršitelji obrade su uključeni i koja su vaša prava."
   canonical={`${SITE}/privacy/`}
   hreflangEn={`${SITE}/en/privacy/`}
   hreflangHr={`${SITE}/privacy/`}
 >
   <LegalPage lang={lang} eyebrow="Privatnost" title="Politika privatnosti">
-    <p class="lead">Detaljna politika privatnosti je u pripremi. Do tada, svaki razgovor pokrenut putem ove stranice tretira se u strogoj povjerljivosti.</p>
-    <p class="lead" style="margin-top:24px;">Do objave potpune politike, možete nas kontaktirati na <a href="mailto:pevec.danijel@alphacapitalis.com">pevec.danijel@alphacapitalis.com</a>.</p>
+    <p class="lead">Ova politika opisuje koje osobne podatke prikupljam, zašto, s kim ih dijelim i koja su vaša prava. Sažeto je napisana — sukladno praksi privatnog savjetnika koji radi s malim brojem klijenata.</p>
+
+    <h2 class="legal-h2">Voditelj obrade</h2>
+    <p class="lead">Danijel Pevec<br />Ulica Roberta Frangeša - Mihanovića 9<br />10110 Zagreb, Hrvatska<br />E-pošta: <a href="mailto:pevec.danijel@alphacapitalis.com">pevec.danijel@alphacapitalis.com</a></p>
+    <p class="lead">Za sva pitanja o obradi vaših podataka pišite mi izravno na gornju adresu.</p>
+
+    <h2 class="legal-h2">Koje podatke prikupljam</h2>
+    <p class="lead"><strong>Kontaktni obrazac.</strong> Kada ispunite obrazac "Privatni razgovor": vaše ime, e-mail, uloga (neobavezno), tvrtka/obiteljski ured (neobavezno), trenutna faza (neobavezno) i tekst poruke. Podatci se šalju izravno meni na e-mail.</p>
+    <p class="lead"><strong>AI razgovor o objavama bloga.</strong> Kada koristite ugrađeni AI chat: tekst vašeg pitanja i vaša IP adresa (isključivo za sprječavanje zloupotrebe — najviše 20 pitanja po IP-u u 24 sata). Pitanja se ne pohranjuju kod mene.</p>
+    <p class="lead"><strong>Opcionalna analitika.</strong> Učitava se samo ako kliknete "Prihvati" u banneru pri prvom posjetu: Google Analytics (anonimne agregirane posjete) i Microsoft Clarity (snimke sesija i heatmape).</p>
+    <p class="lead"><strong>Tehnički zapisi.</strong> Vercel, platforma na kojoj je stranica hostana, automatski bilježi standardne pristupne zapise (IP adresa, vrsta preglednika, URL, vrijeme zahtjeva) za potrebe sigurnosti i otklanjanja smetnji.</p>
+    <p class="lead"><strong>Lokalne postavke u pregledniku.</strong> Odabir teme (svijetla/tamna) i odluka o kolačićima pohranjuju se u <code>localStorage</code> vašeg preglednika. To nije osobni podatak u smislu GDPR-a — ostaje na vašem uređaju.</p>
+
+    <h2 class="legal-h2">Pravna osnova obrade</h2>
+    <ul class="legal-ul">
+      <li>Kontaktni obrazac — <strong>privola</strong> (čl. 6. st. 1. t. a GDPR-a). Slanjem obrasca izričito pristajete na obradu.</li>
+      <li>AI razgovor i tehnički zapisi — <strong>legitimni interes</strong> (čl. 6. st. 1. t. f) — pružanje funkcionalnosti, sigurnost i otklanjanje smetnji.</li>
+      <li>Google Analytics + Microsoft Clarity — <strong>privola</strong> (banner). Bez vašeg klika na "Prihvati", ovi se alati ne pokreću i ne postavljaju kolačiće.</li>
+    </ul>
+
+    <h2 class="legal-h2">Primatelji i izvršitelji obrade</h2>
+    <ul class="legal-ul">
+      <li><strong>Resend</strong> — dostava e-pošte iz kontaktnog obrasca (SAD)</li>
+      <li><strong>Vercel</strong> — hosting stranice i tehnički zapisi (SAD; europski edge u Frankfurtu)</li>
+      <li><strong>Vercel AI Gateway → Google Gemini</strong> — generiranje AI odgovora na blog chatu (SAD/EU)</li>
+      <li><strong>Upstash</strong> — Redis baza za ograničenje broja AI upita (EU)</li>
+      <li><strong>Google Analytics</strong> — samo uz privolu (SAD)</li>
+      <li><strong>Microsoft Clarity</strong> — samo uz privolu (SAD/EU)</li>
+      <li><strong>GitHub</strong> — administracija sadržaja, koristi samo administrator stranice (SAD)</li>
+    </ul>
+
+    <h2 class="legal-h2">Međunarodni prijenosi podataka</h2>
+    <p class="lead">Pojedini izvršitelji obrade imaju sjedište izvan Europskog gospodarskog prostora (SAD). Prijenos se odvija na temelju Standardnih ugovornih klauzula (SCC) Europske komisije i dodatnih mjera predviđenih uvjetima korištenja svakog pružatelja.</p>
+
+    <h2 class="legal-h2">Razdoblje čuvanja</h2>
+    <ul class="legal-ul">
+      <li>Poruke kontaktnog obrasca — do 24 mjeseca nakon zadnje komunikacije, osim ako se uspostavi savjetnički odnos (tada do isteka obveza iz te suradnje).</li>
+      <li>Tehnički pristupni zapisi (Vercel) — 30–90 dana.</li>
+      <li>AI razgovor — pitanja se ne pohranjuju; brojač rate-limita briše se nakon 24 sata.</li>
+      <li>Google Analytics — 14 mjeseci (zadana postavka).</li>
+      <li>Microsoft Clarity — najviše 90 dana.</li>
+    </ul>
+
+    <h2 class="legal-h2">Kolačići i slične tehnologije</h2>
+    <div class="legal-table-wrap">
+      <table class="legal-table">
+        <thead>
+          <tr><th>Naziv</th><th>Vlasnik</th><th>Svrha</th><th>Trajanje</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>dp_theme</td><td>ova stranica</td><td>pamti odabir teme</td><td>trajno (dok ne obrišete)</td></tr>
+          <tr><td>dp_consent_v1</td><td>ova stranica</td><td>pamti vašu odluku o kolačićima</td><td>trajno (dok ne obrišete)</td></tr>
+          <tr><td>_ga, _ga_*</td><td>Google Analytics</td><td>analitika (samo uz privolu)</td><td>2 godine</td></tr>
+          <tr><td>_clck, _clsk, MUID</td><td>Microsoft Clarity</td><td>snimanje sesija (samo uz privolu)</td><td>do 1 godine</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="lead">Svoju odluku o kolačićima možete promijeniti u svakom trenutku:</p>
+    <p class="lead"><button type="button" class="btn btn-ghost" data-consent-reset>Promijeni postavke kolačića</button></p>
+
+    <h2 class="legal-h2">Vaša prava</h2>
+    <p class="lead">Imate pravo na:</p>
+    <ul class="legal-ul">
+      <li>pristup osobnim podatcima koji se na vas odnose</li>
+      <li>ispravak netočnih podataka</li>
+      <li>brisanje ("pravo na zaborav")</li>
+      <li>ograničenje obrade</li>
+      <li>prenosivost podataka</li>
+      <li>prigovor na obradu temeljenu na legitimnom interesu</li>
+      <li>povlačenje privole u svakom trenutku, bez utjecaja na zakonitost obrade prije povlačenja</li>
+    </ul>
+    <p class="lead">Zahtjev podnesite e-poštom na <a href="mailto:pevec.danijel@alphacapitalis.com">pevec.danijel@alphacapitalis.com</a>. Odgovorit ću u roku od 30 dana.</p>
+
+    <h2 class="legal-h2">Pravo na pritužbu nadzornom tijelu</h2>
+    <p class="lead">Ako smatrate da vaš zahtjev nije adekvatno riješen, možete podnijeti pritužbu Agenciji za zaštitu osobnih podataka — <strong>AZOP</strong>, Selska cesta 136, 10000 Zagreb. Više na <a href="https://www.azop.hr" target="_blank" rel="noopener noreferrer">azop.hr</a>.</p>
+
+    <h2 class="legal-h2">Promjene</h2>
+    <p class="lead">Ovu politiku mogu povremeno ažurirati radi promjena u zakonodavstvu, korištenim alatima ili praksi obrade. Datum posljednje izmjene naveden je na dnu.</p>
+
+    <p class="lead" style="margin-top:32px; color: var(--ink-3);">Zadnje ažuriranje: svibanj 2026.</p>
   </LegalPage>
+
+  <script is:inline>
+    document.querySelectorAll("[data-consent-reset]").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        try { localStorage.removeItem("dp_consent_v1"); } catch (e) {}
+        location.reload();
+      });
+    });
+  </script>
 </BaseLayout>
