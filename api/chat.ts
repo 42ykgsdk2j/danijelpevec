@@ -18,11 +18,19 @@ const BodySchema = z.object({
   lang: z.enum(["hr", "en"]),
 });
 
-export const POST = async (req: Request): Promise<Response> => {
+export default async function handler(req: Request): Promise<Response> {
+  if (req.method !== "POST") {
+    return new Response(JSON.stringify({ error: "Method not allowed" }), {
+      status: 405,
+      headers: { "Content-Type": "application/json", Allow: "POST" },
+    });
+  }
+
   let body: z.infer<typeof BodySchema>;
   try {
     body = BodySchema.parse(await req.json());
-  } catch {
+  } catch (err) {
+    console.error("Chat body parse error:", err);
     return new Response(JSON.stringify({ error: "Invalid request body" }), {
       status: 400,
       headers: { "Content-Type": "application/json" },
@@ -62,11 +70,19 @@ INSTRUCTIONS:
 - Don't give personal financial, legal, or tax advice — suggest a consultation.
 - Don't fabricate details not in the post.`;
 
-  const result = streamText({
-    model: "anthropic/claude-haiku-4-5",
-    system: systemPrompt,
-    messages: convertToModelMessages(messages as UIMessage[]),
-  });
+  try {
+    const result = streamText({
+      model: "anthropic/claude-haiku-4-5",
+      system: systemPrompt,
+      messages: convertToModelMessages(messages as UIMessage[]),
+    });
 
-  return result.toUIMessageStreamResponse();
-};
+    return result.toUIMessageStreamResponse();
+  } catch (err) {
+    console.error("Chat streamText error:", err);
+    return new Response(JSON.stringify({ error: "Model call failed" }), {
+      status: 500,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
+}
