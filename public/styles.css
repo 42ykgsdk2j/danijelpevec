@@ -1207,7 +1207,6 @@ section { position: relative; }
   gap: 16px;
 }
 .footer-bottom .copy { letter-spacing: 0.04em; }
-.footer-bottom .legal { display: flex; gap: 24px; }
 
 /* ============================================
    Modal
