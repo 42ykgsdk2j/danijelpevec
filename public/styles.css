@@ -50,12 +50,16 @@
   --ink-2: #4a5a6e;
   --ink-3: #8a96a5;
 
-  --gold: #8a7340;
-  --gold-bright: #6f5c30;
-  --gold-deep: #5a4a26;
-  --gold-soft: rgba(138, 115, 64, 0.10);
+  /* Darker tints so 11px uppercase labels (.eyebrow, .blog-card-cat, etc.)
+     and the field-error red clear WCAG AA 4.5:1 body-text contrast on the
+     cream background. Audit 2026-05-30 measured the previous values at
+     ~4.0-4.2:1 — below the threshold. */
+  --gold: #7a6736;
+  --gold-bright: #5e4f24;
+  --gold-deep: #4a3d1b;
+  --gold-soft: rgba(122, 103, 54, 0.10);
 
-  --error: #b35a2a;          /* darker error tone for legibility on cream bg */
+  --error: #9a4a1f;          /* darker error tone for legibility on cream bg */
 
   --shadow-lg: 0 24px 60px rgba(10, 22, 40, 0.10);
   --shadow-md: 0 8px 32px rgba(10, 22, 40, 0.08);
@@ -448,10 +452,11 @@ section { position: relative; }
 .toggle-group:hover { border-color: color-mix(in oklab, var(--gold) 35%, var(--line)); }
 
 .toggle-group button,
-.toggle-group a {
+.toggle-group a,
+.toggle-group span {
   background: none;
   border: none;
-  padding: 6px 12px;
+  padding: 8px 14px;
   font-size: 11px;
   font-weight: 500;
   letter-spacing: 0.14em;
@@ -472,6 +477,9 @@ section { position: relative; }
   /* Allow scale transform to use the box center */
   transform-origin: center;
 }
+/* The active option renders as a <span> so keyboard users can't Tab to a
+   no-op self-anchor; it shouldn't claim a pointer hand. */
+.toggle-group span { cursor: default; }
 
 /* Hover on the *inactive* option — preview the switch with a soft tint */
 .toggle-group button:not(.active):hover,
@@ -482,7 +490,8 @@ section { position: relative; }
 
 /* The selected option — solid gold with a subtle inset highlight + outer glow */
 .toggle-group button.active,
-.toggle-group a.active {
+.toggle-group a.active,
+.toggle-group span.active {
   background: var(--gold);
   color: var(--bg-0);
   box-shadow:
@@ -531,15 +540,19 @@ section { position: relative; }
 }
 
 .nav-cta {
-  padding: 10px 20px;
+  padding: 10px 18px;
   font-size: 12px;
-  /* Reserve width for the longer language ("Private conversation" vs
-     "Privatni razgovor") so the button keeps the same footprint */
-  min-width: 220px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   text-align: center;
+}
+@media (min-width: 1281px) {
+  /* On wide desktops the longer language ("Private conversation" vs
+     "Privatni razgovor") gets a fixed footprint so the button doesn't
+     shift between languages. Below 1281px the button shrinks to fit so
+     nav doesn't clip against the viewport edge. */
+  .nav-cta { min-width: 220px; padding: 10px 20px; }
 }
 
 .menu-btn {
@@ -751,27 +764,6 @@ section { position: relative; }
   line-height: 1.25;
 }
 
-.disclaimer {
-  margin-top: 56px;
-  padding: 32px;
-  border: 1px solid var(--line);
-  background: var(--bg-2);
-  position: relative;
-}
-.disclaimer::before {
-  content: "";
-  position: absolute;
-  left: -1px; top: -1px; bottom: -1px;
-  width: 3px;
-  background: var(--gold);
-}
-.disclaimer p {
-  font-family: var(--serif);
-  font-size: clamp(17px, 1.4vw, 21px);
-  color: var(--ink-1);
-  line-height: 1.55;
-}
-
 /* ============================================
    Challenges
    ============================================ */
@@ -827,26 +819,6 @@ section { position: relative; }
    Approach
    ============================================ */
 
-.approach-quote {
-  font-family: var(--serif);
-  font-size: clamp(28px, 4vw, 52px);
-  line-height: 1.2;
-  color: var(--ink-0);
-  font-weight: 400;
-  letter-spacing: -0.01em;
-  max-width: 22ch;
-  position: relative;
-  padding-left: 32px;
-}
-.approach-quote::before {
-  content: "";
-  position: absolute;
-  left: 0; top: 14px; bottom: 14px;
-  width: 1px;
-  background: var(--gold);
-}
-.approach-quote .accent { color: var(--gold); }
-
 .approach-grid {
   display: grid;
   grid-template-columns: 1fr;
@@ -868,14 +840,6 @@ section { position: relative; }
   line-height: 1.5;
   color: var(--ink-1);
   margin: 0;
-}
-.approach-coda {
-  margin-top: 56px;
-  font-family: var(--serif);
-  font-size: clamp(22px, 2.2vw, 30px);
-  line-height: 1.3;
-  color: var(--gold);
-  max-width: 28ch;
 }
 
 /* ============================================
@@ -1043,31 +1007,6 @@ section { position: relative; }
   text-transform: uppercase;
   color: var(--gold);
 }
-.about-card .meta-list {
-  display: grid;
-  gap: 10px;
-  font-size: 13px;
-  color: var(--ink-2);
-  border-top: 1px solid var(--line);
-  padding-top: 20px;
-}
-.about-card .meta-list .row {
-  display: flex;
-  justify-content: space-between;
-  gap: 16px;
-}
-.about-card .meta-list .row .lbl {
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  font-size: 11px;
-  color: var(--ink-3);
-}
-.about-card .meta-list .row .val {
-  font-family: var(--serif);
-  color: var(--ink-1);
-  text-align: right;
-}
-
 .about-text { display: grid; gap: 28px; }
 .about-text p {
   font-size: clamp(16px, 1.2vw, 18px);
@@ -1075,56 +1014,6 @@ section { position: relative; }
   color: var(--ink-1);
 }
 
-/* Alpha capitalis */
-.alpha-block {
-  margin-top: 48px;
-  padding: 32px;
-  border: 1px solid var(--line);
-  background: var(--bg-0);
-  display: grid;
-  grid-template-columns: auto 1fr auto;
-  gap: 28px;
-  align-items: center;
-}
-.alpha-logo {
-  width: 64px; height: 64px;
-  border: 1px solid var(--gold);
-  display: grid;
-  place-items: center;
-  font-family: var(--serif);
-  color: var(--gold);
-  font-size: 22px;
-  position: relative;
-}
-.alpha-logo::after {
-  content: "α";
-  font-family: var(--serif);
-  font-size: 30px;
-  color: var(--gold);
-}
-.alpha-text { display: grid; gap: 6px; }
-.alpha-text .alpha-name {
-  font-family: var(--serif);
-  font-size: 18px;
-  color: var(--ink-0);
-  letter-spacing: 0.04em;
-}
-.alpha-text .alpha-desc {
-  font-size: 13px;
-  color: var(--ink-2);
-  line-height: 1.5;
-}
-.alpha-link {
-  color: var(--gold);
-  font-size: 12px;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  white-space: nowrap;
-}
-.alpha-link:hover { color: var(--gold-bright); }
 
 /* ============================================
    Final CTA
@@ -1450,17 +1339,31 @@ section { position: relative; }
   }
   .nav-inner { gap: 6px; }
   .nav-actions { gap: 8px; }
-  .theme-toggle, .menu-btn { width: 38px; height: 38px; }
+  /* Lift the round buttons to the 44×44 touch target minimum (WCAG 2.5.5). */
+  .theme-toggle, .menu-btn { width: 44px; height: 44px; }
   .nav-actions .toggle-group button,
-  .nav-actions .toggle-group a { padding: 6px 10px; font-size: 11px; }
+  .nav-actions .toggle-group a,
+  .nav-actions .toggle-group span { padding: 10px 12px; font-size: 11px; }
   .form-row { grid-template-columns: 1fr; gap: 0; }
-  .alpha-block { grid-template-columns: 1fr; text-align: left; }
   .footer-grid { grid-template-columns: 1fr; }
   .footer-bottom { flex-direction: column; align-items: flex-start; }
   .who-item { grid-template-columns: 36px 1fr; gap: 16px; padding: 20px 8px; }
   .modal { padding: 32px 24px; }
-  .approach-quote { padding-left: 20px; }
   .start-cta-text { font-size: 22px; }
+}
+
+/* Below 360px the hero serif headline + long Croatian CTA need to wrap or
+   shrink so they don't clip in the smallest mobile viewports (e.g. 320px
+   iPhone SE). */
+@media (max-width: 360px) {
+  .hero-headline { font-size: clamp(28px, 9vw, 44px); letter-spacing: -0.01em; }
+  .btn-primary, .btn-ghost { white-space: normal; padding: 14px 22px; font-size: 13px; }
+  .hero .btn-primary { width: 100%; }
+  .article-cta .btn-primary { width: 100%; }
+  /* Drop the brand tagline below 360 so the brand + EN/HR + theme + menu fit
+     comfortably in the top bar. */
+  .brand-tag { display: none; }
+  .brand-text { width: auto; }
 }
 
 /* ============================================
@@ -2572,5 +2475,88 @@ section { position: relative; }
   .blog-chat-messages { gap: 22px; }
   .blog-chat-input-shell { padding: 6px 6px 6px 18px; }
   .blog-chat-msg-user .blog-chat-msg-body { max-width: 88%; }
+}
+
+/* ============================================
+   Pre-launch audit fixes — 2026-05-30
+   Skip-link, drawer-close, focus rings, hardened touch targets.
+   ============================================ */
+
+/* Visually-hidden until focused — keyboard users tab to it first thing
+   and can skip the nav. */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 16px;
+  z-index: 9999;
+  padding: 10px 16px;
+  background: var(--bg-2);
+  color: var(--ink-0);
+  border: 1px solid var(--gold);
+  border-radius: 4px;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 500;
+  transition: top 200ms ease;
+}
+.skip-link:focus,
+.skip-link:focus-visible {
+  top: 16px;
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+
+/* Drawer close button — same circular shape as .theme-toggle without the
+   class collision that confused automated audits. */
+.drawer-close {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  background: var(--bg-2);
+  color: var(--ink-1);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  transition:
+    border-color 240ms ease,
+    color 240ms ease,
+    background-color 240ms ease,
+    transform 160ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.drawer-close:hover {
+  border-color: var(--gold);
+  color: var(--gold);
+  background: color-mix(in oklab, var(--gold) 6%, var(--bg-2));
+}
+.drawer-close:active { transform: scale(0.92); }
+.drawer-close:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+
+/* Drawer needs a base hidden state so the [hidden] attribute set by the JS
+   doesn't fight the .open class. */
+.mobile-drawer[hidden] { display: none; }
+
+/* Visible :focus-visible rings on interactive elements that previously had
+   none. Matches the existing gold-ring pattern used by .btn / .toggle-group. */
+.nav-link:focus-visible,
+.btn-link:focus-visible,
+.blog-card:focus-visible,
+.modal-close:focus-visible,
+.brand:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* Form inputs now use :focus-visible so non-keyboard interactions don't
+   draw the ring. The existing border-bottom color change still happens. */
+.field input:focus-visible,
+.field textarea:focus-visible,
+.field select:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 4px;
 }
 
