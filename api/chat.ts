@@ -84,9 +84,9 @@ INSTRUCTIONS:
 REMINDER: Write in English only. Do not switch languages at any point in your response.`;
 
   try {
-    console.log("[chat] calling streamText with model anthropic/claude-haiku-4-5");
+    console.log("[chat] calling streamText with model openai/gpt-5");
     const result = streamText({
-      model: "anthropic/claude-haiku-4-5",
+      model: "openai/gpt-5",
       system: systemPrompt,
       messages: convertToModelMessages(messages as UIMessage[]),
       onError: ({ error }) => {
