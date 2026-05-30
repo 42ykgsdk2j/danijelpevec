@@ -120,7 +120,6 @@ export default function BlogChat({ postTitle, postBody, lang, ui }: Props) {
   }, [open]);
 
   const busy = status === "submitted" || status === "streaming";
-  const hasUnread = !open && messages.some((m) => m.role === "assistant");
 
   function adjustHeight() {
     const ta = taRef.current;
@@ -172,7 +171,6 @@ export default function BlogChat({ postTitle, postBody, lang, ui }: Props) {
         >
           <path d="M16 3C8.82 3 3 8.16 3 14.53c0 3.66 1.95 6.91 4.97 9.02-.13 1.36-.6 3.18-1.27 4.6-.18.38.16.81.58.7 2.83-.7 5.27-2.13 6.31-3.04 0 0 1.43.21 2.41.21 7.18 0 13-5.16 13-11.49C29 8.16 23.18 3 16 3zm-5.5 13.4c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm5.5 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm5.5 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z" />
         </svg>
-        {hasUnread && <span className="chat-launcher-dot" aria-hidden="true" />}
       </button>
 
       {/* Open-state minimize button — sits below the panel in the same corner,

@@ -2432,17 +2432,6 @@ section { position: relative; }
       var(--gold-shine);
   }
 }
-.chat-launcher-dot {
-  position: absolute;
-  top: 6px;
-  right: 6px;
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background: #e85a3f;
-  box-shadow: 0 0 0 2px var(--gold-bright, #e8c87a);
-}
-
 /* Open-state minimize chevron — small white circle below the panel, in the
    same corner, lets users collapse without reaching for the header X. */
 .chat-minimize {
