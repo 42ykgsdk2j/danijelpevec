@@ -80,12 +80,65 @@ export default function Modal({ t, lang }: Props) {
   }, []);
 
   useEffect(() => {
-    document.body.classList.toggle("modal-open", open);
     if (open) {
       setSubmitted(false);
       setErrors({});
       setTimeout(() => firstFieldRef.current?.focus(), 50);
     }
+  }, [open]);
+
+  // Body scroll lock — desktop uses plain overflow:hidden (the modal is
+  // a centered card with a backdrop, no need for more). Mobile (≤480px)
+  // needs the iOS position-fixed pattern because the modal goes full-
+  // screen and the scroll context lives on <html>, not <body>.
+  useEffect(() => {
+    if (!open) return;
+    const isMobile =
+      typeof window !== "undefined" &&
+      window.matchMedia("(max-width: 480px)").matches;
+    const body = document.body;
+    body.classList.add("modal-open");
+
+    if (!isMobile) {
+      return () => body.classList.remove("modal-open");
+    }
+
+    const scrollY = window.scrollY;
+    const prev = {
+      position: body.style.position,
+      top: body.style.top,
+      left: body.style.left,
+      right: body.style.right,
+      width: body.style.width,
+      overflow: body.style.overflow,
+    };
+    body.style.position = "fixed";
+    body.style.top = `-${scrollY}px`;
+    body.style.left = "0";
+    body.style.right = "0";
+    body.style.width = "100%";
+    body.style.overflow = "hidden";
+
+    return () => {
+      // Pin scroll-behavior to auto for the restore so the page doesn't
+      // smooth-scroll back to where it was.
+      const html = document.documentElement;
+      const prevBehavior = html.style.scrollBehavior;
+      html.style.scrollBehavior = "auto";
+
+      body.style.position = prev.position;
+      body.style.top = prev.top;
+      body.style.left = prev.left;
+      body.style.right = prev.right;
+      body.style.width = prev.width;
+      body.style.overflow = prev.overflow;
+      body.classList.remove("modal-open");
+      window.scrollTo(0, scrollY);
+
+      requestAnimationFrame(() => {
+        html.style.scrollBehavior = prevBehavior;
+      });
+    };
   }, [open]);
 
   // Keyboard handling while the modal is open: Esc closes; Tab/Shift+Tab is

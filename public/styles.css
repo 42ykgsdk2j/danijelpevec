@@ -1352,6 +1352,39 @@ section { position: relative; }
   .start-cta-text { font-size: 22px; }
 }
 
+/* Mobile contact modal — match the chat panel's full-screen treatment so
+   the form takes the whole viewport. The modal covers the backdrop
+   completely, so the existing click-outside-to-close on the backdrop is
+   naturally a no-op (clicks always hit the modal first), making the X in
+   the top-right the only path to close. */
+@media (max-width: 480px) {
+  .modal-backdrop {
+    background: var(--bg-1);
+    backdrop-filter: none;
+    padding: 0;
+  }
+  .modal {
+    width: 100vw;
+    height: 100vh;
+    height: 100dvh;
+    max-height: none;
+    border: 0;
+    border-radius: 0;
+    padding: clamp(24px, 6vw, 36px) clamp(20px, 5vw, 28px);
+    padding-top: max(clamp(24px, 6vw, 36px), env(safe-area-inset-top));
+    padding-bottom: max(clamp(24px, 6vw, 36px), env(safe-area-inset-bottom));
+    box-shadow: none;
+    /* Bypass the parent's translate/scale so the modal doesn't animate
+       into a transformed position on a full-screen surface. */
+    transform: none;
+  }
+  .modal-backdrop.open .modal { transform: none; }
+  /* Body scroll lock — the JS-driven position-fixed handles the iOS
+     case, but this rule covers any non-iOS mobile + acts as a defensive
+     fallback. */
+  body.modal-open { overflow: hidden; }
+}
+
 /* Below 360px the hero serif headline + long Croatian CTA need to wrap or
    shrink so they don't clip in the smallest mobile viewports (e.g. 320px
    iPhone SE). */
