@@ -5,6 +5,16 @@
  * the page (the Astro Nav, Footer, and final CTA buttons all have a tiny
  * inline `addEventListener("click")` that dispatches this event). That avoids
  * having to make every "Private conversation" button a React island too.
+ *
+ * Accessibility:
+ *   - role="dialog" + aria-modal + aria-labelledby on the modal container.
+ *   - Esc + click-outside dismiss.
+ *   - Tab/Shift+Tab focus trap inside the modal while open.
+ *   - Focus moves to the first form field on open; returns to the trigger
+ *     element on close.
+ *   - Each label is htmlFor-linked to its input id; required inputs carry
+ *     `required` + `aria-required`; inputs with errors carry `aria-invalid`
+ *     and `aria-describedby` pointing at the inline error span (role="alert").
  */
 import { useEffect, useRef, useState } from "react";
 
@@ -56,9 +66,15 @@ export default function Modal({ t, lang }: Props) {
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const firstFieldRef = useRef<HTMLInputElement>(null);
+  const modalRef = useRef<HTMLDivElement>(null);
+  // Element that had focus when the modal opened — we return focus there on close.
+  const triggerRef = useRef<Element | null>(null);
 
   useEffect(() => {
-    const handler = () => setOpen(true);
+    const handler = () => {
+      triggerRef.current = document.activeElement;
+      setOpen(true);
+    };
     window.addEventListener("dp:open-modal", handler);
     return () => window.removeEventListener("dp:open-modal", handler);
   }, []);
@@ -72,12 +88,34 @@ export default function Modal({ t, lang }: Props) {
     }
   }, [open]);
 
+  // Keyboard handling while the modal is open: Esc closes; Tab/Shift+Tab is
+  // trapped inside the modal.
   useEffect(() => {
+    if (!open) return;
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape" && open) close();
+      if (e.key === "Escape") {
+        close();
+        return;
+      }
+      if (e.key !== "Tab" || !modalRef.current) return;
+      const focusables = modalRef.current.querySelectorAll<HTMLElement>(
+        'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
+      );
+      if (focusables.length === 0) return;
+      const first = focusables[0];
+      const last = focusables[focusables.length - 1];
+      const active = document.activeElement as HTMLElement | null;
+      if (e.shiftKey && active === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && active === last) {
+        e.preventDefault();
+        first.focus();
+      }
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open]);
 
   function update<K extends keyof FormState>(key: K, value: FormState[K]) {
@@ -134,12 +172,26 @@ export default function Modal({ t, lang }: Props) {
     setErrors({});
     setSubmitted(false);
     setOpen(false);
+    // Return focus to whatever opened the modal so keyboard users don't lose
+    // their place. setTimeout because the modal is still in the DOM at this
+    // point and would steal focus back.
+    setTimeout(() => {
+      const t = triggerRef.current as HTMLElement | null;
+      if (t && typeof t.focus === "function") t.focus();
+    }, 50);
   }
 
   return (
     <div className={`modal-backdrop${open ? " open" : ""}`} onClick={close}>
-      <div className="modal" onClick={(e) => e.stopPropagation()}>
-        <button className="modal-close" onClick={close} aria-label="Close">
+      <div
+        ref={modalRef}
+        className="modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="modal-title"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <button className="modal-close" onClick={close} aria-label={t.close}>
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
             <line x1="18" y1="6" x2="6" y2="18" />
             <line x1="6" y1="6" x2="18" y2="18" />
@@ -149,51 +201,100 @@ export default function Modal({ t, lang }: Props) {
         {!submitted ? (
           <>
             <div className="modal-eyebrow eyebrow">{t.eyebrow}</div>
-            <h2>{t.titleA} {t.titleAccent}</h2>
+            <h2 id="modal-title">{t.titleA} {t.titleAccent}</h2>
             <p className="modal-sub">{t.sub}</p>
 
             <form onSubmit={onSubmit} noValidate>
               <div className="form-row">
                 <div className={`field${errors.name ? " error" : ""}`}>
-                  <label>{t.name} <span className="req">*</span></label>
-                  <input ref={firstFieldRef} type="text" placeholder={t.namePh} value={form.name}
-                    onChange={(e) => update("name", e.target.value)} />
-                  {errors.name && <span className="err">{errors.name}</span>}
+                  <label htmlFor="contact-name">{t.name} <span className="req" aria-hidden="true">*</span></label>
+                  <input
+                    ref={firstFieldRef}
+                    id="contact-name"
+                    name="name"
+                    type="text"
+                    placeholder={t.namePh}
+                    value={form.name}
+                    required
+                    aria-required="true"
+                    aria-invalid={!!errors.name}
+                    aria-describedby={errors.name ? "contact-name-error" : undefined}
+                    onChange={(e) => update("name", e.target.value)}
+                  />
+                  {errors.name && <span className="err" id="contact-name-error" role="alert">{errors.name}</span>}
                 </div>
                 <div className="field">
-                  <label>{t.role}</label>
-                  <input type="text" placeholder={t.rolePh} value={form.role}
-                    onChange={(e) => update("role", e.target.value)} />
+                  <label htmlFor="contact-role">{t.role}</label>
+                  <input
+                    id="contact-role"
+                    name="role"
+                    type="text"
+                    placeholder={t.rolePh}
+                    value={form.role}
+                    onChange={(e) => update("role", e.target.value)}
+                  />
                 </div>
               </div>
 
               <div className="form-row">
                 <div className={`field${errors.email ? " error" : ""}`}>
-                  <label>{t.email} <span className="req">*</span></label>
-                  <input type="email" placeholder={t.emailPh} value={form.email}
-                    onChange={(e) => update("email", e.target.value)} />
-                  {errors.email && <span className="err">{errors.email}</span>}
+                  <label htmlFor="contact-email">{t.email} <span className="req" aria-hidden="true">*</span></label>
+                  <input
+                    id="contact-email"
+                    name="email"
+                    type="email"
+                    placeholder={t.emailPh}
+                    value={form.email}
+                    required
+                    aria-required="true"
+                    aria-invalid={!!errors.email}
+                    aria-describedby={errors.email ? "contact-email-error" : undefined}
+                    onChange={(e) => update("email", e.target.value)}
+                  />
+                  {errors.email && <span className="err" id="contact-email-error" role="alert">{errors.email}</span>}
                 </div>
                 <div className="field">
-                  <label>{t.company}</label>
-                  <input type="text" placeholder={t.companyPh} value={form.company}
-                    onChange={(e) => update("company", e.target.value)} />
+                  <label htmlFor="contact-company">{t.company}</label>
+                  <input
+                    id="contact-company"
+                    name="company"
+                    type="text"
+                    placeholder={t.companyPh}
+                    value={form.company}
+                    onChange={(e) => update("company", e.target.value)}
+                  />
                 </div>
               </div>
 
               <div className="field">
-                <label>{t.stage}</label>
-                <select value={form.stage} onChange={(e) => update("stage", e.target.value)} style={{ background: "var(--bg-1)" }}>
+                <label htmlFor="contact-stage">{t.stage}</label>
+                <select
+                  id="contact-stage"
+                  name="stage"
+                  value={form.stage}
+                  onChange={(e) => update("stage", e.target.value)}
+                  style={{ background: "var(--bg-1)" }}
+                >
                   <option value="">—</option>
                   {t.stages.map((s) => <option key={s} value={s}>{s}</option>)}
                 </select>
               </div>
 
               <div className={`field${errors.message ? " error" : ""}`}>
-                <label>{t.message} <span className="req">*</span></label>
-                <textarea placeholder={t.messagePh} value={form.message}
-                  onChange={(e) => update("message", e.target.value)} rows={4} />
-                {errors.message && <span className="err">{errors.message}</span>}
+                <label htmlFor="contact-message">{t.message} <span className="req" aria-hidden="true">*</span></label>
+                <textarea
+                  id="contact-message"
+                  name="message"
+                  placeholder={t.messagePh}
+                  value={form.message}
+                  required
+                  aria-required="true"
+                  aria-invalid={!!errors.message}
+                  aria-describedby={errors.message ? "contact-message-error" : undefined}
+                  onChange={(e) => update("message", e.target.value)}
+                  rows={4}
+                />
+                {errors.message && <span className="err" id="contact-message-error" role="alert">{errors.message}</span>}
               </div>
 
               {errors.submit && (
@@ -220,7 +321,7 @@ export default function Modal({ t, lang }: Props) {
                 <polyline points="20 6 9 17 4 12" />
               </svg>
             </div>
-            <h2>{t.successTitle}{t.successAccent}</h2>
+            <h2 id="modal-title">{t.successTitle}{t.successAccent}</h2>
             <p>{t.successSub}</p>
             <button className="btn btn-ghost" onClick={close}>{t.close}</button>
           </div>

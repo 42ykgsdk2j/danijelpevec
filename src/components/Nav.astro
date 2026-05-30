@@ -39,18 +39,22 @@ const links = [
     </div>
     <div class="nav-actions">
       <div class="toggle-group" role="group" aria-label="Language">
-        <a
-          href={lang === "en" ? Astro.url.pathname : altUrl}
-          class:list={["en-btn", { active: lang === "en" }]}
-          aria-current={lang === "en" ? "true" : undefined}
-          title={lang === "en" ? "English (current)" : "Switch to English"}
-        >EN</a>
-        <a
-          href={lang === "hr" ? Astro.url.pathname : altUrl}
-          class:list={["hr-btn", { active: lang === "hr" }]}
-          aria-current={lang === "hr" ? "true" : undefined}
-          title={lang === "hr" ? "Hrvatski (trenutno)" : "Prebaci na hrvatski"}
-        >HR</a>
+        {lang === "en"
+          ? (
+            <span class="en-btn active" aria-current="page" title="English (current)">EN</span>
+          )
+          : (
+            <a href={altUrl} class="en-btn" title="Switch to English">EN</a>
+          )
+        }
+        {lang === "hr"
+          ? (
+            <span class="hr-btn active" aria-current="page" title="Hrvatski (trenutno)">HR</span>
+          )
+          : (
+            <a href={altUrl} class="hr-btn" title="Prebaci na hrvatski">HR</a>
+          )
+        }
       </div>
       <button class="theme-toggle" data-theme-toggle aria-label="Toggle theme">
         <span data-theme-icon="dark">
@@ -66,7 +70,7 @@ const links = [
         </span>
       </button>
       <button class="btn btn-primary nav-cta" data-open-modal>{t.nav.cta}</button>
-      <button class="menu-btn" data-open-drawer aria-label="Menu">
+      <button class="menu-btn" data-open-drawer aria-label="Menu" aria-expanded="false" aria-controls="mobile-drawer">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <line x1="3" y1="6" x2="21" y2="6" />
           <line x1="3" y1="12" x2="21" y2="12" />
@@ -78,26 +82,22 @@ const links = [
 </nav>
 
 <div class="scrim" data-scrim></div>
-<aside class="mobile-drawer" data-drawer>
-  <button class="theme-toggle" style="position: absolute; top: 24px; right: 24px;" data-close-drawer aria-label="Close menu">
+<aside id="mobile-drawer" class="mobile-drawer" data-drawer role="dialog" aria-modal="true" aria-label={t.nav.cta} hidden>
+  <button class="drawer-close" style="position: absolute; top: 24px; right: 24px;" data-close-drawer aria-label={lang === "hr" ? "Zatvori izbornik" : "Close menu"}>
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
       <line x1="18" y1="6" x2="6" y2="18" />
       <line x1="6" y1="6" x2="18" y2="18" />
     </svg>
   </button>
   <div class="toggle-group mobile-lang" role="group" aria-label="Language">
-    <a
-      href={lang === "en" ? Astro.url.pathname : altUrl}
-      class:list={[{ active: lang === "en" }]}
-      aria-current={lang === "en" ? "true" : undefined}
-      title={lang === "en" ? "English (current)" : "Switch to English"}
-    >EN</a>
-    <a
-      href={lang === "hr" ? Astro.url.pathname : altUrl}
-      class:list={[{ active: lang === "hr" }]}
-      aria-current={lang === "hr" ? "true" : undefined}
-      title={lang === "hr" ? "Hrvatski (trenutno)" : "Prebaci na hrvatski"}
-    >HR</a>
+    {lang === "en"
+      ? (<span class="active" aria-current="page" title="English (current)">EN</span>)
+      : (<a href={altUrl} title="Switch to English">EN</a>)
+    }
+    {lang === "hr"
+      ? (<span class="active" aria-current="page" title="Hrvatski (trenutno)">HR</span>)
+      : (<a href={altUrl} title="Prebaci na hrvatski">HR</a>)
+    }
   </div>
   {links.map((l) => (
     <a href={l.href} class="nav-link">
@@ -120,15 +120,29 @@ const links = [
     var scrim = document.querySelector("[data-scrim]");
     var openers = document.querySelectorAll("[data-open-drawer]");
     var closers = document.querySelectorAll("[data-close-drawer]");
+    // Element that had focus when the drawer opened — we restore focus here on close.
+    var triggerEl = null;
     var setOpen = function (open) {
       if (open) {
+        triggerEl = document.activeElement;
+        drawer.hidden = false;
         drawer.classList.add("open");
         scrim.classList.add("show");
         document.body.style.overflow = "hidden";
+        openers.forEach(function (b) { b.setAttribute("aria-expanded", "true"); });
+        // Move focus into the drawer so keyboard users land there.
+        var closeBtn = drawer.querySelector("[data-close-drawer]");
+        if (closeBtn) setTimeout(function () { closeBtn.focus(); }, 50);
       } else {
         drawer.classList.remove("open");
         scrim.classList.remove("show");
         document.body.style.overflow = "";
+        openers.forEach(function (b) { b.setAttribute("aria-expanded", "false"); });
+        // Hide from AT once the close transition completes (matches the .open class CSS).
+        setTimeout(function () { if (!drawer.classList.contains("open")) drawer.hidden = true; }, 320);
+        if (triggerEl && typeof triggerEl.focus === "function") {
+          setTimeout(function () { triggerEl.focus(); }, 50);
+        }
       }
     };
     openers.forEach(function (b) { b.addEventListener("click", function () { setOpen(true); }); });
@@ -136,6 +150,31 @@ const links = [
     if (scrim) scrim.addEventListener("click", function () { setOpen(false); });
     drawer.querySelectorAll("a.nav-link").forEach(function (a) {
       a.addEventListener("click", function () { setOpen(false); });
+    });
+
+    // Esc closes the drawer when it's open. Also traps Tab focus inside the
+    // drawer so keyboard users don't fall through to the page beneath.
+    document.addEventListener("keydown", function (e) {
+      if (!drawer.classList.contains("open")) return;
+      if (e.key === "Escape") {
+        e.preventDefault();
+        setOpen(false);
+        return;
+      }
+      if (e.key !== "Tab") return;
+      var focusables = drawer.querySelectorAll(
+        'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
+      );
+      if (focusables.length === 0) return;
+      var first = focusables[0];
+      var last = focusables[focusables.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
     });
 
     // Smooth-scroll for same-page anchor links

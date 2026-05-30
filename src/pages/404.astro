@@ -1,0 +1,35 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { SITE } from "../lib/i18n";
+/*
+ * Astro emits this as `404.html`. Vercel serves it for any unmatched route,
+ * regardless of language. We render the copy bilingually so the user always
+ * sees a path forward.
+ */
+const lang = "hr" as const;
+---
+<BaseLayout
+  lang={lang}
+  title="404 — Stranica ne postoji | Page not found"
+  description="Tražena stranica nije pronađena. The page you requested could not be found."
+  canonical={`${SITE}/404/`}
+>
+  <section class="section-pad">
+    <div class="container" style="max-width: 640px;">
+      <div class="eyebrow" style="margin-bottom: 24px;">404</div>
+      <h1 style="font-family: var(--serif); font-size: clamp(36px, 5vw, 64px); font-weight: 400; line-height: 1.1; letter-spacing: -0.015em; margin-bottom: 24px;">
+        Ova stranica ne postoji. <br />This page does not exist.
+      </h1>
+      <p class="lead" style="margin-bottom: 16px;">
+        Možda je pomaknuta ili nikad nije postojala. Vratite se na početnu i pronađite ono što tražite.
+      </p>
+      <p class="lead" style="margin-bottom: 36px;">
+        It may have been moved, or it never existed. Head back to the homepage and find what you're looking for.
+      </p>
+      <div style="display: flex; flex-wrap: wrap; gap: 12px;">
+        <a class="btn btn-primary" href="/">Početna</a>
+        <a class="btn btn-ghost" href="/en/">Home (English)</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
