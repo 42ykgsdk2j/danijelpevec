@@ -171,8 +171,8 @@
     "messagePh": "Nekoliko rečenica o vašoj situaciji. Bez žurbe.",
     "submit": "Pošalji privatno",
     "cancel": "Odustani",
-    "successTitle": "Hvala",
-    "successAccent": "— primljeno.",
+    "successTitle": "Hvala, Vaš upit je zaprimljen",
+    "successAccent": "",
     "successSub": "Osobno ću pročitati vašu poruku i predložiti daljnje korake.",
     "close": "Zatvori",
     "err": {
