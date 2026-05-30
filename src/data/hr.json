@@ -130,6 +130,13 @@
     "ctaSub": "Ako vam nešto ovdje odgovara situaciji, sljedeći je korak privatni razgovor.",
     "ctaBtn": "Zatraži privatni razgovor"
   },
+  "blogChat": {
+    "title": "Pitajte o ovoj objavi",
+    "placeholder": "Vaše pitanje o ovom članku…",
+    "send": "Pošalji",
+    "error": "Nešto je pošlo po krivu. Pokušajte ponovno.",
+    "disclaimer": "Odgovor generira AI na temelju ove objave. Za osobni savjet zatražite privatni razgovor."
+  },
   "assessmentCta": {
     "eyebrow": "Polazna točka",
     "title": "Procjena spremnosti za tranziciju obiteljskog biznisa.",
