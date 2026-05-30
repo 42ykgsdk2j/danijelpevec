@@ -23,7 +23,6 @@ interface UI {
   send: string;
   error: string;
   disclaimer: string;
-  welcomeGreeting: string;
   welcomeBody: string;
   agentLabel: string;
   justNow: string;
@@ -251,7 +250,6 @@ export default function BlogChat({ postTitle, postBody, lang, ui }: Props) {
           {/* Persistent welcome bubble — modeled on Intercom's initial greeting */}
           <div className="chat-row chat-row-assistant">
             <div className="chat-bubble">
-              <p className="chat-greeting">{ui.welcomeGreeting}</p>
               <p>{ui.welcomeBody}</p>
             </div>
             <div className="chat-attribution">

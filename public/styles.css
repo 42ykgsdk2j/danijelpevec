@@ -2507,7 +2507,6 @@ section { position: relative; }
 .chat-row-assistant .chat-bubble > * + * { margin-top: 10px; }
 .chat-row-assistant .chat-bubble p { margin: 0; }
 .chat-row-assistant .chat-bubble p + p { margin-top: 10px; }
-.chat-row-assistant .chat-bubble .chat-greeting { font-size: 16px; color: var(--ink-0); }
 .chat-row-assistant .chat-bubble ul,
 .chat-row-assistant .chat-bubble ol { margin: 0; padding-left: 22px; }
 .chat-row-assistant .chat-bubble li + li { margin-top: 4px; }
