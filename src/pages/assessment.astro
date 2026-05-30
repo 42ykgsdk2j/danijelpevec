@@ -9,10 +9,10 @@ const t = getT(lang);
 <BaseLayout
   lang={lang}
   title="Procjena spremnosti obiteljskog biznisa | Danijel Pevec"
-  description="Procjena spremnosti za tranziciju obiteljskog biznisa kroz šest dimenzija koje određuju hoće li ono što ste izgradili trajati i dalje od vas. Bez registracije. Trenutni rezultati."
+  description="Procjena spremnosti za tranziciju obiteljskog biznisa u šest dimenzija — hoće li ono što ste izgradili trajati. Bez registracije, trenutni rezultati."
   canonical={`${SITE}/assessment/`}
   hreflangEn={`${SITE}/en/assessment/`}
   hreflangHr={`${SITE}/assessment/`}
 >
-  <Assessment client:load ui={assessmentUi} lang={lang} />
+  <Assessment client:idle ui={assessmentUi} lang={lang} />
 </BaseLayout>

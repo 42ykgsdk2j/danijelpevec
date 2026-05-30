@@ -64,6 +64,8 @@ const siteName = "Danijel Pevec";
 <meta property="og:image" content={ogImage} />
 {lang === "hr" && <meta property="og:locale" content="hr_HR" />}
 {lang === "hr" && <meta property="og:locale:alternate" content="en_GB" />}
+{lang === "en" && <meta property="og:locale" content="en_GB" />}
+{lang === "en" && <meta property="og:locale:alternate" content="hr_HR" />}
 
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content={twitterTitle ?? ogTitle ?? title} />
@@ -73,7 +75,22 @@ const siteName = "Danijel Pevec";
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+{/* Preload-and-swap pattern so the Google Fonts stylesheet doesn't block first paint.
+    Browsers honor `media="print"` for the request, then the onload handler
+    flips it to `all` once the CSS has arrived. The <noscript> path keeps
+    the fonts working for users without JS. */}
+<link
+  rel="preload"
+  as="style"
+  href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500&family=Inter:wght@300;400;500;600;700&display=swap"
+  onload="this.onload=null;this.rel='stylesheet'"
+/>
+<noscript>
+  <link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500&family=Inter:wght@300;400;500;600;700&display=swap"
+  />
+</noscript>
 <link rel="stylesheet" href="/styles.css" />
 
 {/* Apply theme before paint to avoid a flash */}
@@ -89,9 +106,10 @@ const siteName = "Danijel Pevec";
 ))}
 </head>
 <body>
+<a href="#main" class="skip-link">{lang === "hr" ? "Preskoči na sadržaj" : "Skip to content"}</a>
 <Nav lang={lang} />
 
-<main>
+<main id="main">
   <slot />
 </main>
 

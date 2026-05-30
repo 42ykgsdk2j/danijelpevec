@@ -9,10 +9,10 @@ const t = getT(lang);
 <BaseLayout
   lang={lang}
   title="Family Business Readiness Assessment | Danijel Pevec"
-  description="Family business transition readiness assessment across six dimensions that determine whether what you've built will last beyond you. No registration. Instant results."
+  description="Family business transition readiness across six dimensions — whether what you've built will last beyond you. No registration, instant results."
   canonical={`${SITE}/en/assessment/`}
   hreflangEn={`${SITE}/en/assessment/`}
   hreflangHr={`${SITE}/assessment/`}
 >
-  <Assessment client:load ui={assessmentUi} lang={lang} />
+  <Assessment client:idle ui={assessmentUi} lang={lang} />
 </BaseLayout>

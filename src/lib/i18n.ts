@@ -63,11 +63,11 @@ export const BUSINESS = {
  * The home page is `/` for HR and `/en/` for EN.
  */
 export function url(lang: Lang, path = ""): string {
-  const clean = path.replace(/^\/+/, "");
+  const clean = path.replace(/^\/+/, "").replace(/\/+$/, "");
   if (lang === "en") {
-    return clean ? `/en/${clean}` : "/en/";
+    return clean ? `/en/${clean}/` : "/en/";
   }
-  return clean ? `/${clean}` : "/";
+  return clean ? `/${clean}/` : "/";
 }
 
 /**
