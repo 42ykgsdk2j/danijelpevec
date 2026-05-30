@@ -1,6 +1,7 @@
 ---
 import { getCollection, render } from "astro:content";
 import BaseLayout from "../../../layouts/BaseLayout.astro";
+import BlogChat from "../../../components/BlogChat.tsx";
 import { getT, url, SITE } from "../../../lib/i18n";
 import { langOf, slugOf } from "../../../content.config";
 
@@ -71,4 +72,11 @@ const allInsightsLabel = t.blog.viewAll;
       <Content />
     </div>
   </article>
+  <BlogChat
+    client:visible
+    postTitle={post.data.title}
+    postBody={post.body}
+    lang={lang}
+    ui={t.blogChat}
+  />
 </BaseLayout>
