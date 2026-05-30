@@ -11,6 +11,10 @@
 import { streamText, convertToModelMessages, type UIMessage } from "ai";
 import { z } from "zod";
 
+export const config = {
+  runtime: "edge",
+};
+
 const BodySchema = z.object({
   messages: z.array(z.any()).min(1).max(40),
   postTitle: z.string().min(1).max(300),
@@ -19,6 +23,8 @@ const BodySchema = z.object({
 });
 
 export default async function handler(req: Request): Promise<Response> {
+  console.log("[chat] invoked, method:", req.method);
+
   if (req.method !== "POST") {
     return new Response(JSON.stringify({ error: "Method not allowed" }), {
       status: 405,
@@ -29,8 +35,9 @@ export default async function handler(req: Request): Promise<Response> {
   let body: z.infer<typeof BodySchema>;
   try {
     body = BodySchema.parse(await req.json());
+    console.log("[chat] body parsed, lang:", body.lang, "messages:", body.messages.length);
   } catch (err) {
-    console.error("Chat body parse error:", err);
+    console.error("[chat] body parse error:", err);
     return new Response(JSON.stringify({ error: "Invalid request body" }), {
       status: 400,
       headers: { "Content-Type": "application/json" },
@@ -71,15 +78,19 @@ INSTRUCTIONS:
 - Don't fabricate details not in the post.`;
 
   try {
+    console.log("[chat] calling streamText with model anthropic/claude-haiku-4-5");
     const result = streamText({
       model: "anthropic/claude-haiku-4-5",
       system: systemPrompt,
       messages: convertToModelMessages(messages as UIMessage[]),
+      onError: ({ error }) => {
+        console.error("[chat] streamText onError:", error);
+      },
     });
 
     return result.toUIMessageStreamResponse();
   } catch (err) {
-    console.error("Chat streamText error:", err);
+    console.error("[chat] streamText threw:", err);
     return new Response(JSON.stringify({ error: "Model call failed" }), {
       status: 500,
       headers: { "Content-Type": "application/json" },
