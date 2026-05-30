@@ -2811,12 +2811,8 @@ section { position: relative; }
   border-radius: 4px;
 }
 
-/* Form inputs now use :focus-visible so non-keyboard interactions don't
-   draw the ring. The existing border-bottom color change still happens. */
-.field input:focus-visible,
-.field textarea:focus-visible,
-.field select:focus-visible {
-  outline: 2px solid var(--gold);
-  outline-offset: 4px;
-}
+/* Form inputs rely on the gold border-bottom color change (defined in
+   `.field input:focus`) as the visible focus indicator — the rectangular
+   outline that previously sat 4px outside the field was visually heavy
+   on a form whose inputs are already separated only by a hairline. */
 
