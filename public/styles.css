@@ -2689,11 +2689,13 @@ section { position: relative; }
    Skip-link, drawer-close, focus rings, hardened touch targets.
    ============================================ */
 
-/* Visually-hidden until focused — keyboard users tab to it first thing
-   and can skip the nav. */
+/* Visually hidden until focused — keyboard users tab to it first thing
+   and can skip the nav. We use the standard "clip to 1×1" sr-only
+   pattern (not `top: -40px` off-screen) so iOS rubber-band overscroll
+   can't reveal it above the page. */
 .skip-link {
-  position: absolute;
-  top: -40px;
+  position: fixed;
+  top: 16px;
   left: 16px;
   z-index: 9999;
   padding: 10px 16px;
@@ -2704,11 +2706,28 @@ section { position: relative; }
   text-decoration: none;
   font-size: 13px;
   font-weight: 500;
-  transition: top 200ms ease;
+  /* Visually hidden but kept in the focus order. */
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
 }
 .skip-link:focus,
 .skip-link:focus-visible {
-  top: 16px;
+  /* Restore the full pill on focus. */
+  width: auto;
+  height: auto;
+  padding: 10px 16px;
+  overflow: visible;
+  clip: auto;
+  clip-path: none;
+  white-space: normal;
+  border: 1px solid var(--gold);
   outline: 2px solid var(--gold);
   outline-offset: 2px;
 }
