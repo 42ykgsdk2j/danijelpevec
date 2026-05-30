@@ -24,16 +24,13 @@ const privacyHref = url(lang, "privacy");
   id="consent-banner"
   class="consent-banner"
   role="region"
-  aria-label={t.consent.title}
+  aria-label={lang === "hr" ? "Postavke kolačića" : "Cookie preferences"}
   hidden
 >
   <div class="consent-banner-inner">
-    <div class="consent-banner-text">
-      <strong class="consent-banner-title">{t.consent.title}</strong>
-      <p class="consent-banner-body">
-        {t.consent.body}<a href={privacyHref}>{t.consent.privacyLink}</a>{t.consent.bodyAfterLink}
-      </p>
-    </div>
+    <p class="consent-banner-body">
+      {t.consent.body}<a href={privacyHref}>{t.consent.privacyLink}</a>{t.consent.bodyAfterLink}
+    </p>
     <div class="consent-banner-actions">
       <button
         type="button"

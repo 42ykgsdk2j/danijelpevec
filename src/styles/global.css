@@ -2924,26 +2924,13 @@ section { position: relative; }
   gap: clamp(16px, 3vw, 32px);
   flex-wrap: wrap;
 }
-.consent-banner-text {
+.consent-banner-body {
   flex: 1 1 280px;
   min-width: 0;
-}
-.consent-banner-title {
-  display: block;
-  font-family: var(--sans);
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: var(--ink-0);
-  margin-bottom: 4px;
-}
-.consent-banner-body {
   font-size: 13px;
   line-height: 1.5;
   color: var(--ink-2);
   margin: 0;
-  max-width: 64ch;
 }
 .consent-banner-body a {
   color: var(--gold);

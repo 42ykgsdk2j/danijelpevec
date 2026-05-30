@@ -168,9 +168,8 @@
     }
   },
   "consent": {
-    "title": "Cookies & analytics",
-    "body": "Optional analytics: Google Analytics (anonymised page visits) and Microsoft Clarity (session replay + heatmaps). None are essential. You can change your choice anytime — see ",
-    "privacyLink": "Privacy",
+    "body": "We use cookies for analytics and to improve your experience. ",
+    "privacyLink": "Learn more",
     "bodyAfterLink": ".",
     "accept": "Accept",
     "reject": "Reject"

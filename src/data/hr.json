@@ -168,9 +168,8 @@
     }
   },
   "consent": {
-    "title": "Kolačići i analitika",
-    "body": "Opcionalna analitika: Google Analytics (anonimne posjete stranica) i Microsoft Clarity (snimke sesija + heatmape). Nijedna nije nužna. Odluku možete promijeniti u svakom trenutku — pogledajte ",
-    "privacyLink": "Privatnost",
+    "body": "Koristimo kolačiće za analitiku i poboljšanje iskustva. ",
+    "privacyLink": "Saznajte više",
     "bodyAfterLink": ".",
     "accept": "Prihvati",
     "reject": "Odbaci"
