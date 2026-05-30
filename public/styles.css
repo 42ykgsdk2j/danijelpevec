@@ -2288,10 +2288,12 @@ section { position: relative; }
   cursor: pointer;
   overflow: hidden;
   text-shadow: 0 1px 0 rgba(255, 240, 200, 0.35);
+  /* Tight, low-opacity drop shadow so iOS Safari can't clip a long
+     glow when the launcher sits at the bottom of the viewport. */
   box-shadow:
     0 1px 0 rgba(255, 240, 200, 0.5) inset,
     0 -1px 0 rgba(0, 0, 0, 0.15) inset,
-    0 18px 40px rgba(201, 169, 97, 0.32);
+    0 6px 16px rgba(201, 169, 97, 0.18);
   transition:
     transform 240ms cubic-bezier(0.2, 0.8, 0.2, 1),
     box-shadow 280ms ease,
@@ -2307,7 +2309,7 @@ section { position: relative; }
   box-shadow:
     0 1px 0 rgba(255, 248, 220, 0.7) inset,
     0 -1px 0 rgba(0, 0, 0, 0.1) inset,
-    0 22px 48px rgba(240, 209, 134, 0.5);
+    0 8px 20px rgba(240, 209, 134, 0.28);
 }
 .chat-launcher:active { transform: translateY(0); }
 .chat-launcher:focus-visible {
