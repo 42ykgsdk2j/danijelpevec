@@ -167,6 +167,14 @@
       "submit": "I couldn't send your message. Please try again, or email directly."
     }
   },
+  "consent": {
+    "title": "Cookies & analytics",
+    "body": "Optional analytics: Google Analytics (anonymised page visits) and Microsoft Clarity (session replay + heatmaps). None are essential. You can change your choice anytime — see ",
+    "privacyLink": "Privacy",
+    "bodyAfterLink": ".",
+    "accept": "Accept",
+    "reject": "Reject"
+  },
   "footer": {
     "tagline": "Trusted compass for founders and family businesses.",
     "navTitle": "Navigate",

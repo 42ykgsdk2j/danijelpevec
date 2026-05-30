@@ -2,6 +2,7 @@
 import Nav from "../components/Nav.astro";
 import Footer from "../components/Footer.astro";
 import Modal from "../components/Modal.astro";
+import ConsentBanner from "../components/ConsentBanner.astro";
 import "../styles/global.css";
 
 interface Props {
@@ -104,28 +105,62 @@ const siteName = "Danijel Pevec";
   })();
 </script>
 
-{/* Google Analytics (gtag.js) — measurement ID G-K37Z56T2J2.
-    The loader is async so it doesn't block first paint; the inline
-    init below queues `dataLayer` before the loader resolves. */}
-<script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-K37Z56T2J2"></script>
+{/* Analytics with Google Consent Mode v2.
+
+    Order of operations is critical:
+    1. Declare gtag + set every consent signal to "denied" BEFORE the
+       gtag loader fires. EEA visitors land with no cookies set; GA
+       still pings in cookieless "consent mode" so we get anonymous
+       traffic totals.
+    2. Load the gtag loader async — measurement ID G-Q5NYL9TVV3.
+    3. Read the stored consent decision (`dp_consent_v1` in
+       localStorage). If "granted", flip `analytics_storage` +
+       `functionality_storage` on, and inject Microsoft Clarity. If
+       "denied" or unset, neither tool can drop cookies; the visitor
+       sees the banner from <ConsentBanner /> on next paint.
+
+    `wait_for_update: 500` tells gtag to hold the first beacon for up
+    to 500ms while the localStorage read + consent update runs. */}
 <script is:inline>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
+  gtag('consent', 'default', {
+    'ad_storage': 'denied',
+    'ad_user_data': 'denied',
+    'ad_personalization': 'denied',
+    'analytics_storage': 'denied',
+    'functionality_storage': 'denied',
+    'personalization_storage': 'denied',
+    'security_storage': 'granted',
+    'wait_for_update': 500
+  });
   gtag('js', new Date());
-  gtag('config', 'G-K37Z56T2J2');
-</script>
+  gtag('config', 'G-Q5NYL9TVV3');
 
-{/* Microsoft Clarity — project ID wzcb52p9q4. The bootstrap below
-    asynchronously injects the real Clarity script. Queueing
-    `window.clarity()` before injection means the first events are
-    captured even if the user closes the tab during load. */}
-<script is:inline>
-  (function(c,l,a,r,i,t,y){
-    c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-    t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-    y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-  })(window, document, "clarity", "script", "wzcb52p9q4");
+  window.dpLoadClarity = function () {
+    if (window.clarity) return;
+    (function (c, l, a, r, i, t, y) {
+      c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments); };
+      t = l.createElement(r); t.async = 1; t.src = "https://www.clarity.ms/tag/" + i;
+      y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
+    })(window, document, "clarity", "script", "wzcb52p9q4");
+  };
+
+  window.dpGrantConsent = function () {
+    gtag('consent', 'update', {
+      'analytics_storage': 'granted',
+      'functionality_storage': 'granted'
+    });
+    window.dpLoadClarity();
+  };
+
+  try {
+    if (localStorage.getItem('dp_consent_v1') === 'granted') {
+      window.dpGrantConsent();
+    }
+  } catch (e) { /* localStorage blocked — leave consent denied */ }
 </script>
+<script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-Q5NYL9TVV3"></script>
 
 {jsonLd.map((data) => (
   <script type="application/ld+json" set:html={JSON.stringify(data)} />
@@ -141,6 +176,7 @@ const siteName = "Danijel Pevec";
 
 <Footer lang={lang} />
 <Modal lang={lang} />
+<ConsentBanner lang={lang} />
 
 <script is:inline defer src="/btn-shine.js"></script>
 <script is:inline defer src="/scroll-reveal.js"></script>

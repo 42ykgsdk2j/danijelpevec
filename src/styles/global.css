@@ -2887,3 +2887,93 @@ section { position: relative; }
    outline that previously sat 4px outside the field was visually heavy
    on a form whose inputs are already separated only by a hairline. */
 
+
+/* ============================================
+   Consent banner — fixed bottom strip, themed.
+   ============================================ */
+
+.consent-banner {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 953;
+  background: var(--bg-2);
+  color: var(--ink-1);
+  border-top: 1px solid var(--line);
+  box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.18);
+  padding: 14px clamp(16px, 4vw, 32px);
+  padding-bottom: max(14px, env(safe-area-inset-bottom));
+  animation: consent-banner-slide 280ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.consent-banner[hidden] { display: none; }
+@keyframes consent-banner-slide {
+  from { transform: translateY(100%); opacity: 0; }
+  to   { transform: translateY(0); opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .consent-banner { animation: none; }
+}
+
+.consent-banner-inner {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: clamp(16px, 3vw, 32px);
+  flex-wrap: wrap;
+}
+.consent-banner-text {
+  flex: 1 1 280px;
+  min-width: 0;
+}
+.consent-banner-title {
+  display: block;
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ink-0);
+  margin-bottom: 4px;
+}
+.consent-banner-body {
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--ink-2);
+  margin: 0;
+  max-width: 64ch;
+}
+.consent-banner-body a {
+  color: var(--gold);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.consent-banner-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+.consent-banner-actions .btn {
+  padding: 10px 18px;
+  font-size: 12px;
+  letter-spacing: 0.12em;
+}
+.consent-banner-actions .btn-ghost {
+  background: transparent;
+  border: 1px solid var(--line);
+  color: var(--ink-1);
+}
+.consent-banner-actions .btn-ghost:hover {
+  border-color: var(--gold);
+  color: var(--gold);
+  background: transparent;
+}
+
+@media (max-width: 640px) {
+  .consent-banner-inner { flex-direction: column; align-items: stretch; }
+  .consent-banner-actions { justify-content: flex-end; }
+  .consent-banner-actions .btn { flex: 1; padding: 12px 16px; }
+}

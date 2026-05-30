@@ -167,6 +167,14 @@
       "submit": "Slanje poruke nije uspjelo. Pokušajte ponovno ili pošaljite email izravno."
     }
   },
+  "consent": {
+    "title": "Kolačići i analitika",
+    "body": "Opcionalna analitika: Google Analytics (anonimne posjete stranica) i Microsoft Clarity (snimke sesija + heatmape). Nijedna nije nužna. Odluku možete promijeniti u svakom trenutku — pogledajte ",
+    "privacyLink": "Privatnost",
+    "bodyAfterLink": ".",
+    "accept": "Prihvati",
+    "reject": "Odbaci"
+  },
   "footer": {
     "tagline": "Pouzdan kompas za osnivače i obiteljske tvrtke.",
     "navTitle": "Navigacija",

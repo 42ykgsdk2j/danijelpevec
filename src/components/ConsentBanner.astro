@@ -1,0 +1,93 @@
+---
+/**
+ * Consent banner — coordinates with the gtag Consent Mode v2 default in
+ * BaseLayout. Shown when `localStorage.dp_consent_v1` is not set yet
+ * (`hidden` is applied inline so the banner never flashes for users
+ * who've already chosen). Accept calls `window.dpGrantConsent()` to
+ * flip GA's `analytics_storage` on and inject Clarity. Reject stores
+ * the decision and leaves both tools dormant.
+ *
+ * The container is `position: fixed; bottom: 0; z-index: 953` (above
+ * the chat panel + launcher, below the contact modal so the modal can
+ * cover the banner if both are visible).
+ */
+import { getT, url, type Lang } from "../lib/i18n";
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = getT(lang);
+const privacyHref = url(lang, "privacy");
+---
+<div
+  id="consent-banner"
+  class="consent-banner"
+  role="region"
+  aria-label={t.consent.title}
+  hidden
+>
+  <div class="consent-banner-inner">
+    <div class="consent-banner-text">
+      <strong class="consent-banner-title">{t.consent.title}</strong>
+      <p class="consent-banner-body">
+        {t.consent.body}<a href={privacyHref}>{t.consent.privacyLink}</a>{t.consent.bodyAfterLink}
+      </p>
+    </div>
+    <div class="consent-banner-actions">
+      <button
+        type="button"
+        class="btn btn-ghost consent-reject"
+        data-consent-reject
+      >{t.consent.reject}</button>
+      <button
+        type="button"
+        class="btn btn-primary consent-accept"
+        data-consent-accept
+      >{t.consent.accept}</button>
+    </div>
+  </div>
+</div>
+
+<script is:inline>
+  (function () {
+    var banner = document.getElementById("consent-banner");
+    if (!banner) return;
+    var STORAGE_KEY = "dp_consent_v1";
+
+    function getStored() {
+      try { return localStorage.getItem(STORAGE_KEY); } catch (e) { return null; }
+    }
+    function setStored(value) {
+      try { localStorage.setItem(STORAGE_KEY, value); } catch (e) { /* blocked */ }
+    }
+    function show() { banner.hidden = false; }
+    function hide() { banner.hidden = true; }
+
+    // First-paint check — show the banner only if no choice has been
+    // recorded yet. (The decision was already applied by the head
+    // script in BaseLayout, this just controls the banner's visibility.)
+    if (!getStored()) show();
+
+    var acceptBtn = banner.querySelector("[data-consent-accept]");
+    var rejectBtn = banner.querySelector("[data-consent-reject]");
+
+    if (acceptBtn) {
+      acceptBtn.addEventListener("click", function () {
+        setStored("granted");
+        if (typeof window.dpGrantConsent === "function") {
+          window.dpGrantConsent();
+        }
+        hide();
+      });
+    }
+    if (rejectBtn) {
+      rejectBtn.addEventListener("click", function () {
+        setStored("denied");
+        // Nothing to grant. Consent Mode v2 already starts with everything
+        // denied, so a no-op here is the right behaviour.
+        hide();
+      });
+    }
+  })();
+</script>
