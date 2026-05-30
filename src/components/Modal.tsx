@@ -35,6 +35,7 @@ type T = {
 
 interface Props {
   t: T;
+  lang: "hr" | "en";
 }
 
 interface FormState {
@@ -48,7 +49,7 @@ interface FormState {
 
 const initial: FormState = { name: "", role: "", company: "", email: "", stage: "", message: "" };
 
-export default function Modal({ t }: Props) {
+export default function Modal({ t, lang }: Props) {
   const [open, setOpen] = useState(false);
   const [form, setForm] = useState<FormState>(initial);
   const [errors, setErrors] = useState<Record<string, string | null>>({});
@@ -102,7 +103,7 @@ export default function Modal({ t }: Props) {
     setSubmitting(true);
     setErrors({});
     try {
-      const res = await fetch("https://formspree.io/f/mykoyaap", {
+      const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json", "Accept": "application/json" },
         body: JSON.stringify({
@@ -112,15 +113,14 @@ export default function Modal({ t }: Props) {
           email: form.email,
           stage: form.stage,
           message: form.message,
-          _subject: `Private conversation request from ${form.name}`,
+          lang,
         }),
       });
       if (res.ok) {
         setSubmitted(true);
       } else {
         const data = await res.json().catch(() => ({}));
-        const apiMsg = data && data.errors && data.errors[0] && data.errors[0].message;
-        setErrors({ submit: apiMsg || t.err.submit });
+        setErrors({ submit: (data && data.error) || t.err.submit });
       }
     } catch {
       setErrors({ submit: t.err.submit });

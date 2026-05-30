@@ -8,7 +8,7 @@ interface Props {
 const { lang } = Astro.props;
 const t = getT(lang);
 ---
-<Modal client:load t={t.modal} />
+<Modal client:load t={t.modal} lang={lang} />
 
 <script is:inline>
   // Any [data-open-modal] button dispatches the open event the React island listens for.
