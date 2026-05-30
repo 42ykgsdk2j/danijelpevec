@@ -127,10 +127,25 @@ const privacyHref = url(lang, "privacy");
     function hideBanner() { banner.hidden = true; }
     function showBanner() { banner.hidden = false; }
 
+    // Reflect the marketing checkbox state into the visual switch class.
+    var marketingCheckbox = config.querySelector("[data-consent-marketing]");
+    var marketingSwitch = marketingCheckbox ? marketingCheckbox.closest(".consent-toggle") : null;
+    function syncSwitch() {
+      if (!marketingSwitch || !marketingCheckbox) return;
+      marketingSwitch.classList.toggle("is-on", marketingCheckbox.checked);
+    }
+
     function openConfig() {
+      // Re-sync the marketing toggle with the stored decision before
+      // showing the modal so the user sees their current choice (the
+      // privacy page's "Change preferences" button reuses this entry).
+      if (marketingCheckbox) {
+        marketingCheckbox.checked = getStored() !== "denied";
+        syncSwitch();
+      }
       config.hidden = false;
       document.body.classList.add("consent-config-open");
-      var first = config.querySelector("[data-consent-marketing], [data-consent-save]");
+      var first = marketingCheckbox || config.querySelector("[data-consent-save]");
       if (first) setTimeout(function () { first.focus(); }, 50);
     }
     function closeConfig() {
@@ -143,6 +158,10 @@ const privacyHref = url(lang, "privacy");
         window.dpGrantConsent();
       }
     }
+
+    // Expose a global so any page (e.g. the privacy page's "Change
+    // preferences" button) can re-open the configure modal at any time.
+    window.dpOpenConsentConfig = openConfig;
 
     // First-paint: show the banner only if no choice has been recorded.
     if (!getStored()) showBanner();
@@ -165,7 +184,6 @@ const privacyHref = url(lang, "privacy");
 
     // Save in modal — apply marketing toggle, persist, close everything.
     var saveBtn = config.querySelector("[data-consent-save]");
-    var marketingCheckbox = config.querySelector("[data-consent-marketing]");
     if (saveBtn && marketingCheckbox) {
       saveBtn.addEventListener("click", function () {
         if (marketingCheckbox.checked) {
@@ -179,13 +197,7 @@ const privacyHref = url(lang, "privacy");
       });
     }
 
-    // Reflect toggle state into the visual switch class.
     if (marketingCheckbox) {
-      var marketingSwitch = marketingCheckbox.closest(".consent-toggle");
-      function syncSwitch() {
-        if (!marketingSwitch) return;
-        marketingSwitch.classList.toggle("is-on", marketingCheckbox.checked);
-      }
       marketingCheckbox.addEventListener("change", syncSwitch);
       syncSwitch();
     }

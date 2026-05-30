@@ -63,8 +63,14 @@ const lang = "hr" as const;
   <script is:inline>
     document.querySelectorAll("[data-consent-reset]").forEach(function (btn) {
       btn.addEventListener("click", function () {
-        try { localStorage.removeItem("dp_consent_v1"); } catch (e) {}
-        location.reload();
+        if (typeof window.dpOpenConsentConfig === "function") {
+          window.dpOpenConsentConfig();
+        } else {
+          // Fallback if the banner script hasn't loaded yet — clear the
+          // stored decision and reload so the banner reappears.
+          try { localStorage.removeItem("dp_consent_v1"); } catch (e) {}
+          location.reload();
+        }
       });
     });
   </script>
