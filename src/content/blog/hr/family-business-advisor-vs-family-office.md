@@ -113,4 +113,4 @@ readTime: 7
 <details><summary>Treba li savjetnik za obiteljski biznis također upravljati obiteljskim ulaganjima?</summary><p>Općenito ne. Savjetodavni rad zahtijeva neovisnost od transakcija o kojima se raspravlja. Savjetnik koji istovremeno upravlja novcem ima konkurentske poticaje u trenucima kada najviše treba biti neutralan.</p></details>
 </section>
 
-<section class="article-cta"><h3>Ovi razgovori ne događaju se na stranici.</h3><p>Ako vam nešto ovdje odgovara situaciji, sljedeći je korak privatni razgovor.</p><a class="btn btn-primary" href="../index.html#top">Zatraži privatni razgovor →</a></section>
+<section class="article-cta"><h3>Ovi razgovori ne događaju se na stranici.</h3><p>Ako vam nešto ovdje odgovara situaciji, sljedeći je korak privatni razgovor.</p><button class="btn btn-primary" data-open-modal>Zatraži privatni razgovor →</button></section>

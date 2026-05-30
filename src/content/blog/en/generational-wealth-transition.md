@@ -101,5 +101,5 @@ readTime: 8
 <section class="article-cta">
 <h3>These conversations don't happen on a page.</h3>
 <p>If anything here speaks to your situation, the next step is a private conversation.</p>
-<a class="btn btn-primary" href="../index.html#top">Request a private conversation →</a>
+<button class="btn btn-primary" data-open-modal>Request a private conversation →</button>
 </section>

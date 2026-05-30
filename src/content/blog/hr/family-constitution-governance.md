@@ -106,4 +106,4 @@ readTime: 9
 <details><summary>Koliko traje izrada obiteljskog ustava?</summary><p>Obično šest mjeseci do dvije godine, ovisno o veličini i složenosti obitelji. Sam proces izrade — razgovori, iteracija, ratifikacija — najvrjedniji je dio vježbe.</p></details>
 </section>
 
-<section class="article-cta"><h3>Ovi razgovori ne događaju se na stranici.</h3><p>Ako vam nešto ovdje odgovara situaciji, sljedeći je korak privatni razgovor.</p><a class="btn btn-primary" href="../index.html#top">Zatraži privatni razgovor →</a></section>
+<section class="article-cta"><h3>Ovi razgovori ne događaju se na stranici.</h3><p>Ako vam nešto ovdje odgovara situaciji, sljedeći je korak privatni razgovor.</p><button class="btn btn-primary" data-open-modal>Zatraži privatni razgovor →</button></section>

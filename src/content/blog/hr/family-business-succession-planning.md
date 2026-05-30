@@ -102,5 +102,5 @@ readTime: 9
 <section class="article-cta">
 <h3>Ovi razgovori ne događaju se na stranici.</h3>
 <p>Ako vam nešto ovdje odgovara situaciji, sljedeći je korak privatni razgovor.</p>
-<a class="btn btn-primary" href="../index.html#top">Zatraži privatni razgovor →</a>
+<button class="btn btn-primary" data-open-modal>Zatraži privatni razgovor →</button>
 </section>

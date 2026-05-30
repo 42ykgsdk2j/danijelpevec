@@ -93,4 +93,4 @@ readTime: 8
 <details><summary>Koliko rano treba započeti planiranje nasljeđa?</summary><p>Strukturni rad — upravljanje, obiteljski ustav, razvoj sljedeće generacije — treba započeti u najaktivnijem desetljeću osnivača, a ne u godinama koje se približavaju umirovljenju. Do trenutka kada planiranje nasljeđa djeluje hitno, najkorisniji prozor obično je već prošao.</p></details>
 </section>
 
-<section class="article-cta"><h3>Ovi razgovori ne događaju se na stranici.</h3><p>Ako vam nešto ovdje odgovara situaciji, sljedeći je korak privatni razgovor.</p><a class="btn btn-primary" href="../index.html#top">Zatraži privatni razgovor →</a></section>
+<section class="article-cta"><h3>Ovi razgovori ne događaju se na stranici.</h3><p>Ako vam nešto ovdje odgovara situaciji, sljedeći je korak privatni razgovor.</p><button class="btn btn-primary" data-open-modal>Zatraži privatni razgovor →</button></section>

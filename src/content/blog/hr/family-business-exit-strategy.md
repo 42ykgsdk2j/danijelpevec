@@ -110,4 +110,4 @@ readTime: 9
 <details><summary>Što je treća opcija — zadržati pod profesionalnim menadžmentom?</summary><p>Obitelj zadržava vlasništvo; neobiteljski izvršni direktor vodi tvrtku; uprava upravlja. Ovo je sve češće u većim obiteljskim tvrtkama i prirodan je odgovor kada sljedeća generacija želi biti vlasnici, ali ne i operativci.</p></details>
 </section>
 
-<section class="article-cta"><h3>Ovi razgovori ne događaju se na stranici.</h3><p>Ako vam nešto ovdje odgovara situaciji, sljedeći je korak privatni razgovor.</p><a class="btn btn-primary" href="../index.html#top">Zatraži privatni razgovor →</a></section>
+<section class="article-cta"><h3>Ovi razgovori ne događaju se na stranici.</h3><p>Ako vam nešto ovdje odgovara situaciji, sljedeći je korak privatni razgovor.</p><button class="btn btn-primary" data-open-modal>Zatraži privatni razgovor →</button></section>

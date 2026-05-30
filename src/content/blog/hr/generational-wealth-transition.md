@@ -90,4 +90,4 @@ readTime: 8
 <details><summary>Treba li djeci reći veličinu obiteljske imovine?</summary><p>U trajnim obiteljima, da — u prikladnim fazama i s prikladnim kontekstom. Alternativa je da to otkriju u najgorem mogućem trenutku, bez pripreme. Pitanje nije treba li reći, već kada i kako.</p></details>
 </section>
 
-<section class="article-cta"><h3>Ovi razgovori ne događaju se na stranici.</h3><p>Ako vam nešto ovdje odgovara situaciji, sljedeći je korak privatni razgovor.</p><a class="btn btn-primary" href="../index.html#top">Zatraži privatni razgovor →</a></section>
+<section class="article-cta"><h3>Ovi razgovori ne događaju se na stranici.</h3><p>Ako vam nešto ovdje odgovara situaciji, sljedeći je korak privatni razgovor.</p><button class="btn btn-primary" data-open-modal>Zatraži privatni razgovor →</button></section>

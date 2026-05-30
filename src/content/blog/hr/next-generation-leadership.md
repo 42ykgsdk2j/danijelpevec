@@ -92,4 +92,4 @@ readTime: 8
 <details><summary>Što ako se član sljedeće generacije ne želi pridružiti tvrtki?</summary><p>Taj izbor zaslužuje jednaku težinu. Prisilno uvođenje proizvodi loše vođe i još lošije obiteljske odnose. Vlasništvo i vodstvo mogu se razdvojiti — neoperativni član obitelji može i dalje biti promišljen, angažiran vlasnik.</p></details>
 </section>
 
-<section class="article-cta"><h3>Ovi razgovori ne događaju se na stranici.</h3><p>Ako vam nešto ovdje odgovara situaciji, sljedeći je korak privatni razgovor.</p><a class="btn btn-primary" href="../index.html#top">Zatraži privatni razgovor →</a></section>
+<section class="article-cta"><h3>Ovi razgovori ne događaju se na stranici.</h3><p>Ako vam nešto ovdje odgovara situaciji, sljedeći je korak privatni razgovor.</p><button class="btn btn-primary" data-open-modal>Zatraži privatni razgovor →</button></section>

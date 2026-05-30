@@ -93,4 +93,4 @@ readTime: 8
 <details><summary>How early should legacy planning begin?</summary><p>The structural work — governance, family constitution, next-generation development — should begin in the founder's most active decade, not in the years approaching retirement. By the time legacy planning feels urgent, the most useful window has usually passed.</p></details>
 </section>
 
-<section class="article-cta"><h3>These conversations don't happen on a page.</h3><p>If anything here speaks to your situation, the next step is a private conversation.</p><a class="btn btn-primary" href="../index.html#top">Request a private conversation →</a></section>
+<section class="article-cta"><h3>These conversations don't happen on a page.</h3><p>If anything here speaks to your situation, the next step is a private conversation.</p><button class="btn btn-primary" data-open-modal>Request a private conversation →</button></section>
