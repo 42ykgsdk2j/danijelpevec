@@ -8,15 +8,13 @@ const t = getT(lang);
   <div class="container">
     <div class="two-col">
       <div class="col-left">
-        <div class="reveal">
-          <div class="eyebrow" style="margin-bottom: 32px;">{t.approach.eyebrow}</div>
-          <div class="approach-quote">
-            {t.approach.quoteA} <span class="accent">{t.approach.quoteAccent}</span> {t.approach.quoteB}
-          </div>
+        <div class="section-head reveal">
+          <div class="eyebrow">{t.approach.eyebrow}</div>
+          <h2>{t.approach.quoteA} {t.approach.quoteAccent} {t.approach.quoteB}</h2>
+          <p class="lead">{t.approach.coda}</p>
         </div>
       </div>
-      <div class="reveal">
-        <p class="lead" style="margin-bottom: 8px;">{t.approach.lead}</p>
+      <div>
         <div class="approach-list reveal-stagger">
           {t.approach.items.map((item) => (
             <div class="approach-list-item reveal">
@@ -24,7 +22,6 @@ const t = getT(lang);
             </div>
           ))}
         </div>
-        <p class="approach-coda">{t.approach.coda}</p>
       </div>
     </div>
   </div>
