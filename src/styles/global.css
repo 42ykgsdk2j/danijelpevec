@@ -2971,30 +2971,30 @@ section { position: relative; }
   border-radius: 2px;
 }
 
-/* Mobile — keep it minimal. The desktop \`flex: 1 1 280px\` on the
-   body uses 280px as a flex-basis. In row mode that's a min-width
-   (fine); in column mode it becomes a min-HEIGHT (puffs the banner
-   to ~280px tall). Reset flex + justify-content on the inner row so
-   the body and actions sit tight on their content. */
+/* Mobile — text on the left (wrapping freely), actions tight on the
+   right. We override the desktop \`flex: 1 1 280px\` to \`flex: 1 1 auto\`
+   so the body shrinks below the desktop min-width without bumping the
+   actions to a new line, and force \`flex-wrap: nowrap\` to keep the
+   single-row shape. */
 @media (max-width: 640px) {
   .consent-banner {
     padding: 10px clamp(12px, 4vw, 20px);
     padding-bottom: max(10px, env(safe-area-inset-bottom));
   }
   .consent-banner-inner {
-    flex-direction: column;
-    align-items: stretch;
-    justify-content: flex-start;
-    gap: 10px;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 12px;
   }
   .consent-banner-body {
-    flex: 0 0 auto;
+    flex: 1 1 auto;
+    min-width: 0;
     font-size: 12px;
     line-height: 1.45;
   }
   .consent-banner-actions {
-    justify-content: flex-end;
-    gap: 8px;
+    flex-shrink: 0;
+    gap: 6px;
   }
   .consent-banner-actions .btn {
     flex: 0 0 auto;
