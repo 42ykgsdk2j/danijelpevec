@@ -2262,213 +2262,34 @@ section { position: relative; }
 }
 
 /* ============================================
-   Blog Q&A chat — floating Intercom-style launcher + slide-up panel,
-   Danijel Pevec theming.
+   Blog Q&A chat — ChatGPT-style layout, Danijel Pevec theming
    ============================================ */
 
-/* Floating launcher button — pill, bottom-right, fixed. Carries the gold
-   button treatment so it reads as the primary action even when the user
-   hasn't reached the foot of the article. */
-.blog-chat-launcher {
-  position: fixed;
-  right: clamp(16px, 3vw, 28px);
-  bottom: clamp(16px, 3vw, 28px);
-  z-index: 950;
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  padding: 12px 20px 12px 16px;
-  height: 52px;
-  border: 0;
-  border-radius: 999px;
-  cursor: pointer;
-  color: #1a1408;
-  background:
-    radial-gradient(180px circle at var(--mx, 50%) var(--my, 50%),
-                    rgba(255, 250, 220, 0.45),
-                    rgba(255, 250, 220, 0) 60%),
-    var(--gold-shine);
-  box-shadow:
-    0 1px 0 rgba(255, 240, 200, 0.5) inset,
-    0 -1px 0 rgba(0, 0, 0, 0.15) inset,
-    0 12px 32px rgba(201, 169, 97, 0.32);
-  font-family: var(--sans);
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  text-shadow: 0 1px 0 rgba(255, 240, 200, 0.35);
-  transition:
-    transform 200ms cubic-bezier(0.2, 0.8, 0.2, 1),
-    box-shadow 280ms ease,
-    background 280ms ease;
-}
-.blog-chat-launcher:hover {
-  transform: translateY(-2px);
-  background:
-    radial-gradient(220px circle at var(--mx, 50%) var(--my, 50%),
-                    rgba(255, 250, 220, 0.55),
-                    rgba(255, 250, 220, 0) 60%),
-    var(--gold-shine-hover);
-  box-shadow:
-    0 1px 0 rgba(255, 248, 220, 0.7) inset,
-    0 -1px 0 rgba(0, 0, 0, 0.1) inset,
-    0 18px 40px rgba(240, 209, 134, 0.5);
-}
-.blog-chat-launcher:active { transform: translateY(0); }
-.blog-chat-launcher:focus-visible {
-  outline: 2px solid var(--ink-0);
-  outline-offset: 3px;
-}
-.blog-chat-launcher[hidden] { display: none; }
-.blog-chat-launcher-label {
-  white-space: nowrap;
-}
-/* Pulse dot — appears when there's an unread reply behind a closed panel. */
-.blog-chat-launcher-dot {
-  position: absolute;
-  top: 8px;
-  right: 8px;
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background: #c44a2a;
-  box-shadow: 0 0 0 2px var(--gold-shine, var(--gold));
-}
-@media (prefers-reduced-motion: reduce) {
-  .blog-chat-launcher,
-  .blog-chat-launcher:hover {
-    transform: none;
-    background:
-      radial-gradient(180px circle at 50% 50%,
-                      rgba(255, 250, 220, 0.45),
-                      rgba(255, 250, 220, 0) 60%),
-      var(--gold-shine);
-  }
-}
-@media (max-width: 480px) {
-  /* On phones drop the wording and shrink to a 56×56 circle so the launcher
-     doesn't crowd the corner. The aria-label still announces "Ask about this
-     post" so screen-reader users keep the context. */
-  .blog-chat-launcher {
-    padding: 0;
-    width: 56px;
-    height: 56px;
-    justify-content: center;
-    gap: 0;
-  }
-  .blog-chat-launcher-label { display: none; }
-}
-
-/* Slide-up panel — fixed bottom-right card. The internal `position: fixed`
-   plus matching offsets keeps it pinned through scroll. The panel hosts the
-   same chat content the inline section used to. */
-.blog-chat-panel {
-  position: fixed;
-  right: clamp(16px, 3vw, 28px);
-  bottom: clamp(16px, 3vw, 28px);
-  z-index: 951;
-  display: flex;
-  flex-direction: column;
-  width: min(420px, calc(100vw - 32px));
-  height: min(640px, calc(100vh - 100px));
+.blog-chat-section {
   background: var(--bg-2);
-  border: 1px solid var(--line);
-  border-radius: 16px;
-  box-shadow: var(--shadow-lg);
-  overflow: hidden;
-  transform-origin: bottom right;
-  animation: blog-chat-pop 220ms cubic-bezier(0.2, 0.8, 0.2, 1);
-}
-.blog-chat-panel[hidden] { display: none; }
-@keyframes blog-chat-pop {
-  from { opacity: 0; transform: translateY(12px) scale(0.96); }
-  to   { opacity: 1; transform: translateY(0) scale(1); }
-}
-@media (prefers-reduced-motion: reduce) {
-  .blog-chat-panel { animation: none; }
-}
-
-.blog-chat-panel-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  padding: 16px 18px;
-  border-bottom: 1px solid var(--line);
-  background: var(--bg-1);
-}
-.blog-chat-panel-header h3 {
-  font-family: var(--serif);
-  font-size: 17px;
-  font-weight: 500;
-  letter-spacing: -0.005em;
-  color: var(--ink-0);
-  margin: 0;
-}
-.blog-chat-close {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  border: 1px solid var(--line);
-  background: var(--bg-2);
-  color: var(--ink-1);
-  display: grid;
-  place-items: center;
-  cursor: pointer;
-  transition:
-    border-color 200ms ease,
-    color 200ms ease,
-    background-color 200ms ease,
-    transform 160ms cubic-bezier(0.2, 0.8, 0.2, 1);
-}
-.blog-chat-close:hover {
-  border-color: var(--gold);
-  color: var(--gold);
-  background: color-mix(in oklab, var(--gold) 6%, var(--bg-2));
-}
-.blog-chat-close:active { transform: scale(0.92); }
-.blog-chat-close:focus-visible {
-  outline: 2px solid var(--gold);
-  outline-offset: 2px;
-}
-
-.blog-chat-panel-body {
-  flex: 1;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  padding: 18px 18px 0;
-}
-.blog-chat-panel-footer {
-  padding: 12px 18px 16px;
+  padding: 64px 0;
   border-top: 1px solid var(--line);
-  background: var(--bg-1);
 }
-
-.blog-chat-empty {
-  margin: auto;
-  text-align: center;
-  padding: 12px 8px 24px;
+.blog-chat {
+  max-width: 760px;
+  margin: 0 auto;
 }
-.blog-chat-empty-title {
+.blog-chat h3 {
   font-family: var(--serif);
-  font-size: 17px;
+  font-size: clamp(22px, 2vw, 28px);
+  font-weight: 500;
   color: var(--ink-0);
-  margin-bottom: 6px;
-}
-.blog-chat-empty-sub {
-  font-size: 13px;
-  color: var(--ink-2);
-  line-height: 1.5;
+  margin-bottom: 28px;
+  letter-spacing: -0.01em;
 }
 
-/* Message thread — flex grows inside the panel body and scrolls internally. */
+/* Message thread */
 .blog-chat-messages {
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  margin-bottom: 0;
-  flex: 1;
+  gap: 28px;
+  margin-bottom: 24px;
+  max-height: 540px;
   overflow-y: auto;
   padding-right: 4px;
   scroll-behavior: smooth;
@@ -2635,15 +2456,14 @@ section { position: relative; }
 }
 
 .blog-chat-error {
-  margin: 12px 0 0;
+  margin-top: 12px;
   font-size: 13px;
-  color: var(--error);
-  padding: 0 18px;
+  color: #c44;
 }
 .blog-chat-disclaimer {
-  margin: 10px 0 0;
-  font-size: 11px;
-  line-height: 1.5;
+  margin-top: 14px;
+  font-size: 12px;
+  line-height: 1.55;
   color: var(--ink-3);
   font-family: var(--serif);
   font-style: italic;
@@ -2651,20 +2471,10 @@ section { position: relative; }
 }
 
 @media (max-width: 640px) {
-  .blog-chat-messages { gap: 18px; }
-  .blog-chat-input-shell { padding: 6px 6px 6px 16px; }
-  .blog-chat-msg-user .blog-chat-msg-body { max-width: 90%; }
-  .blog-chat-msg-body { font-size: 14px; }
-  /* On phones the panel sits flush to the edges with a small top inset for
-     the system bar / nav. Bottom inset matches the launcher position so the
-     launcher can sit beneath when the panel is closed. */
-  .blog-chat-panel {
-    right: 8px;
-    bottom: 8px;
-    width: calc(100vw - 16px);
-    height: calc(100vh - 80px);
-    border-radius: 12px;
-  }
+  .blog-chat-section { padding: 48px 0; }
+  .blog-chat-messages { gap: 22px; }
+  .blog-chat-input-shell { padding: 6px 6px 6px 18px; }
+  .blog-chat-msg-user .blog-chat-msg-body { max-width: 88%; }
 }
 
 /* ============================================
