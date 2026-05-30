@@ -13,9 +13,8 @@
 import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport } from "ai";
 import { useEffect, useMemo, useRef, useState } from "react";
-import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
 import { useBodyScrollLock } from "../lib/useBodyScrollLock";
+import { TinyMarkdown } from "../lib/tinyMarkdown";
 
 interface UI {
   title: string;
@@ -261,11 +260,7 @@ export default function BlogChat({ postTitle, postBody, lang, ui }: Props) {
             return (
               <div key={m.id} className={`chat-row chat-row-${m.role}`}>
                 <div className="chat-bubble">
-                  {m.role === "assistant" ? (
-                    <ReactMarkdown remarkPlugins={[remarkGfm]}>{text}</ReactMarkdown>
-                  ) : (
-                    text
-                  )}
+                  {m.role === "assistant" ? <TinyMarkdown>{text}</TinyMarkdown> : text}
                 </div>
               </div>
             );
