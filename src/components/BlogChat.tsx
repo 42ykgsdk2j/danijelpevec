@@ -84,6 +84,17 @@ export default function BlogChat({ postTitle, postBody, lang, ui }: Props) {
     if (!open) launcherRef.current?.focus();
   }, [open]);
 
+  // Body scroll lock while the chat is open — important on mobile where
+  // the panel goes full-screen and background scroll would compete with
+  // the chat's own scroll container. CSS scopes the lock to ≤480px so
+  // desktop users can still scroll the article behind the panel.
+  useEffect(() => {
+    document.body.classList.toggle("chat-open", open);
+    return () => {
+      document.body.classList.remove("chat-open");
+    };
+  }, [open]);
+
   const busy = status === "submitted" || status === "streaming";
   const hasUnread = !open && messages.some((m) => m.role === "assistant");
 

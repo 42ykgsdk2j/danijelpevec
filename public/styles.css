@@ -2656,19 +2656,35 @@ section { position: relative; }
     width: 56px;
     height: 56px;
   }
-  .chat-minimize {
-    right: 16px;
-    bottom: 16px;
-    width: 40px;
-    height: 40px;
-  }
+  /* Hide the chevron-down minimize on mobile — the X in the header is the
+     sole close affordance per the mobile spec. */
+  .chat-minimize { display: none; }
+
+  /* Full-screen panel on mobile. `100dvh` lets the panel grow/shrink with
+     the iOS Safari URL bar; `100vh` is the fallback for browsers that
+     don't support dynamic viewport units. Safe-area insets keep the
+     header X clear of the notch and the input clear of the home bar. */
   .chat-panel {
-    right: 8px;
-    bottom: 72px;
-    width: calc(100vw - 16px);
-    height: calc(100vh - 96px);
-    border-radius: 14px;
+    inset: 0;
+    right: 0;
+    bottom: 0;
+    width: 100vw;
+    height: 100vh;
+    height: 100dvh;
+    border-radius: 0;
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
   }
+
+  /* iOS Safari zooms in on inputs whose computed font-size is below 16px.
+     Bumping the textarea to 16px on mobile prevents that. */
+  .chat-input-shell textarea { font-size: 16px; }
+
+  /* Body scroll lock — scoped to mobile so desktop users can still read
+     the article behind the smaller panel. Plain `overflow: hidden` keeps
+     the page's scroll position stable; full `position: fixed` would jump
+     to the top on iOS. */
+  body.chat-open { overflow: hidden; }
 }
 
 /* ============================================
