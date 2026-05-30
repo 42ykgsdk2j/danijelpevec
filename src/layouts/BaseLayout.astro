@@ -115,6 +115,18 @@ const siteName = "Danijel Pevec";
   gtag('config', 'G-K37Z56T2J2');
 </script>
 
+{/* Microsoft Clarity — project ID wzcb52p9q4. The bootstrap below
+    asynchronously injects the real Clarity script. Queueing
+    `window.clarity()` before injection means the first events are
+    captured even if the user closes the tab during load. */}
+<script is:inline>
+  (function(c,l,a,r,i,t,y){
+    c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+    t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+    y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+  })(window, document, "clarity", "script", "wzcb52p9q4");
+</script>
+
 {jsonLd.map((data) => (
   <script type="application/ld+json" set:html={JSON.stringify(data)} />
 ))}
