@@ -2971,10 +2971,36 @@ section { position: relative; }
   border-radius: 2px;
 }
 
+/* Mobile — keep it minimal. Body text shrinks, actions sit on a tight
+   row below with Configure inline + a compact Accept on the right.
+   Banner padding tightens so the strip is shallower. */
 @media (max-width: 640px) {
-  .consent-banner-inner { flex-direction: column; align-items: stretch; }
-  .consent-banner-actions { justify-content: space-between; }
-  .consent-banner-actions .btn { flex: 1; padding: 12px 16px; }
+  .consent-banner {
+    padding: 10px clamp(12px, 4vw, 20px);
+    padding-bottom: max(10px, env(safe-area-inset-bottom));
+  }
+  .consent-banner-inner {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+  }
+  .consent-banner-body {
+    font-size: 12px;
+    line-height: 1.45;
+  }
+  .consent-banner-actions {
+    justify-content: flex-end;
+    gap: 8px;
+  }
+  .consent-banner-actions .btn {
+    flex: 0 0 auto;
+    padding: 8px 14px;
+    font-size: 11px;
+  }
+  .consent-link {
+    padding: 6px 4px;
+    font-size: 11px;
+  }
 }
 
 /* ============================================
