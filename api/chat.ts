@@ -84,9 +84,9 @@ INSTRUCTIONS:
 REMINDER: Write in English only. Do not switch languages at any point in your response.`;
 
   try {
-    console.log("[chat] calling streamText with model openai/gpt-5.5");
+    console.log("[chat] calling streamText with model google/gemini-3.1-flash-lite");
     const result = streamText({
-      model: "openai/gpt-5.5",
+      model: "google/gemini-3.1-flash-lite",
       system: systemPrompt,
       messages: convertToModelMessages(messages as UIMessage[]),
       onError: ({ error }) => {
