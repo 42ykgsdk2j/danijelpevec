@@ -2,6 +2,7 @@
 import Nav from "../components/Nav.astro";
 import Footer from "../components/Footer.astro";
 import Modal from "../components/Modal.astro";
+import "../styles/global.css";
 
 interface Props {
   lang: "en" | "hr";
@@ -92,7 +93,8 @@ const siteName = "Danijel Pevec";
     href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Inter:wght@400;500;600&display=swap"
   />
 </noscript>
-<link rel="stylesheet" href="/styles.css" />
+{/* The CSS is imported from the frontmatter so Astro pipes it through
+    Vite — minified, hashed, and emitted under /_astro/. */}
 
 {/* Apply theme before paint to avoid a flash */}
 <script is:inline>
