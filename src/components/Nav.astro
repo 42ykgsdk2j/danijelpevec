@@ -85,12 +85,6 @@ const links = [
 
 <div class="scrim" data-scrim></div>
 <aside id="mobile-drawer" class="mobile-drawer" data-drawer role="dialog" aria-modal="true" aria-label={t.nav.cta} hidden>
-  <button class="drawer-close" style="position: absolute; top: 24px; right: 24px;" data-close-drawer aria-label={lang === "hr" ? "Zatvori izbornik" : "Close menu"}>
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-      <line x1="18" y1="6" x2="6" y2="18" />
-      <line x1="6" y1="6" x2="18" y2="18" />
-    </svg>
-  </button>
   <div class="mobile-drawer-controls">
     <div class="toggle-group mobile-lang" role="group" aria-label="Language">
       {lang === "en"
@@ -114,6 +108,12 @@ const links = [
           <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" />
         </svg>
       </span>
+    </button>
+    <button class="drawer-close" data-close-drawer aria-label={lang === "hr" ? "Zatvori izbornik" : "Close menu"}>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <line x1="18" y1="6" x2="6" y2="18" />
+        <line x1="6" y1="6" x2="18" y2="18" />
+      </svg>
     </button>
   </div>
   {links.map((l) => (

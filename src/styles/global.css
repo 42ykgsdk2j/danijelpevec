@@ -651,16 +651,17 @@ section { position: relative; }
   border-bottom: 1px solid var(--line-soft);
 }
 .mobile-drawer .nav-link::after { display: none; }
-/* Top-of-drawer controls — language pill + theme toggle clustered on
-   the left (the drawer-close X is absolute-positioned in the top-right,
-   so this row sits clear of it). The theme toggle lives here on mobile
-   (≤640px) instead of in the nav row to keep the nav header clean. */
+/* Top-of-drawer controls row — language pill + theme toggle clustered
+   on the left, close X pushed to the right edge via margin-left: auto.
+   All three controls share the same row so they baseline-align exactly. */
 .mobile-drawer .mobile-drawer-controls {
   display: flex;
   align-items: center;
-  justify-content: flex-start;
   gap: 12px;
   margin-bottom: 36px;
+}
+.mobile-drawer .mobile-drawer-controls .drawer-close {
+  margin-left: auto;
 }
 .mobile-drawer .mobile-drawer-cta {
   margin-top: 28px;
