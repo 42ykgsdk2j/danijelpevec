@@ -590,14 +590,21 @@ section { position: relative; }
   .nav-cta { min-width: 220px; padding: 10px 20px; }
 }
 /* Between the mobile-nav cutoff (1024) and the wide-desktop bump (1481),
-   tighten the inter-block gaps. The total of brand (280) + nav-links
-   (~655 with 24px gaps) + nav-actions (~280) + 2× nav-inner gaps was
-   pushing past the container edge at 1280-1440. Shrinking the gaps
-   recovers ~30px and keeps the CTA inside the safe area. */
+   the row total — brand (~280) + nav-links (~625 with min-widths +
+   gaps) + nav-actions (~340 with CTA) — pushes past the container's
+   ~1178px content area at 1280 by ~100px. EN copy ("Private
+   conversation") makes it worse. v3 tried to recover space by
+   tightening gaps (~30px); insufficient.
+   v4 fix: drop the nav CTA from the row in this range. It stays in
+   the hero, footer, final CTA section, AND the mobile drawer — so
+   it's still one click away from any page state. Keep the gap
+   tightening too since nav-links + brand + lang/theme still want a
+   compact row at this width. */
 @media (min-width: 1025px) and (max-width: 1480px) {
   .nav-inner { gap: 16px; }
   .nav-links { gap: 18px; }
   .nav-actions { gap: 14px; }
+  .nav-actions .nav-cta { display: none; }
 }
 
 .menu-btn {
