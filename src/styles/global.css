@@ -2747,7 +2747,6 @@ section { position: relative; }
 }
 
 .home-chat-panel-footer {
-  border-top: 1px solid var(--line-soft);
   padding: 12px 16px 14px;
   background: var(--bg-1);
 }
