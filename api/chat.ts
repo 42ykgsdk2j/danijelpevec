@@ -131,6 +131,13 @@ export default async function handler(req: Request): Promise<Response> {
   })();
   const isAutoSummaryRequest = isBlog && lastUserText === AUTO_SUMMARY_SENTINEL;
   const isAutoThemeIntro = isDiscover && lastUserText === AUTO_THEME_INTRO_SENTINEL;
+  // Auto-intros are bot-initiated on first open, not user-initiated.
+  // They must not consume the per-IP rate-limit budget or trigger the
+  // per-conversation cap — otherwise a returning visitor whose IP is
+  // over budget would see a "limit reached" canned reply they never
+  // asked for. The per-question char cap still applies (sentinel is
+  // short enough to pass it trivially).
+  const isSentinelRequest = isAutoSummaryRequest || isAutoThemeIntro;
 
   const summaryPromptText = langIsHr
     ? "Sažmi ovaj članak u točno 3 ključne točke (kratak natuknutni popis). Završi jednim otvorenim pitanjem koje me poziva da podijelim što me iz članka konkretno zanima — predloži 2-3 specifična aspekta iz teksta."
@@ -155,8 +162,8 @@ export default async function handler(req: Request): Promise<Response> {
       })
     : messages;
 
-  // Per-IP rate limit
-  if (ratelimit) {
+  // Per-IP rate limit (skipped for sentinel auto-intros — see above).
+  if (ratelimit && !isSentinelRequest) {
     const ip = getClientIp(req);
     const { success } = await ratelimit.limit(ip);
     if (!success) {
@@ -184,8 +191,10 @@ export default async function handler(req: Request): Promise<Response> {
     );
   }
 
-  // Per-conversation length cap
-  if (messages.length > MAX_CONVERSATION_MESSAGES) {
+  // Per-conversation length cap (skipped for sentinel auto-intros —
+  // they always arrive as the first turn, so this would only ever
+  // skip them anyway; the explicit guard documents intent).
+  if (!isSentinelRequest && messages.length > MAX_CONVERSATION_MESSAGES) {
     return cannedReply(
       langIsHr
         ? "Ovaj razgovor je već dug. Za detaljniju raspravu, predlažem privatni razgovor — koristite gumb 'Zatraži privatni razgovor' u dnu članka ili u izborniku."
