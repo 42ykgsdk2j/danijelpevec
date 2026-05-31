@@ -2978,25 +2978,12 @@ section { position: relative; }
   );
   flex-shrink: 0;
 }
-.home-chat-pill-text {
-  display: flex;
-  flex-direction: column;
-  line-height: 1.15;
-  text-align: left;
-}
 .home-chat-pill-label {
   font-size: 13px;
   font-weight: 500;
   letter-spacing: 0.01em;
   color: var(--ink-0);
-}
-.home-chat-pill-status {
-  font-size: 10px;
-  font-weight: 500;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--gold);
-  margin-top: 2px;
+  line-height: 1.2;
 }
 
 /* Panel — fixed bottom-right (desktop) / bottom-center (mobile). Sized
@@ -3158,11 +3145,16 @@ section { position: relative; }
   background: var(--bg-1);
 }
 .home-chat-form { margin: 0; }
+/* Pill-shaped input row. Button is anchored bottom-right (textarea grows
+   upward as the user types). The 6px padding around the button + 6px
+   bottom-padding on the row means the send button has even space on
+   three sides — top of button (when single-line) = bottom = right. */
 .home-chat-input-shell {
   display: flex;
   align-items: flex-end;
   gap: 8px;
-  padding: 6px 6px 6px 14px;
+  padding: 6px;
+  padding-left: 16px;
   background: var(--bg-2);
   border: 1px solid var(--line);
   border-radius: 999px;
@@ -3179,11 +3171,14 @@ section { position: relative; }
   color: var(--ink-0);
   font-family: var(--sans);
   font-size: 14px;
-  line-height: 1.45;
+  line-height: 1.4;
   resize: none;
-  padding: 8px 0;
+  padding: 6px 0;
   outline: none;
-  min-height: 22px;
+  /* min-height = button (32) - top+bottom padding (12) = 20px — so a
+     single-line input matches the button height exactly and the button
+     sits flush against the textarea baseline. */
+  min-height: 20px;
 }
 .home-chat-input-shell textarea::placeholder { color: var(--ink-3); }
 .home-chat-send {
@@ -3229,6 +3224,9 @@ section { position: relative; }
     height: 60dvh;
     max-height: calc(100dvh - 32px);
   }
+  /* Bump textarea to 16px on iOS — Safari zooms the viewport on focus
+     if the input's font-size is below 16px. */
+  .home-chat-input-shell textarea { font-size: 16px; }
 }
 
 

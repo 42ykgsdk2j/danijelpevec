@@ -129,10 +129,7 @@ export default function HomeChat({ homeTitle, homeBody, lang, ui }: Props) {
         hidden={open}
       >
         <span className="home-chat-pill-avatar" aria-hidden="true" />
-        <span className="home-chat-pill-text">
-          <span className="home-chat-pill-label">{ui.pillLabel}</span>
-          <span className="home-chat-pill-status">{ui.pillStatus}</span>
-        </span>
+        <span className="home-chat-pill-label">{ui.pillLabel}</span>
       </button>
 
       {/* Expanded panel — non-modal, page behind stays interactive. */}
