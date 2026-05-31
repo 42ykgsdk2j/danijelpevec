@@ -1,5 +1,5 @@
 /**
- * Tiny markdown-to-React converter for the BlogChat assistant bubbles.
+ * Tiny markdown-to-React converter for the Chat assistant bubbles.
  *
  * Why not react-markdown + remark-gfm? They ship ~290 KB of unified-
  * ecosystem JS for what amounts to four formatting patterns. The

@@ -1,6 +1,6 @@
 /**
  * Composes the grounding text passed to /api/chat as `postBody` when the
- * HomeChat component runs (mode: "home"). Pulls the relevant copy from the
+ * Chat component runs in mode="home". Pulls the relevant copy from the
  * locale-specific i18n JSON so the chat stays in sync with what's visible
  * on the home page — no second source of truth.
  *
