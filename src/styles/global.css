@@ -651,8 +651,14 @@ section { position: relative; }
   border-bottom: 1px solid var(--line-soft);
 }
 .mobile-drawer .nav-link::after { display: none; }
-.mobile-drawer .mobile-lang {
-  align-self: flex-start;
+/* Top-of-drawer controls — language pill on the left, theme toggle on
+   the right. The theme toggle lives here on mobile (≤640px) instead of
+   in the nav row to keep the nav header clean. */
+.mobile-drawer .mobile-drawer-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
   margin-bottom: 36px;
 }
 .mobile-drawer .mobile-drawer-cta {
@@ -1400,19 +1406,21 @@ section { position: relative; }
   .start-cta-text { font-size: 22px; }
 }
 
-/* Below 415px (small phones — iPhone SE, mini, standard 6/7/8/X) the
-   brand-text column + DP mono + EN/HR pill + theme + hamburger don't all
-   fit in the safe area. The hamburger ends up clipped 17–56px by the
-   body's `overflow-x: hidden`. Hide the brand-text column entirely so
-   only the DP monogram remains in the header. Brand identity stays in
-   the page title and article byline. Keep the brand-text inside the
-   mobile drawer (it's not in there) untouched. */
+/* Mobile (≤640px): the theme toggle moves from the nav row into the
+   mobile drawer alongside the language switch, so the nav header can
+   keep showing the full DP monogram + brand-text + language pill +
+   hamburger inside the safe area on small phones. */
+@media (max-width: 640px) {
+  .nav-actions .theme-toggle { display: none; }
+}
+
+/* Small phones (≤414px — iPhone SE, mini, standard 6/7/8/X): tighten
+   the container gutter + inter-block gaps so brand-mono + brand-text +
+   EN/HR pill + hamburger all fit without clipping the right edge. */
 @media (max-width: 414px) {
-  .nav .brand-text { display: none; }
-  .nav .brand { gap: 0; }
-  /* Tighten container gutter on the smallest phones so the nav actions
-     are comfortably inside the safe area. */
-  .nav .container { padding-left: 16px; padding-right: 16px; }
+  .nav .container { padding-left: 12px; padding-right: 12px; }
+  .nav .nav-inner { gap: 4px; }
+  .nav .nav-actions { gap: 6px; }
 }
 
 /* Mobile contact modal — match the chat panel's full-screen treatment so
