@@ -3136,8 +3136,10 @@ body.consent-config-open { overflow: hidden; }
   list-style: disc;
 }
 .legal-ul li {
-  font-size: clamp(16px, 1.2vw, 18px);
-  line-height: 1.65;
+  /* Match the .lead body size used for paragraphs on the privacy +
+     imprint pages, so list items don't read as secondary text. */
+  font-size: clamp(18px, 1.4vw, 22px);
+  line-height: 1.55;
   color: var(--ink-1);
   margin-bottom: 6px;
 }
