@@ -103,6 +103,18 @@
     "pageTitle": "Objave — bilješke o obiteljskim tvrtkama, sukcesiji i nasljeđu",
     "pageLead": "Eseji o planiranju sukcesije, generacijskoj imovini, obiteljskom upravljanju i dugoročnim odlukama koje oblikuju ono što slijedi."
   },
+  "homeChat": {
+    "pillLabel": "Pitajte o uslugama",
+    "pillStatus": "Online",
+    "panelTitle": "AI asistent",
+    "welcomeBody": "Pitajte o uslugama, pristupu ili s kim radi Danijel. Za osobni savjet zatražite privatni razgovor.",
+    "placeholder": "Postavite pitanje…",
+    "send": "Pošalji",
+    "error": "Nešto je pošlo po krivu. Pokušajte ponovno.",
+    "disclaimer": "Odgovor generira AI. Za osobni savjet zatražite privatni razgovor.",
+    "minimize": "Skupi razgovor",
+    "openChat": "Otvori razgovor"
+  },
   "blogChat": {
     "title": "Pitajte o ovoj objavi",
     "subtitle": "AI asistent treniran na ovom članku",

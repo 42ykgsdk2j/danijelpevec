@@ -9,10 +9,14 @@ import WorkSection from "../components/WorkSection.astro";
 import BlogSection from "../components/BlogSection.astro";
 import AboutSection from "../components/AboutSection.astro";
 import FinalCta from "../components/FinalCta.astro";
-import { SITE } from "../lib/i18n";
+import HomeChat from "../components/HomeChat.tsx";
+import { SITE, getT } from "../lib/i18n";
 import { personJsonLd, businessJsonLd, websiteJsonLd } from "../lib/seo";
+import { getHomeContext } from "../lib/homeContext";
 
 const lang = "hr" as const;
+const t = getT(lang);
+const homeContext = getHomeContext(lang);
 ---
 <BaseLayout
   lang={lang}
@@ -32,4 +36,11 @@ const lang = "hr" as const;
   <BlogSection lang={lang} />
   <AboutSection lang={lang} />
   <FinalCta lang={lang} />
+  <HomeChat
+    client:idle
+    homeTitle={homeContext.title}
+    homeBody={homeContext.body}
+    lang={lang}
+    ui={t.homeChat}
+  />
 </BaseLayout>

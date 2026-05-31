@@ -36,6 +36,11 @@ const BodySchema = z.object({
   postTitle: z.string().min(1).max(300),
   postBody: z.string().min(50).max(40000),
   lang: z.enum(["hr", "en"]),
+  // "blog" = grounded in a single article (default). "home" = grounded in
+  // the home-page services summary; system prompt is broader and points
+  // users to "Request a private conversation" rather than the article
+  // page's bottom CTA.
+  mode: z.enum(["blog", "home"]).optional().default("blog"),
 });
 
 const MAX_USER_MESSAGE_CHARS = 1000;
@@ -92,8 +97,9 @@ export default async function handler(req: Request): Promise<Response> {
     });
   }
 
-  const { messages, postTitle, postBody, lang } = body;
+  const { messages, postTitle, postBody, lang, mode } = body;
   const langIsHr = lang === "hr";
+  const isHome = mode === "home";
 
   // Per-IP rate limit
   if (ratelimit) {
@@ -133,8 +139,31 @@ export default async function handler(req: Request): Promise<Response> {
     );
   }
 
+  // Two grounding modes:
+  //   - blog: classic per-post Q&A (BlogChat on /blog/<slug>/ pages)
+  //   - home: services-level Q&A grounded in a curated home-page summary
+  //     (HomeChat on /). Same shape; different framing + cross-link copy.
   const systemPrompt = langIsHr
-    ? `JEZIK ODGOVORA: HRVATSKI. Svi odgovori MORAJU biti isključivo na hrvatskom jeziku, bez iznimke. Čak i ako je korisnikovo pitanje na engleskom ili drugom jeziku — vi odgovarate na hrvatskom.
+    ? (isHome
+      ? `JEZIK ODGOVORA: HRVATSKI. Svi odgovori MORAJU biti isključivo na hrvatskom jeziku, bez iznimke. Čak i ako je korisnikovo pitanje na engleskom ili drugom jeziku — vi odgovarate na hrvatskom.
+
+Vi ste AI asistent na početnoj stranici Danijela Pevca, savjetnika za obiteljski biznis. Odgovarate na pitanja o tome s kim radi, kako radi i koje usluge nudi.
+
+KONTEKST: ${postTitle}
+
+SADRŽAJ:
+${postBody}
+
+UPUTE:
+- Odgovore temeljite na kontekstu iznad.
+- Budite kratki i konkretni (2-4 rečenice za većinu pitanja).
+- Za osobne savjete uvijek uputite na gumb "Zatraži privatni razgovor" na stranici.
+- Ne dajite osobne financijske, pravne ili porezne savjete — predložite privatni razgovor s Danijelom.
+- Ne izmišljajte podatke koji nisu u kontekstu iznad.
+- VAŽNO — sklonidba prezimena Pevec: kod sklonidbe ZADRŽITE slovo "e". Ispravno: Peveca, Pevecu, Peveca, Peveče, Pevecu, Pevecom. POGREŠNO: Pevca, Pevcu, Pevče, Pevcom. Primjer: "Prema Danijelu Pevecu…" (a NE "Prema Danijelu Pevcu").
+
+PODSJETNIK: Pišite isključivo na hrvatskom jeziku. Ne prelazite na engleski ni u jednom dijelu odgovora.`
+      : `JEZIK ODGOVORA: HRVATSKI. Svi odgovori MORAJU biti isključivo na hrvatskom jeziku, bez iznimke. Čak i ako je korisnikovo pitanje na engleskom ili drugom jeziku — vi odgovarate na hrvatskom.
 
 Vi ste asistent koji odgovara na pitanja o blog objavi Danijela Pevca, savjetnika za obiteljski biznis.
 
@@ -151,8 +180,26 @@ UPUTE:
 - Ne izmišljajte podatke koje objava ne sadrži.
 - VAŽNO — sklonidba prezimena Pevec: kod sklonidbe ZADRŽITE slovo "e". Ispravno: Peveca, Pevecu, Peveca, Peveče, Pevecu, Pevecom. POGREŠNO: Pevca, Pevcu, Pevče, Pevcom. Primjer: "Prema Danijelu Pevecu, ova objava…" (a NE "Prema Danijelu Pevcu").
 
-PODSJETNIK: Pišite isključivo na hrvatskom jeziku. Ne prelazite na engleski ni u jednom dijelu odgovora.`
-    : `RESPONSE LANGUAGE: ENGLISH. All responses MUST be in English only, no exceptions. Even if the user writes in Croatian or another language — you reply in English.
+PODSJETNIK: Pišite isključivo na hrvatskom jeziku. Ne prelazite na engleski ni u jednom dijelu odgovora.`)
+    : (isHome
+      ? `RESPONSE LANGUAGE: ENGLISH. All responses MUST be in English only, no exceptions. Even if the user writes in Croatian or another language — you reply in English.
+
+You are an AI assistant on Danijel Pevec's home page. Danijel is a family business advisor. You answer questions about who he works with, how he works, and what services he offers.
+
+CONTEXT: ${postTitle}
+
+CONTENT:
+${postBody}
+
+INSTRUCTIONS:
+- Base answers on the context above.
+- Be concise (2-4 sentences for most questions).
+- For personal advice, always direct users to the "Request a private conversation" button on the page.
+- Don't give personal financial, legal, or tax advice — suggest a private conversation with Danijel.
+- Don't fabricate details not in the context above.
+
+REMINDER: Write in English only. Do not switch languages at any point in your response.`
+      : `RESPONSE LANGUAGE: ENGLISH. All responses MUST be in English only, no exceptions. Even if the user writes in Croatian or another language — you reply in English.
 
 You are an assistant answering questions about a blog post by Danijel Pevec, family business advisor.
 
@@ -168,7 +215,7 @@ INSTRUCTIONS:
 - Don't give personal financial, legal, or tax advice — suggest a consultation.
 - Don't fabricate details not in the post.
 
-REMINDER: Write in English only. Do not switch languages at any point in your response.`;
+REMINDER: Write in English only. Do not switch languages at any point in your response.`);
 
   try {
     const result = streamText({

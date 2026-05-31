@@ -2929,6 +2929,310 @@ section { position: relative; }
 
 
 /* ============================================
+   Home chat — floating pill + non-modal half-screen panel.
+   ============================================ */
+
+/* Pill — bottom-center, always visible. Single button anchor that
+   expands into the panel below. */
+.home-chat-pill {
+  position: fixed;
+  left: 50%;
+  bottom: 20px;
+  transform: translateX(-50%);
+  z-index: 800;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 18px 8px 8px;
+  background: var(--bg-1);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--ink-0);
+  font-family: var(--sans);
+  cursor: pointer;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.22);
+  transition: transform 220ms cubic-bezier(0.2, 0.8, 0.2, 1),
+              box-shadow 220ms ease,
+              border-color 220ms ease;
+}
+.home-chat-pill[hidden] { display: none; }
+.home-chat-pill:hover {
+  transform: translateX(-50%) translateY(-2px);
+  border-color: color-mix(in oklab, var(--gold) 30%, var(--line));
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
+}
+.home-chat-pill:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+}
+.home-chat-pill-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: conic-gradient(
+    from 220deg,
+    color-mix(in oklab, var(--gold) 60%, transparent),
+    color-mix(in oklab, var(--gold-bright) 80%, transparent),
+    color-mix(in oklab, var(--gold-deep) 70%, transparent),
+    color-mix(in oklab, var(--gold) 60%, transparent)
+  );
+  flex-shrink: 0;
+}
+.home-chat-pill-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.15;
+  text-align: left;
+}
+.home-chat-pill-label {
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  color: var(--ink-0);
+}
+.home-chat-pill-status {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-top: 2px;
+}
+
+/* Panel — fixed bottom-right (desktop) / bottom-center (mobile). Sized
+   to be present but not consume the page: ~half the viewport with
+   comfortable padding. NO body scroll lock — the page behind stays
+   interactive on purpose. */
+.home-chat-panel {
+  position: fixed;
+  right: clamp(16px, 3vw, 32px);
+  bottom: 20px;
+  width: min(420px, calc(100vw - 32px));
+  height: min(560px, calc(100vh - 80px));
+  max-height: calc(100dvh - 80px);
+  z-index: 810;
+  background: var(--bg-1);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  box-shadow: 0 18px 48px rgba(0, 0, 0, 0.36);
+  color: var(--ink-1);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: home-chat-pop 220ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.home-chat-panel[hidden] { display: none; }
+@keyframes home-chat-pop {
+  from { transform: translateY(12px) scale(0.96); opacity: 0; }
+  to   { transform: translateY(0)    scale(1);    opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .home-chat-panel { animation: none; }
+}
+
+.home-chat-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--line-soft);
+}
+.home-chat-panel-ident {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+.home-chat-panel-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: conic-gradient(
+    from 220deg,
+    color-mix(in oklab, var(--gold) 60%, transparent),
+    color-mix(in oklab, var(--gold-bright) 80%, transparent),
+    color-mix(in oklab, var(--gold-deep) 70%, transparent),
+    color-mix(in oklab, var(--gold) 60%, transparent)
+  );
+  flex-shrink: 0;
+}
+.home-chat-panel-title-block {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+  min-width: 0;
+}
+.home-chat-panel-title {
+  font-family: var(--sans);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink-0);
+}
+.home-chat-panel .home-chat-panel-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+  margin-top: 3px;
+}
+.home-chat-panel-status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #6bcb86;
+  box-shadow: 0 0 6px rgba(107, 203, 134, 0.6);
+}
+.home-chat-panel-minimize {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 0;
+  background: transparent;
+  color: var(--ink-2);
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  transition: background-color 200ms ease, color 200ms ease;
+}
+.home-chat-panel-minimize:hover {
+  background: var(--bg-2);
+  color: var(--ink-0);
+}
+.home-chat-panel-minimize:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+
+.home-chat-panel-body {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  scroll-behavior: smooth;
+}
+
+.home-chat-row { display: flex; }
+.home-chat-row-assistant { justify-content: flex-start; }
+.home-chat-row-user { justify-content: flex-end; }
+.home-chat-bubble {
+  max-width: 86%;
+  padding: 10px 14px;
+  border-radius: 14px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--ink-1);
+  word-wrap: break-word;
+  overflow-wrap: anywhere;
+}
+.home-chat-row-assistant .home-chat-bubble {
+  background: var(--bg-2);
+  border: 1px solid var(--line-soft);
+  border-bottom-left-radius: 6px;
+}
+.home-chat-row-user .home-chat-bubble {
+  background: color-mix(in oklab, var(--gold) 14%, var(--bg-2));
+  border: 1px solid color-mix(in oklab, var(--gold) 24%, var(--line));
+  border-bottom-right-radius: 6px;
+  color: var(--ink-0);
+}
+.home-chat-bubble p { margin: 0; }
+.home-chat-bubble p + p { margin-top: 8px; }
+.home-chat-bubble a { color: var(--gold); text-decoration: underline; }
+
+.home-chat-error {
+  color: var(--error, #d97757);
+  font-size: 12px;
+  margin: 4px 0 0;
+}
+
+.home-chat-panel-footer {
+  border-top: 1px solid var(--line-soft);
+  padding: 12px 16px 14px;
+  background: var(--bg-1);
+}
+.home-chat-form { margin: 0; }
+.home-chat-input-shell {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  padding: 6px 6px 6px 14px;
+  background: var(--bg-2);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  transition: border-color 180ms ease, box-shadow 180ms ease;
+}
+.home-chat-input-shell:focus-within {
+  border-color: color-mix(in oklab, var(--gold) 40%, var(--line));
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--gold) 14%, transparent);
+}
+.home-chat-input-shell textarea {
+  flex: 1 1 auto;
+  border: 0;
+  background: transparent;
+  color: var(--ink-0);
+  font-family: var(--sans);
+  font-size: 14px;
+  line-height: 1.45;
+  resize: none;
+  padding: 8px 0;
+  outline: none;
+  min-height: 22px;
+}
+.home-chat-input-shell textarea::placeholder { color: var(--ink-3); }
+.home-chat-send {
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  border: 0;
+  background: var(--ink-0);
+  color: var(--bg-0);
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  transition: opacity 180ms ease, background-color 180ms ease;
+}
+.home-chat-send:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.home-chat-send:not(:disabled):hover { background: var(--gold); color: var(--bg-0); }
+.home-chat-send:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+.home-chat-disclaimer {
+  margin: 8px 4px 0;
+  font-size: 10.5px;
+  line-height: 1.4;
+  color: var(--ink-3);
+  text-align: center;
+}
+
+/* Mobile: panel becomes near-full-width but still NOT full-screen.
+   Sits centered with edge padding so the page peeks through and
+   stays scrollable behind. */
+@media (max-width: 640px) {
+  .home-chat-pill { bottom: 16px; }
+  .home-chat-panel {
+    right: 12px;
+    left: 12px;
+    bottom: 16px;
+    width: auto;
+    height: 60dvh;
+    max-height: calc(100dvh - 32px);
+  }
+}
+
+
+/* ============================================
    Consent banner — fixed bottom strip, themed.
    ============================================ */
 
