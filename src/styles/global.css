@@ -495,10 +495,18 @@ section { position: relative; }
   text-decoration: none;
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   cursor: pointer;
   line-height: 1;
   /* Allow scale transform to use the box center */
   transform-origin: center;
+  /* WCAG 2.5.5 minimum target size — each pill must be at least 44×44.
+     Without these the pills were ~42×27 (mobile) / ~38×28 (desktop) and
+     failed touch-target audits. min-height grows the pills uniformly and
+     pulls them visually closer to the adjacent 44×44 theme/menu buttons. */
+  min-height: 44px;
+  min-width: 44px;
+  box-sizing: border-box;
 }
 /* The active option renders as a <span> so keyboard users can't Tab to a
    no-op self-anchor; it shouldn't claim a pointer hand. */
