@@ -1,9 +1,12 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import BlogList from "../../components/BlogList.astro";
+import Chat from "../../components/Chat.tsx";
 import { getT, SITE } from "../../lib/i18n";
+import { getDiscoverContext } from "../../lib/discoverContext";
 const lang = "hr" as const;
 const t = getT(lang);
+const discover = await getDiscoverContext(lang);
 ---
 <BaseLayout
   lang={lang}
@@ -14,4 +17,12 @@ const t = getT(lang);
   hreflangHr={`${SITE}/blog/`}
 >
   <BlogList lang={lang} />
+  <Chat
+    client:idle
+    mode="discover"
+    contextTitle={discover.title}
+    contextBody={discover.body}
+    lang={lang}
+    ui={t.discoverChat}
+  />
 </BaseLayout>

@@ -115,6 +115,17 @@
     "minimize": "Skupi razgovor",
     "openChat": "Otvori razgovor"
   },
+  "discoverChat": {
+    "pillLabel": "Pronađite objavu",
+    "panelTitle": "AI vodič",
+    "welcomeBody": "Recite mi koja vas tema zanima i predložit ću relevantne objave.",
+    "placeholder": "Koja tema vas zanima?",
+    "send": "Pošalji",
+    "error": "Nešto je pošlo po krivu. Pokušajte ponovno.",
+    "disclaimer": "Preporuke generira AI iz kataloga objava.",
+    "minimize": "Skupi razgovor",
+    "openChat": "Otvori razgovor"
+  },
   "blogChat": {
     "pillLabel": "Pitajte o objavi",
     "panelTitle": "AI asistent",

@@ -39,20 +39,26 @@ const BodySchema = z.object({
   // "blog" = grounded in a single article (default). "home" = grounded in
   // the home-page services summary; system prompt is broader and points
   // users to "Request a private conversation" rather than the article
-  // page's bottom CTA.
-  mode: z.enum(["blog", "home"]).optional().default("blog"),
+  // page's bottom CTA. "discover" = grounded in the full blog catalog
+  // (title + excerpt + URL per post); used on the blog index page to
+  // route visitors to the most relevant post(s) by theme.
+  mode: z.enum(["blog", "home", "discover"]).optional().default("blog"),
 });
 
 const MAX_USER_MESSAGE_CHARS = 1000;
 const MAX_CONVERSATION_MESSAGES = 15;
 const MAX_OUTPUT_TOKENS = 1200;
 
-// Client-side sentinel the Chat component dispatches on first open in
-// blog mode to ask for a 3-point article summary. Server-side we
-// detect it and substitute the user turn with a real "summarize this
-// article" prompt before handing the messages to the model — keeps
-// the rendered thread + model context clean.
+// Client-side sentinels the Chat component dispatches on first open
+// to bootstrap a context-specific intro. Server-side we detect them
+// and substitute the user turn with a real prompt before handing the
+// messages to the model — keeps the rendered thread + model context
+// clean (the synthetic user turn is also hidden client-side).
+//   blog     → 3-point article summary + follow-up question
+//   discover → theme overview of the catalog + "which theme interests
+//              you?" question (used on the blog index page)
 const AUTO_SUMMARY_SENTINEL = "__auto_summary_request__";
+const AUTO_THEME_INTRO_SENTINEL = "__auto_theme_intro__";
 
 let ratelimit: Ratelimit | null = null;
 try {
@@ -108,34 +114,44 @@ export default async function handler(req: Request): Promise<Response> {
   const langIsHr = lang === "hr";
   const isHome = mode === "home";
   const isBlog = mode === "blog";
+  const isDiscover = mode === "discover";
 
-  // Auto-summary detection: blog-mode Chat dispatches a sentinel user
-  // message on first open. Substitute it with a real "summarize this
-  // article" prompt before the model sees it; the client already hides
-  // the sentinel from the rendered thread.
+  // Auto-intro detection: blog + discover Chats dispatch a sentinel
+  // user message on first open. Substitute it with a real prompt
+  // before the model sees it; the client already hides the sentinel
+  // from the rendered thread.
   type LooseMsg = { role?: string; parts?: Array<{ type?: string; text?: string }> };
-  const isAutoSummaryRequest = (() => {
-    if (!isBlog) return false;
+  const lastUserText = (() => {
     const last = messages[messages.length - 1] as LooseMsg;
-    if (!last || last.role !== "user") return false;
-    const text = (last.parts ?? [])
+    if (!last || last.role !== "user") return "";
+    return (last.parts ?? [])
       .filter((p) => p.type === "text")
       .map((p) => p.text ?? "")
       .join("");
-    return text === AUTO_SUMMARY_SENTINEL;
   })();
+  const isAutoSummaryRequest = isBlog && lastUserText === AUTO_SUMMARY_SENTINEL;
+  const isAutoThemeIntro = isDiscover && lastUserText === AUTO_THEME_INTRO_SENTINEL;
 
   const summaryPromptText = langIsHr
     ? "Sažmi ovaj članak u točno 3 ključne točke (kratak natuknutni popis). Završi jednim otvorenim pitanjem koje me poziva da podijelim što me iz članka konkretno zanima — predloži 2-3 specifična aspekta iz teksta."
     : "Summarize this article in exactly 3 key bullet points. End with one open question inviting me to share what specifically interests me — suggest 2-3 concrete aspects from the article itself.";
 
+  const themeIntroPromptText = langIsHr
+    ? "Predstavi mi glavne teme koje pokriva ovaj blog (3-5 ključnih tema, izvuci ih iz kataloga objava ispod). Završi pitanjem 'Koja vas tema najviše zanima?'. Ne nabrajaj objave u uvodu — samo teme."
+    : "Introduce the main themes this blog covers (3-5 key themes, derived from the catalog below). End with the question 'Which theme interests you most?'. Don't list individual posts in the intro — themes only.";
+
   // Build the message stream that goes to the model. For an auto-
-  // summary request we swap the sentinel turn for the real prompt;
-  // everything else is passed through verbatim.
-  const modelMessages = isAutoSummaryRequest
+  // request we swap the sentinel turn for the real prompt; everything
+  // else passes through verbatim.
+  const substitutedText = isAutoSummaryRequest
+    ? summaryPromptText
+    : isAutoThemeIntro
+      ? themeIntroPromptText
+      : null;
+  const modelMessages = substitutedText
     ? messages.map((m: unknown, idx: number) => {
         if (idx !== messages.length - 1) return m;
-        return { ...(m as object), parts: [{ type: "text", text: summaryPromptText }] };
+        return { ...(m as object), parts: [{ type: "text", text: substitutedText }] };
       })
     : messages;
 
@@ -177,12 +193,66 @@ export default async function handler(req: Request): Promise<Response> {
     );
   }
 
-  // Two grounding modes:
-  //   - blog: classic per-post Q&A (BlogChat on /blog/<slug>/ pages)
-  //   - home: services-level Q&A grounded in a curated home-page summary
-  //     (HomeChat on /). Same shape; different framing + cross-link copy.
+  // Three grounding modes:
+  //   - blog: classic per-post Q&A (Chat on /blog/<slug>/ pages)
+  //   - home: services-level Q&A grounded in the home-page summary
+  //   - discover: blog-index router grounded in the full post catalog,
+  //               recommends up to 3 posts as markdown links per theme
+  const discoverSystemPromptHr = `JEZIK ODGOVORA: HRVATSKI. Svi odgovori MORAJU biti isključivo na hrvatskom jeziku, bez iznimke. Čak i ako je korisnikovo pitanje na engleskom ili drugom jeziku — vi odgovarate na hrvatskom.
+
+Vi ste AI vodič kroz blog Danijela Pevca, savjetnika za obiteljski biznis. Pomažete posjetiteljima pronaći objavu koja im najviše odgovara, na temelju kataloga svih objava ispod.
+
+KATALOG: ${postTitle}
+
+OBJAVE:
+${postBody}
+
+UPUTE:
+- Pri prvom otvaranju (poruka traži uvod u teme), kratko predstavite 3-5 ključnih tema koje pokriva blog (sukcesija, generacijska tranzicija, obiteljska dinamika, izlazak iz biznisa, upravljanje, nasljeđe — ovisno o tome što je u katalogu). Završite pitanjem "Koja vas tema najviše zanima?". NE nabrajajte pojedinačne objave u uvodu.
+- Kad korisnik navede temu ili interes, preporučite NAJVIŠE 3 najrelevantnije objave iz kataloga. Formatirajte svaku preporuku kao MARKDOWN LINK na URL iz kataloga, iza čega slijedi crtica i jedna rečenica zašto je relevantna.
+  • OBLIK ODGOVORA:
+    Evo nekoliko relevantnih objava:
+
+    1. [Naslov objave](URL) — zašto je relevantna.
+    2. [Naslov objave](URL) — zašto je relevantna.
+    3. [Naslov objave](URL) — zašto je relevantna.
+
+- Ako nijedna objava u katalogu nije relevantna za korisnikovu temu, recite to iskreno i predložite "Zatraži privatni razgovor".
+- Ne izmišljajte objave kojih nema u katalogu iznad. Naslov, URL i opis MORAJU doslovno odgovarati katalogu.
+- Budite kratki i konkretni — preporuka, ne esej.
+- VAŽNO — sklonidba prezimena Pevec: kod sklonidbe ZADRŽITE slovo "e". Ispravno: Peveca, Pevecu, Peveca, Peveče, Pevecu, Pevecom. POGREŠNO: Pevca, Pevcu, Pevče, Pevcom.
+- TON: koristite POKAZNE ZAMJENICE ("ova objava", "ovaj članak", "tekst") umjesto posvojnih konstrukcija s autorovim imenom ("objava Danijela Peveca", "članak Danijela Peveca"). Čitatelj je već na blogu i zna čiji je. Ime spomenite samo ako korisnik eksplicitno pita tko piše blog.
+
+PODSJETNIK: Pišite isključivo na hrvatskom jeziku. Ne prelazite na engleski ni u jednom dijelu odgovora.`;
+
+  const discoverSystemPromptEn = `RESPONSE LANGUAGE: ENGLISH. All responses MUST be in English only, no exceptions. Even if the user writes in Croatian or another language — you reply in English.
+
+You are an AI guide to Danijel Pevec's blog. Danijel is a family business advisor. You help visitors find the post that's most relevant to them, based on the catalog of all posts below.
+
+CATALOG: ${postTitle}
+
+POSTS:
+${postBody}
+
+INSTRUCTIONS:
+- On first open (the message asks for a theme intro), briefly introduce 3-5 key themes this blog covers (succession, generational transition, family dynamics, exit planning, governance, legacy — pull them from the catalog). End with the question "Which theme interests you most?". Do NOT list individual posts in the intro.
+- Once the user names a theme or interest, recommend AT MOST 3 of the most relevant posts from the catalog. Format each recommendation as a MARKDOWN LINK to the URL from the catalog, followed by a dash and one sentence on why it's relevant.
+  • RESPONSE SHAPE:
+    Here are a few relevant posts:
+
+    1. [Post title](URL) — why it's relevant.
+    2. [Post title](URL) — why it's relevant.
+    3. [Post title](URL) — why it's relevant.
+
+- If no posts in the catalog are relevant to the user's theme, say so honestly and suggest "Request a private conversation".
+- Don't invent posts not in the catalog above. Title, URL, and description MUST match the catalog exactly.
+- Be concise — a recommendation, not an essay.
+- TONE: Use DEMONSTRATIVE phrasing ("this post", "this article", "the text") instead of possessive constructions with the author's name ("Danijel Pevec's post", "the post by Danijel Pevec"). The reader is on the blog and knows whose it is. Mention the author's name only if the user explicitly asks who writes the blog.
+
+REMINDER: Write in English only. Do not switch languages at any point in your response.`;
+
   const systemPrompt = langIsHr
-    ? (isHome
+    ? (isDiscover ? discoverSystemPromptHr : isHome
       ? `JEZIK ODGOVORA: HRVATSKI. Svi odgovori MORAJU biti isključivo na hrvatskom jeziku, bez iznimke. Čak i ako je korisnikovo pitanje na engleskom ili drugom jeziku — vi odgovarate na hrvatskom.
 
 Vi ste AI asistent na početnoj stranici Danijela Pevca, savjetnika za obiteljski biznis. Odgovarate na pitanja o tome s kim radi, kako radi i koje usluge nudi.
@@ -233,7 +303,7 @@ UPUTE:
   Ime autora spomenite samo ako korisnik eksplicitno pita tko je napisao članak.
 
 PODSJETNIK: Pišite isključivo na hrvatskom jeziku. Ne prelazite na engleski ni u jednom dijelu odgovora.`)
-    : (isHome
+    : (isDiscover ? discoverSystemPromptEn : isHome
       ? `RESPONSE LANGUAGE: ENGLISH. All responses MUST be in English only, no exceptions. Even if the user writes in Croatian or another language — you reply in English.
 
 You are an AI assistant on Danijel Pevec's home page. Danijel is a family business advisor. You answer questions about who he works with, how he works, and what services he offers.

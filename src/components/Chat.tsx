@@ -1,7 +1,7 @@
 /**
- * Unified chat widget — used on both the home page (mode: "home") and on
- * blog articles (mode: "blog"). Replaces the older HomeChat + BlogChat
- * components, which had two different UI patterns.
+ * Unified chat widget — used on three surfaces with mode-specific
+ * grounding: "home" (home pages), "blog" (article pages), "discover"
+ * (blog index page).
  *
  * Behaviour:
  *   - Floating pill button anchored bottom-center (always visible).
@@ -14,13 +14,16 @@
  *
  * Grounding:
  *   - home: streams from /api/chat with mode="home" using the home-page
- *     summary as context.
+ *     summary as context. Static welcome bubble.
  *   - blog: streams from /api/chat with mode="blog" using the article
- *     title + body as context. On first open, auto-triggers a "summary
- *     request" via an internal sentinel message that the API recognises
- *     — the user sees an immediate 3-point summary + a follow-up
- *     question, no manual prompt required. The sentinel user message
- *     is hidden from the rendered thread.
+ *     title + body. On first open, auto-triggers a 3-point summary via
+ *     a sentinel user message that the API recognises. Sentinel is
+ *     hidden from the rendered thread.
+ *   - discover: streams from /api/chat with mode="discover" using the
+ *     full blog catalog as context. On first open, auto-triggers a
+ *     theme overview + "which theme interests you?" question. Once the
+ *     user replies, the model recommends up to 3 posts as markdown
+ *     links pointing back at /blog/<slug>/ URLs from the catalog.
  */
 import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport } from "ai";
@@ -40,8 +43,10 @@ interface UI {
   openChat: string;
 }
 
+type ChatMode = "home" | "blog" | "discover";
+
 interface Props {
-  mode: "home" | "blog";
+  mode: ChatMode;
   contextTitle: string;
   contextBody: string;
   lang: "hr" | "en";
@@ -49,10 +54,18 @@ interface Props {
 }
 
 const MAX_TEXTAREA_HEIGHT = 140;
-// Sentinel the API recognises to switch into "give me a 3-point summary
-// + ask a follow-up question" mode. Kept on the client too so the
-// rendered thread can hide the synthetic user turn.
+// Sentinel user messages dispatched on first open in modes that
+// auto-start the conversation. The API recognises them and
+// substitutes a real prompt; the client hides them from the rendered
+// thread so the visitor only sees the assistant reply.
 const AUTO_SUMMARY_SENTINEL = "__auto_summary_request__";
+const AUTO_THEME_INTRO_SENTINEL = "__auto_theme_intro__";
+
+function autoTriggerFor(mode: ChatMode): string | null {
+  if (mode === "blog") return AUTO_SUMMARY_SENTINEL;
+  if (mode === "discover") return AUTO_THEME_INTRO_SENTINEL;
+  return null;
+}
 
 export default function Chat({ mode, contextTitle, contextBody, lang, ui }: Props) {
   const [input, setInput] = useState("");
@@ -87,16 +100,17 @@ export default function Chat({ mode, contextTitle, contextBody, lang, ui }: Prop
     return () => mq.removeEventListener("change", handler);
   }, []);
 
-  // Auto-stream a 3-point summary on first open in blog mode. The
-  // sentinel user message is dispatched once per session and hidden
-  // from the rendered thread.
+  // Auto-stream a context-specific intro on first open (blog → 3-point
+  // summary, discover → theme overview). The sentinel user message is
+  // dispatched once per session and hidden from the rendered thread.
   useEffect(() => {
     if (!open) return;
-    if (mode !== "blog") return;
     if (autoSummaryTriggered.current) return;
     if (messages.length > 0) return;
+    const sentinel = autoTriggerFor(mode);
+    if (!sentinel) return;
     autoSummaryTriggered.current = true;
-    sendMessage({ text: AUTO_SUMMARY_SENTINEL });
+    sendMessage({ text: sentinel });
   }, [open, mode, messages.length, sendMessage]);
 
   useEffect(() => {
@@ -182,10 +196,10 @@ export default function Chat({ mode, contextTitle, contextBody, lang, ui }: Prop
     }
   }
 
-  // The static welcome bubble shows only in home mode (and in blog mode
-  // until the first auto-summary streams in — which is rare to see
-  // because the sentinel is dispatched immediately on open).
-  const showStaticWelcome = mode === "home";
+  // The static welcome bubble shows only in modes without an
+  // auto-trigger (currently just "home"). In blog + discover modes the
+  // AI streams the intro itself.
+  const showStaticWelcome = autoTriggerFor(mode) === null;
 
   return (
     <>
@@ -260,9 +274,14 @@ export default function Chat({ mode, contextTitle, contextBody, lang, ui }: Prop
               .map((p) => (p.type === "text" ? p.text : ""))
               .join("");
             // Hide the synthetic user message that triggers the
-            // blog-mode auto-summary; only the assistant reply is
-            // shown to the visitor.
-            if (m.role === "user" && text === AUTO_SUMMARY_SENTINEL) return null;
+            // mode's auto-intro; only the assistant reply is shown to
+            // the visitor.
+            if (
+              m.role === "user" &&
+              (text === AUTO_SUMMARY_SENTINEL || text === AUTO_THEME_INTRO_SENTINEL)
+            ) {
+              return null;
+            }
             return (
               <div key={m.id} className={`home-chat-row home-chat-row-${m.role}`}>
                 <div className="home-chat-bubble">
