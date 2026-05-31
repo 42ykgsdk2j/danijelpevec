@@ -2918,19 +2918,22 @@ section { position: relative; }
    ============================================ */
 
 /* Cookie banner — static block at the bottom of the page (rendered
-   after <Footer /> in BaseLayout). Sits in normal page flow rather
-   than floating fixed at the viewport edge. */
+   after <Footer /> in BaseLayout). Background and content width
+   match the footer so it reads as a final footer row, not a separate
+   strip. */
 .consent-banner {
-  background: var(--bg-2);
+  background: var(--bg-0);
   color: var(--ink-1);
-  border-top: 1px solid var(--line);
-  padding: 14px clamp(16px, 4vw, 32px);
+  border-top: 1px solid var(--line-soft);
+  padding: 16px 0;
 }
 .consent-banner[hidden] { display: none; }
 
 .consent-banner-inner {
   max-width: var(--maxw);
   margin: 0 auto;
+  padding-left: var(--gutter);
+  padding-right: var(--gutter);
 }
 .consent-banner-body {
   font-size: 13px;
@@ -2963,7 +2966,7 @@ section { position: relative; }
 
 @media (max-width: 640px) {
   .consent-banner {
-    padding: 10px clamp(12px, 4vw, 20px);
+    padding: 12px 0;
   }
   .consent-banner-body {
     font-size: 12px;
