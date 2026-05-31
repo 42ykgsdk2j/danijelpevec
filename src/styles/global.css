@@ -324,6 +324,13 @@ section { position: relative; }
   align-items: center;
   justify-content: space-between;
   gap: 24px;
+  /* Override .container's 1280px max-width so the header spans the full
+     viewport — it sits wider than the content it overlays. Tighter side
+     padding than .container's --gutter keeps the brand + actions hugging
+     the viewport edges on iPad/desktop. */
+  max-width: none;
+  padding-left: clamp(16px, 2.5vw, 40px);
+  padding-right: clamp(16px, 2.5vw, 40px);
 }
 
 .brand {
@@ -1411,9 +1418,6 @@ section { position: relative; }
    ============================================ */
 
 @media (max-width: 1024px) {
-  .nav-links { display: none; }
-  .menu-btn { display: inline-flex; }
-  .nav-cta { display: none; }
   .hero-sub-row { grid-template-columns: 1fr; }
   .two-col { grid-template-columns: 1fr; gap: 24px; }
   .two-col .col-left { position: static; }
@@ -1424,12 +1428,22 @@ section { position: relative; }
   .start-cta { grid-template-columns: 1fr; }
 }
 
+/* Collapse the inline nav-links to a hamburger sooner — the full menu
+   only really fits comfortably above 1280px. iPad Air landscape (1180px)
+   and iPad Pro 11" landscape (1194px) land here and get a hamburger
+   while the CTA, lang switcher and theme toggle stay visible. */
+@media (max-width: 1280px) {
+  .nav-links { display: none; }
+  .menu-btn { display: inline-flex; }
+}
+
 @media (max-width: 640px) {
   /* Let the brand block shrink so the EN/HR toggle, theme button and
      hamburger fit on screen. Brand-tag wraps to exactly two lines (8px
      font + 0.2em letter-spacing keep "FAMILY BUSINESS" / "OBITELJSKI
      BIZNIS" inside the 120px column). The toggle, theme and hamburger
      are sized at 38px with an 8px gap between them. */
+  .nav-cta { display: none; }
   .brand { min-width: auto; gap: 8px; }
   .brand-text { width: 120px; min-height: auto; }
   .brand-tag {
