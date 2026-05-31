@@ -3215,7 +3215,12 @@ section { position: relative; }
    Sits centered with edge padding so the page peeks through and
    stays scrollable behind. */
 @media (max-width: 640px) {
-  .home-chat-pill { bottom: 16px; }
+  .home-chat-pill {
+    bottom: 16px;
+    /* Tighter shadow on mobile — iOS Safari clips large soft shadows
+       when the element sits near the viewport edge / uses transform. */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
+  }
   .home-chat-panel {
     right: 12px;
     left: 12px;
@@ -3223,6 +3228,9 @@ section { position: relative; }
     width: auto;
     height: 60dvh;
     max-height: calc(100dvh - 32px);
+    /* Same shadow-clip mitigation as the pill — keep the lift but cut
+       the blur in half so iOS doesn't bite the bottom edge. */
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.26);
   }
   /* Bump textarea to 16px on iOS — Safari zooms the viewport on focus
      if the input's font-size is below 16px. */
