@@ -2672,24 +2672,6 @@ section { position: relative; }
   font-weight: 600;
   color: var(--ink-0);
 }
-.home-chat-panel .home-chat-panel-status {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--ink-2);
-  margin-top: 3px;
-}
-.home-chat-panel-status-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: #6bcb86;
-  box-shadow: 0 0 6px rgba(107, 203, 134, 0.6);
-}
 /* Bordered circular control matching the mobile drawer's close X —
    same shape language so the two "dismiss this panel" affordances
    read as one family. */
