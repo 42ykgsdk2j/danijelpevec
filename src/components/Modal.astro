@@ -1,5 +1,4 @@
 ---
-import Modal from "./Modal.tsx";
 import { getT, type Lang } from "../lib/i18n";
 
 interface Props {
@@ -7,23 +6,78 @@ interface Props {
 }
 const { lang } = Astro.props;
 const t = getT(lang);
+const modalProps = { t: t.modal, lang };
 ---
-<Modal client:idle t={t.modal} lang={lang} />
+{/* Inline script just stashes the lang-specific props on window for the
+    bundled bootstrap below. (define:vars requires is:inline, so we can't
+    use it inside the bundled module that does the dynamic imports.) */}
+<script is:inline define:vars={{ modalProps }}>
+  window.__dpModalProps = modalProps;
+</script>
 
-<script is:inline>
-  // Any [data-open-modal] button dispatches the open event the React island
-  // listens for. We pass the trigger element via `detail` so the modal can
-  // return focus to it on close — relying on `document.activeElement` alone
-  // is unreliable in Safari, where button clicks don't move focus to the
-  // button by default and the active element stays on document.body.
+<script>
+  // Lazy-mount the contact Modal on first [data-open-modal] click. Keeps
+  // React + ReactDOM + Modal (~150 KB compressed) out of the initial JS
+  // payload — they only download when the visitor actually opens the
+  // modal. First click pays a ~200-400ms latency for the chunk download
+  // + mount; every subsequent open is instant.
+  //
+  // Trigger via the `dp:open-modal` CustomEvent. We pass the trigger
+  // element via `detail` so the modal returns focus to it on close —
+  // relying on document.activeElement alone is unreliable in Safari,
+  // where button clicks don't move focus to the button by default.
+  let mounted = false;
+  let mounting = false;
+  const queue: Array<{ trigger: Element }> = [];
+
+  async function ensureMounted() {
+    if (mounted || mounting) return;
+    mounting = true;
+
+    const [{ createElement }, { createRoot }, { default: Modal }] = await Promise.all([
+      import("react"),
+      import("react-dom/client"),
+      import("./Modal.tsx"),
+    ]);
+
+    const container = document.createElement("div");
+    container.id = "modal-mount";
+    document.body.appendChild(container);
+
+    // Modal.tsx dispatches dp:modal-ready inside the same useEffect that
+    // registers its dp:open-modal listener — once that fires, our listener
+    // is live. Flush any queued opens then so first-click events aren't
+    // lost during the mount-in-progress window.
+    window.addEventListener(
+      "dp:modal-ready",
+      function () {
+        mounted = true;
+        while (queue.length) {
+          const detail = queue.shift();
+          if (detail) window.dispatchEvent(new CustomEvent("dp:open-modal", { detail }));
+        }
+      },
+      { once: true },
+    );
+
+    const props = (window as unknown as { __dpModalProps: Record<string, unknown> }).__dpModalProps;
+    createRoot(container).render(createElement(Modal, props as never));
+  }
+
   document.addEventListener("click", function (e) {
-    var target = e.target;
+    let target = e.target as Element | null;
     while (target && target !== document.body) {
-      if (target.hasAttribute && target.hasAttribute("data-open-modal")) {
-        window.dispatchEvent(new CustomEvent("dp:open-modal", { detail: { trigger: target } }));
+      if ((target as Element).hasAttribute && (target as Element).hasAttribute("data-open-modal")) {
+        const detail = { trigger: target as Element };
+        if (mounted) {
+          window.dispatchEvent(new CustomEvent("dp:open-modal", { detail }));
+        } else {
+          queue.push(detail);
+          ensureMounted();
+        }
         return;
       }
-      target = target.parentNode;
+      target = (target as Element).parentNode as Element | null;
     }
   });
 </script>
