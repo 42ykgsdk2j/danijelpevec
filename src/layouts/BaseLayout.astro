@@ -107,29 +107,36 @@ const siteName = "Danijel Pevec";
 
 {/* Analytics with Google Consent Mode v2.
 
-    Order of operations is critical:
-    1. Declare gtag + set every consent signal to "denied" BEFORE the
-       gtag loader fires. EEA visitors land with no cookies set; GA
-       still pings in cookieless "consent mode" so we get anonymous
-       traffic totals.
-    2. Load the gtag loader async — measurement ID G-Q5NYL9TVV3.
-    3. Read the stored consent decision (`dp_consent_v1` in
-       localStorage). If "granted", flip `analytics_storage` +
-       `functionality_storage` on, and inject Microsoft Clarity. If
-       "denied" or unset, neither tool can drop cookies; the visitor
-       sees the banner from <ConsentBanner /> on next paint.
+    ⚠️ PRE-LAUNCH TESTING MODE — analytics granted by default.
+    Visitors land with analytics/functionality on so we can capture
+    real-world data before full public launch. Only users who flip the
+    Marketing toggle OFF in the Configure modal drop into the
+    denied-everything state. REVERT before going live to EEA traffic —
+    see the prior commit history for the GDPR default-denied flow.
 
-    `wait_for_update: 500` tells gtag to hold the first beacon for up
-    to 500ms while the localStorage read + consent update runs. */}
+    Order of operations:
+    1. Read stored decision FIRST so the consent default reflects any
+       prior opt-out (no race between the gtag pageview and the
+       revocation call).
+    2. gtag consent default — granted unless stored === "denied".
+    3. Load the gtag loader async — measurement ID G-Q5NYL9TVV3.
+    4. Load Clarity inline unless the user explicitly denied. */}
 <script is:inline>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
+
+  // PRE-LAUNCH: peek at the stored decision before declaring defaults
+  // so a returning denier doesn't get a granted-then-revoked pageview.
+  var __dpStoredConsent = null;
+  try { __dpStoredConsent = localStorage.getItem('dp_consent_v1'); } catch (e) { /* blocked */ }
+  var __dpDefaultAnalytics = __dpStoredConsent === 'denied' ? 'denied' : 'granted';
+
   gtag('consent', 'default', {
     'ad_storage': 'denied',
     'ad_user_data': 'denied',
     'ad_personalization': 'denied',
-    'analytics_storage': 'denied',
-    'functionality_storage': 'denied',
+    'analytics_storage': __dpDefaultAnalytics,
+    'functionality_storage': __dpDefaultAnalytics,
     'personalization_storage': 'denied',
     'security_storage': 'granted',
     'wait_for_update': 500
@@ -154,11 +161,21 @@ const siteName = "Danijel Pevec";
     window.dpLoadClarity();
   };
 
-  try {
-    if (localStorage.getItem('dp_consent_v1') === 'granted') {
-      window.dpGrantConsent();
-    }
-  } catch (e) { /* localStorage blocked — leave consent denied */ }
+  // PRE-LAUNCH: called when the user toggles Marketing OFF in the
+  // Configure modal. Revokes the gtag signals; Clarity that's already
+  // loaded keeps running until the next page-load (we can't easily
+  // unload it), but no new sessions start once revoked.
+  window.dpRevokeMarketing = function () {
+    gtag('consent', 'update', {
+      'analytics_storage': 'denied',
+      'functionality_storage': 'denied'
+    });
+  };
+
+  // PRE-LAUNCH: load Clarity unless explicitly denied.
+  if (__dpStoredConsent !== 'denied') {
+    window.dpLoadClarity();
+  }
 </script>
 <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-Q5NYL9TVV3"></script>
 

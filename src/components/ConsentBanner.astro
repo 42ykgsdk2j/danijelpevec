@@ -161,6 +161,15 @@ const privacyHref = url(lang, "privacy");
         window.dpGrantConsent();
       }
     }
+    // PRE-LAUNCH TESTING MODE: analytics is granted by default in
+    // BaseLayout.astro. Toggling Marketing OFF in the Configure modal
+    // calls this to actively revoke the gtag signals. Revert alongside
+    // the BaseLayout default-flip before full launch.
+    function revokeMarketing() {
+      if (typeof window.dpRevokeMarketing === "function") {
+        window.dpRevokeMarketing();
+      }
+    }
 
     // Expose a global so any page (e.g. the privacy page's "Change
     // preferences" button) can re-open the configure modal at any time.
@@ -186,6 +195,8 @@ const privacyHref = url(lang, "privacy");
     }
 
     // Save in modal — apply marketing toggle, persist, close everything.
+    // PRE-LAUNCH: marketing OFF actively revokes consent (default is
+    // granted, so we have to flip it off explicitly).
     var saveBtn = config.querySelector("[data-consent-save]");
     if (saveBtn && marketingCheckbox) {
       saveBtn.addEventListener("click", function () {
@@ -194,6 +205,7 @@ const privacyHref = url(lang, "privacy");
           grantMarketing();
         } else {
           setStored("denied");
+          revokeMarketing();
         }
         closeConfig();
         hideBanner();
