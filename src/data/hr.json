@@ -111,7 +111,6 @@
     "send": "Pošalji",
     "stop": "Zaustavi",
     "error": "Nešto je pošlo po krivu. Pokušajte ponovno.",
-    "disclaimer": "Odgovor generira AI. Za osobni savjet zatražite privatni razgovor.",
     "minimize": "Skupi razgovor",
     "openChat": "Otvori razgovor"
   },
@@ -123,7 +122,6 @@
     "send": "Pošalji",
     "stop": "Zaustavi",
     "error": "Nešto je pošlo po krivu. Pokušajte ponovno.",
-    "disclaimer": "Preporuke generira AI iz kataloga objava.",
     "minimize": "Skupi razgovor",
     "openChat": "Otvori razgovor"
   },
@@ -135,7 +133,6 @@
     "send": "Pošalji",
     "stop": "Zaustavi",
     "error": "Nešto je pošlo po krivu. Pokušajte ponovno.",
-    "disclaimer": "Odgovor generira AI na temelju ove objave. Za osobni savjet zatražite privatni razgovor.",
     "minimize": "Skupi razgovor",
     "openChat": "Otvori razgovor"
   },

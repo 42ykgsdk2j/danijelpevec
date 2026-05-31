@@ -2811,16 +2811,6 @@ section { position: relative; }
   outline: 2px solid var(--gold);
   outline-offset: 2px;
 }
-.home-chat-disclaimer {
-  margin: 8px 4px 0;
-  /* 11px is the site-wide floor for sub-eyebrow legibility on
-     --ink-3 in light theme (set by the v3 audit). The 10.5px the
-     v4 audit found was below that floor. */
-  font-size: 11px;
-  line-height: 1.4;
-  color: var(--ink-3);
-  text-align: center;
-}
 
 /* Hide the chat pill + panel while the contact Modal is open OR
    while the consent banner has scrolled into view at the end of

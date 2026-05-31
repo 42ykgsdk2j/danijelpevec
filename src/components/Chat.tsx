@@ -39,7 +39,6 @@ interface UI {
   send: string;
   stop: string;
   error: string;
-  disclaimer: string;
   minimize: string;
   openChat: string;
 }
@@ -367,7 +366,6 @@ export default function Chat({ mode, contextTitle, contextBody, lang, ui }: Prop
               )}
             </div>
           </form>
-          <p className="home-chat-disclaimer">{ui.disclaimer}</p>
         </footer>
       </section>
     </>
