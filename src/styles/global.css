@@ -564,19 +564,32 @@ section { position: relative; }
 }
 
 .nav-cta {
-  padding: 10px 18px;
+  padding: 10px 16px;
   font-size: 12px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   text-align: center;
+  /* The CTA must never be the element that pushes the nav past the
+     viewport edge — let it shrink to content first if the row gets tight. */
+  flex-shrink: 0;
 }
-@media (min-width: 1281px) {
-  /* On wide desktops the longer language ("Private conversation" vs
+@media (min-width: 1481px) {
+  /* On very wide desktops the longer language ("Private conversation" vs
      "Privatni razgovor") gets a fixed footprint so the button doesn't
-     shift between languages. Below 1281px the button shrinks to fit so
-     nav doesn't clip against the viewport edge. */
+     shift between languages. Below 1481px the button sizes to its content
+     so the nav fits across 1025-1480px without clipping the right edge. */
   .nav-cta { min-width: 220px; padding: 10px 20px; }
+}
+/* Between the mobile-nav cutoff (1024) and the wide-desktop bump (1481),
+   tighten the inter-block gaps. The total of brand (280) + nav-links
+   (~655 with 24px gaps) + nav-actions (~280) + 2× nav-inner gaps was
+   pushing past the container edge at 1280-1440. Shrinking the gaps
+   recovers ~30px and keeps the CTA inside the safe area. */
+@media (min-width: 1025px) and (max-width: 1480px) {
+  .nav-inner { gap: 16px; }
+  .nav-links { gap: 18px; }
+  .nav-actions { gap: 14px; }
 }
 
 .menu-btn {
