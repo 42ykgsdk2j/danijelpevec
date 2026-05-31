@@ -2,6 +2,7 @@
 import { defineConfig } from 'astro/config';
 import react from '@astrojs/react';
 import sitemap from '@astrojs/sitemap';
+import sentry from '@sentry/astro';
 
 // Astro config. Output is fully static (no SSR). Vercel auto-detects the
 // `dist/` directory after `npm run build`. The React integration is only
@@ -22,6 +23,18 @@ export default defineConfig({
       },
       filter: (page) =>
         !page.includes('/admin') && !page.includes('/api/'),
+    }),
+    // Sentry — client + page SSR error reporting. Reads dsn + auth from
+    // env vars; integration is a no-op when SENTRY_DSN is unset (dev /
+    // forked deploys still build cleanly). Fine-grained config lives in
+    // sentry.client.config.js + sentry.server.config.js at project root.
+    sentry({
+      dsn: process.env.SENTRY_DSN,
+      sourceMapsUploadOptions: {
+        project: process.env.SENTRY_PROJECT || 'danijelpevec',
+        org: process.env.SENTRY_ORG,
+        authToken: process.env.SENTRY_AUTH_TOKEN,
+      },
     }),
   ],
   // Emit /blog/index.html, /assessment/index.html — clean URLs at every depth,

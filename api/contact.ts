@@ -29,6 +29,20 @@ import type { VercelRequest, VercelResponse } from "@vercel/node";
 import { Resend } from "resend";
 import { Ratelimit } from "@upstash/ratelimit";
 import { Redis } from "@upstash/redis";
+import * as Sentry from "@sentry/node";
+
+// Sentry server-side init for this Vercel function. The Astro
+// integration doesn't reach the /api/* handlers (they run outside
+// the Astro build), so init inline here. No-op when SENTRY_DSN is
+// absent — dev/forked deploys still work.
+if (process.env.SENTRY_DSN && !Sentry.isInitialized()) {
+  Sentry.init({
+    dsn: process.env.SENTRY_DSN,
+    environment: process.env.VERCEL_ENV || "development",
+    sendDefaultPii: false,
+    tracesSampleRate: 0.1,
+  });
+}
 
 type Body = {
   name?: string;
@@ -162,6 +176,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       }
     } catch (err) {
       console.error("[contact] reCAPTCHA verify error:", err);
+      Sentry.captureException(err, { tags: { source: "contact", step: "recaptcha-verify" } });
       // Fail closed when verify itself errors — better to occasionally
       // reject a real human than to let bots through silently.
       return res.status(503).json({
@@ -222,10 +237,23 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   if (notifyResult.status === "rejected") {
     console.error("Resend notify exception:", notifyResult.reason);
+    Sentry.captureException(notifyResult.reason, {
+      tags: { source: "contact", step: "resend-notify" },
+    });
+    // Flush before the serverless function freezes — Sentry's batched
+    // transport otherwise loses events when Vercel terminates the
+    // invocation. 2s is enough headroom on a healthy network.
+    await Sentry.flush(2000).catch(() => {});
     return res.status(500).json({ error: "Could not deliver the message. Please try again, or email directly." });
   }
   if (notifyResult.value.error) {
     console.error("Resend notify error:", notifyResult.value.error);
+    Sentry.captureMessage("Resend notify returned error", {
+      level: "error",
+      tags: { source: "contact", step: "resend-notify" },
+      extra: { resendError: notifyResult.value.error },
+    });
+    await Sentry.flush(2000).catch(() => {});
     return res.status(502).json({ error: "Could not deliver the message. Please try again, or email directly." });
   }
 
