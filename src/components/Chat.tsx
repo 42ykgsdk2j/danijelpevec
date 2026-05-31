@@ -321,7 +321,7 @@ export default function Chat({ mode, contextTitle, contextBody, lang, ui }: Prop
                 }}
                 onKeyDown={onKeyDown}
                 placeholder={ui.placeholder}
-                aria-labelledby="dp-chat-panel-title"
+                aria-label={ui.placeholder}
                 rows={1}
               />
               {busy ? (
