@@ -3154,13 +3154,14 @@ section { position: relative; }
   background: var(--bg-1);
 }
 .home-chat-form { margin: 0; }
-/* Pill-shaped input row. Button is anchored bottom-right (textarea grows
-   upward as the user types). The 6px padding around the button + 6px
-   bottom-padding on the row means the send button has even space on
-   three sides — top of button (when single-line) = bottom = right. */
+/* Pill-shaped input row. Button is vertically centered regardless of
+   single- or multi-line textarea height — important on mobile where
+   the 16px font (iOS no-zoom) makes the textarea 2-3px taller than
+   the 32px send button and the old `flex-end` alignment dropped the
+   button visibly below the textarea's text baseline. */
 .home-chat-input-shell {
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   gap: 8px;
   padding: 6px;
   padding-left: 16px;
