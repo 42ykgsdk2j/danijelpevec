@@ -2813,13 +2813,16 @@ section { position: relative; }
   text-align: center;
 }
 
-/* When the contact Modal opens, hide both the chat pill and the chat
-   panel so the modal owns the full visual stack. Modal.tsx toggles
-   `modal-open` on <body> for the duration. `display: none` doesn't
-   tear down the chat's React state — closing the modal returns the
-   visitor to whatever chat state they were in (pill or open panel). */
+/* Hide the chat pill + panel while the contact Modal is open OR
+   while the consent banner has scrolled into view at the end of
+   the page. Both classes are toggled on <body> by their respective
+   inline scripts. `display: none` keeps React state intact — the
+   visitor returns to whatever chat state they were in once the
+   blocking element goes away. */
 body.modal-open .home-chat-pill,
-body.modal-open .home-chat-panel {
+body.modal-open .home-chat-panel,
+body.consent-banner-in-view .home-chat-pill,
+body.consent-banner-in-view .home-chat-panel {
   display: none;
 }
 
