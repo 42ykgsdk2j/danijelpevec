@@ -2917,28 +2917,16 @@ section { position: relative; }
    Consent banner — fixed bottom strip, themed.
    ============================================ */
 
+/* Cookie banner — static block at the bottom of the page (rendered
+   after <Footer /> in BaseLayout). Sits in normal page flow rather
+   than floating fixed at the viewport edge. */
 .consent-banner {
-  position: fixed;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 953;
   background: var(--bg-2);
   color: var(--ink-1);
   border-top: 1px solid var(--line);
-  box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.18);
   padding: 14px clamp(16px, 4vw, 32px);
-  padding-bottom: max(14px, env(safe-area-inset-bottom));
-  animation: consent-banner-slide 280ms cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 .consent-banner[hidden] { display: none; }
-@keyframes consent-banner-slide {
-  from { transform: translateY(100%); opacity: 0; }
-  to   { transform: translateY(0); opacity: 1; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .consent-banner { animation: none; }
-}
 
 .consent-banner-inner {
   max-width: var(--maxw);
@@ -2999,7 +2987,6 @@ section { position: relative; }
 @media (max-width: 640px) {
   .consent-banner {
     padding: 10px clamp(12px, 4vw, 20px);
-    padding-bottom: max(10px, env(safe-area-inset-bottom));
   }
   .consent-banner-inner {
     flex-wrap: nowrap;
