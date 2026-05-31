@@ -37,6 +37,7 @@ interface UI {
   welcomeBody: string;
   placeholder: string;
   send: string;
+  stop: string;
   error: string;
   disclaimer: string;
   minimize: string;
@@ -329,7 +330,7 @@ export default function Chat({ mode, contextTitle, contextBody, lang, ui }: Prop
                   type="button"
                   onClick={() => stop()}
                   className="home-chat-send"
-                  aria-label="Stop"
+                  aria-label={ui.stop}
                 >
                   <svg
                     width="12"
