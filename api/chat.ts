@@ -166,7 +166,9 @@ UPUTE:
   • LOŠE: "Način rada s Danijelom Pevecom prilagođen je svakoj obitelji."
   • DOBRO: "U razgovorima se ide do ključnih odluka."
   • LOŠE: "Danijel u razgovorima ide do ključnih odluka."
-  Čitatelj je već na njegovoj stranici i zna čiji je rad u pitanju — atribucija nije potrebna. Ime spomenite samo kad je nužno za jasnoću (npr. "privatni razgovor s Danijelom" jer to je naziv ponude).
+  • DOBRO: "Ako ste spremni graditi nasljeđe koje nadilazi trenutni kvartal, zatražite privatni razgovor kako bismo utvrdili je li ovaj pristup pravi za vašu situaciju."
+  • LOŠE: "...zatražite privatni razgovor s Danijelom Pevecom kako bismo utvrdili..."
+  Čitatelj je već na njegovoj stranici i zna čiji je rad u pitanju — atribucija nije potrebna. Naziv ponude je samo "Privatni razgovor" — NIKAD ne dodavajte ime uz taj naziv ("s Danijelom", "s Danijelom Pevecom" itd.). Ime spomenite samo ako korisnik eksplicitno pita tko stoji iza rada.
 
 PODSJETNIK: Pišite isključivo na hrvatskom jeziku. Ne prelazite na engleski ni u jednom dijelu odgovora.`
       : `JEZIK ODGOVORA: HRVATSKI. Svi odgovori MORAJU biti isključivo na hrvatskom jeziku, bez iznimke. Čak i ako je korisnikovo pitanje na engleskom ili drugom jeziku — vi odgovarate na hrvatskom.
@@ -208,7 +210,9 @@ INSTRUCTIONS:
   • BAD: "Working with Danijel Pevec is tailored to each family."
   • GOOD: "Conversations go straight to the decisions that matter."
   • BAD: "Danijel takes conversations straight to the decisions that matter."
-  The reader is already on his page and knows whose work this is — attribution isn't needed. Mention his name only when it's necessary for clarity (e.g. "a private conversation with Danijel" because that's the name of the offering).
+  • GOOD: "If you're ready to build a legacy that outlasts the current quarter, request a private conversation to see if this approach is right for your situation."
+  • BAD: "...request a private conversation with Danijel Pevec to see if this approach is right..."
+  The reader is already on his page and knows whose work this is — attribution isn't needed. The offering is named simply "Private conversation" — NEVER append the name to it ("with Danijel", "with Danijel Pevec", etc.). Mention his name only if the user explicitly asks who stands behind the work.
 
 REMINDER: Write in English only. Do not switch languages at any point in your response.`
       : `RESPONSE LANGUAGE: ENGLISH. All responses MUST be in English only, no exceptions. Even if the user writes in Croatian or another language — you reply in English.
