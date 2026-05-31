@@ -38,14 +38,13 @@ const privacyHref = url(lang, "privacy");
 >
   <div class="consent-banner-inner">
     <p class="consent-banner-body">
-      {t.consent.body}<a href={privacyHref}>{t.consent.privacyLink}</a>{t.consent.bodyAfterLink}
+      {t.consent.body}<button
+        type="button"
+        class="consent-inline-link"
+        data-consent-configure
+      >{t.consent.configure}</button>{t.consent.bodyAfterLink}
     </p>
     <div class="consent-banner-actions">
-      <button
-        type="button"
-        class="consent-link"
-        data-consent-configure
-      >{t.consent.configure}</button>
       <button
         type="button"
         class="btn btn-primary consent-accept"
@@ -65,7 +64,11 @@ const privacyHref = url(lang, "privacy");
 >
   <div class="consent-config">
     <h2 id="consent-config-title" class="consent-config-title">{t.consent.configureTitle}</h2>
-    <p class="consent-config-intro">{t.consent.configureIntro}</p>
+    <p class="consent-config-intro">
+      {t.consent.configureIntro}
+      {" "}
+      <a class="consent-config-privacy" href={privacyHref}>{t.consent.privacyLink}</a>
+    </p>
 
     <div class="consent-row consent-row-disabled">
       <div class="consent-row-text">
