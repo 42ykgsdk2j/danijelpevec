@@ -51,7 +51,10 @@ export const BUSINESS = {
     addressCountry: "HR",
   },
   sameAs: [
-    "https://share.google/cay1syxahxDwS4s6D",
+    // NB: removed the Google Business Profile share-link
+    // ("https://share.google/cay1syxahxDwS4s6D") because it now
+    // redirects to a Google search results page (expired share
+    // shortcode). Re-add with a permanent profile URL when available.
     "https://www.linkedin.com/in/danijelpevec",
     "https://www.alphacapitalis.com/",
   ],
