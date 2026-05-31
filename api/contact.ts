@@ -11,9 +11,18 @@
  *                             Example: "Danijel Pevec <noreply@danijelpevec.com>"
  *   - CONTACT_TO_EMAIL      — where notifications land. Defaults to the imprint
  *                             address if unset.
+ *   - UPSTASH_REDIS_REST_URL + UPSTASH_REDIS_REST_TOKEN (auto-injected by
+ *     Vercel's Upstash integration) — optional; rate limiting + Resend
+ *     quota protection are skipped if absent.
+ *
+ * Misuse caps:
+ *   - Per-IP: 5 submissions / 24h sliding window via Upstash
+ *   - Per-message: 5000 chars max (~1000 words)
  */
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 import { Resend } from "resend";
+import { Ratelimit } from "@upstash/ratelimit";
+import { Redis } from "@upstash/redis";
 
 type Body = {
   name?: string;
@@ -26,6 +35,28 @@ type Body = {
 };
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const MAX_MESSAGE_CHARS = 5000;
+
+let ratelimit: Ratelimit | null = null;
+try {
+  ratelimit = new Ratelimit({
+    redis: Redis.fromEnv(),
+    limiter: Ratelimit.slidingWindow(5, "1 d"),
+    analytics: true,
+    prefix: "contact",
+  });
+} catch (err) {
+  console.warn("[contact] rate limiting disabled (Upstash env missing):", err);
+}
+
+function getClientIp(req: VercelRequest): string {
+  const fwd = req.headers["x-forwarded-for"];
+  if (typeof fwd === "string") return fwd.split(",")[0]!.trim();
+  if (Array.isArray(fwd) && fwd[0]) return fwd[0].split(",")[0]!.trim();
+  const real = req.headers["x-real-ip"];
+  if (typeof real === "string") return real;
+  return "anonymous";
+}
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== "POST") {
@@ -49,6 +80,23 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (!name) return res.status(400).json({ error: "Name is required." });
   if (!email || !EMAIL_RE.test(email)) return res.status(400).json({ error: "A valid email is required." });
   if (!message) return res.status(400).json({ error: "Please share a brief note about your situation." });
+  if (message.length > MAX_MESSAGE_CHARS) {
+    return res.status(413).json({
+      error: `Message is too long (over ${MAX_MESSAGE_CHARS} characters). Please shorten it.`,
+    });
+  }
+
+  // Per-IP rate limit. Without this a spammer could burn through the
+  // Resend daily quota by replaying form submissions.
+  if (ratelimit) {
+    const ip = getClientIp(req);
+    const { success } = await ratelimit.limit(ip);
+    if (!success) {
+      return res.status(429).json({
+        error: "Too many submissions. Please try again tomorrow, or email directly.",
+      });
+    }
+  }
 
   const role = (body.role || "").trim();
   const company = (body.company || "").trim();
