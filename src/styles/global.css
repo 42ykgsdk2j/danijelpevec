@@ -3074,22 +3074,31 @@ section { position: relative; }
   background: #6bcb86;
   box-shadow: 0 0 6px rgba(107, 203, 134, 0.6);
 }
+/* Bordered circular control matching the mobile drawer's close X —
+   same shape language so the two "dismiss this panel" affordances
+   read as one family. */
 .home-chat-panel-minimize {
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  border: 0;
-  background: transparent;
-  color: var(--ink-2);
-  cursor: pointer;
+  border: 1px solid var(--line);
+  background: var(--bg-2);
+  color: var(--ink-1);
   display: grid;
   place-items: center;
-  transition: background-color 200ms ease, color 200ms ease;
+  cursor: pointer;
+  transition:
+    border-color 240ms ease,
+    color 240ms ease,
+    background-color 240ms ease,
+    transform 160ms cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 .home-chat-panel-minimize:hover {
-  background: var(--bg-2);
-  color: var(--ink-0);
+  border-color: var(--gold);
+  color: var(--gold);
+  background: color-mix(in oklab, var(--gold) 6%, var(--bg-2));
 }
+.home-chat-panel-minimize:active { transform: scale(0.92); }
 .home-chat-panel-minimize:focus-visible {
   outline: 2px solid var(--gold);
   outline-offset: 2px;
