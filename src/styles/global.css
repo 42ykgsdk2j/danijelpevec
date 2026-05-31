@@ -1157,6 +1157,23 @@ section { position: relative; }
   gap: 16px;
 }
 .footer-bottom .copy { letter-spacing: 0.04em; }
+/* Privacy + Imprint links live on the right side of the footer
+   bottom row (justify-content: space-between on the parent pushes
+   them opposite the copyright). Subtle separator between them. */
+.footer-legal {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--ink-3);
+  letter-spacing: 0.04em;
+}
+.footer-legal a {
+  color: var(--ink-2);
+  transition: color 180ms ease;
+}
+.footer-legal a:hover { color: var(--gold); }
+.footer-legal-sep { color: var(--line); }
 
 /* ============================================
    Modal
