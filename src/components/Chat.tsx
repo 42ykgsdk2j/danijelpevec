@@ -75,7 +75,10 @@ export default function Chat({ mode, contextTitle, contextBody, lang, ui }: Prop
   const transport = useMemo(
     () =>
       new DefaultChatTransport({
-        api: "/api/chat",
+        // Trailing slash matches vercel.json's `trailingSlash: true`
+        // canonicalization — without it every chat send pays an extra
+        // 308 redirect hop.
+        api: "/api/chat/",
         body: { postTitle: contextTitle, postBody: contextBody, lang, mode },
       }),
     [contextTitle, contextBody, lang, mode],
