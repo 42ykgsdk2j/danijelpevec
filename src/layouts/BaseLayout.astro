@@ -105,6 +105,38 @@ const siteName = "Danijel Pevec";
   })();
 </script>
 
+{/* Restore scroll position after a language swap. Nav.astro's lang
+    pills stash window.scrollY in sessionStorage on click; this runs
+    in <head> on the new locale's page, disables the browser's default
+    scroll-restoration, and applies the saved Y as soon as the body
+    has content. Tries on DOMContentLoaded + load to win against
+    layout shifts from late-mounted React islands. */}
+<script is:inline>
+  (function () {
+    var raw;
+    try { raw = sessionStorage.getItem("dp_lang_swap_y"); } catch (_) { return; }
+    if (raw === null) return;
+    try { sessionStorage.removeItem("dp_lang_swap_y"); } catch (_) {}
+    var y = parseFloat(raw);
+    if (!Number.isFinite(y)) return;
+    if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+    var done = false;
+    function apply() {
+      if (done) return;
+      done = true;
+      window.scrollTo(0, y);
+    }
+    if (document.readyState !== "loading") apply();
+    else document.addEventListener("DOMContentLoaded", apply, { once: true });
+    addEventListener("load", function () {
+      // A second pass after `load` corrects for any late layout shift
+      // from font swap / React-island hydration / consent-banner mount
+      // that nudged content above the saved Y.
+      window.scrollTo(0, y);
+    }, { once: true });
+  })();
+</script>
+
 {/* Analytics with Google Consent Mode v2.
 
     ⚠️ PRE-LAUNCH TESTING MODE — analytics granted by default.

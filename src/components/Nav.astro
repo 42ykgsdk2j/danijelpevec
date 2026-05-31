@@ -45,7 +45,7 @@ const links = [
             <span class="en-btn active" aria-current="page" title="English (current)">EN</span>
           )
           : (
-            <a href={altUrl} class="en-btn" title="Switch to English">EN</a>
+            <a href={altUrl} class="en-btn" data-lang-swap title="Switch to English">EN</a>
           )
         }
         {lang === "hr"
@@ -53,7 +53,7 @@ const links = [
             <span class="hr-btn active" aria-current="page" title="Hrvatski (trenutno)">HR</span>
           )
           : (
-            <a href={altUrl} class="hr-btn" title="Prebaci na hrvatski">HR</a>
+            <a href={altUrl} class="hr-btn" data-lang-swap title="Prebaci na hrvatski">HR</a>
           )
         }
       </div>
@@ -89,11 +89,11 @@ const links = [
     <div class="toggle-group mobile-lang" role="group" aria-label="Language">
       {lang === "en"
         ? (<span class="active" aria-current="page" title="English (current)">EN</span>)
-        : (<a href={altUrl} title="Switch to English">EN</a>)
+        : (<a href={altUrl} data-lang-swap title="Switch to English">EN</a>)
       }
       {lang === "hr"
         ? (<span class="active" aria-current="page" title="Hrvatski (trenutno)">HR</span>)
-        : (<a href={altUrl} title="Prebaci na hrvatski">HR</a>)
+        : (<a href={altUrl} data-lang-swap title="Prebaci na hrvatski">HR</a>)
       }
     </div>
     <button class="theme-toggle" data-theme-toggle aria-label="Toggle theme">
@@ -233,6 +233,17 @@ const links = [
         localStorage.setItem("dp_theme", next);
         syncTheme();
       });
+    });
+
+    // Preserve scroll position across language swaps. The lang pills are
+    // plain <a> anchors that navigate to the alt-locale URL — by default
+    // the new page lands at the top. Stash scrollY in sessionStorage on
+    // click; the BaseLayout's <head> restore script reads it back and
+    // jumps to that Y before paint on the next page.
+    document.addEventListener("click", function (e) {
+      var a = e.target.closest && e.target.closest("[data-lang-swap]");
+      if (!a) return;
+      try { sessionStorage.setItem("dp_lang_swap_y", String(window.scrollY)); } catch (_) {}
     });
   })();
 </script>
