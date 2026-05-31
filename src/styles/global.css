@@ -1617,7 +1617,12 @@ section { position: relative; }
 @media (min-width: 961px) { .blog-page-list .blog-grid { grid-template-columns: 1fr 1fr 1fr; } }
 
 .blog-back {
-  display: inline-flex;
+  /* Block-level so the next sibling (.eyebrow / .article-meta-row,
+     both inline-flex) drops below the back link instead of flowing
+     onto the same row. `width: fit-content` keeps the visual box +
+     hover target the size of the actual text, not the full row. */
+  display: flex;
+  width: fit-content;
   align-items: center;
   gap: 10px;
   font-size: 12px;
