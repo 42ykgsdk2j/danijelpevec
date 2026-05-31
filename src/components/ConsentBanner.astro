@@ -44,13 +44,6 @@ const privacyHref = url(lang, "privacy");
         data-consent-configure
       >{t.consent.configure}</button>{t.consent.bodyAfterLink}
     </p>
-    <div class="consent-banner-actions">
-      <button
-        type="button"
-        class="btn btn-primary consent-accept"
-        data-consent-accept
-      >{t.consent.accept}</button>
-    </div>
   </div>
 </div>
 
@@ -178,17 +171,8 @@ const privacyHref = url(lang, "privacy");
     // First-paint: show the banner only if no choice has been recorded.
     if (!getStored()) showBanner();
 
-    // Top-level Accept — same effect as Configure → Save with defaults.
-    var acceptBtn = banner.querySelector("[data-consent-accept]");
-    if (acceptBtn) {
-      acceptBtn.addEventListener("click", function () {
-        setStored("granted");
-        grantMarketing();
-        hideBanner();
-      });
-    }
-
-    // Configure → open modal.
+    // Configure → open modal. Save in the modal is the only way to
+    // dismiss the banner — there's no top-level Accept anymore.
     var configureBtn = banner.querySelector("[data-consent-configure]");
     if (configureBtn) {
       configureBtn.addEventListener("click", openConfig);

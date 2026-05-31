@@ -2931,15 +2931,8 @@ section { position: relative; }
 .consent-banner-inner {
   max-width: var(--maxw);
   margin: 0 auto;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: clamp(16px, 3vw, 32px);
-  flex-wrap: wrap;
 }
 .consent-banner-body {
-  flex: 1 1 280px;
-  min-width: 0;
   font-size: 13px;
   line-height: 1.5;
   color: var(--ink-2);
@@ -2951,7 +2944,7 @@ section { position: relative; }
   text-decoration: underline;
   text-underline-offset: 2px;
 }
-/* The Configure trigger now lives inside the banner copy as a text-link
+/* The Configure trigger lives inside the banner copy as a text-link
    styled <button>. Strip default button chrome so it reads as a link. */
 .consent-banner-body .consent-inline-link {
   background: transparent;
@@ -2967,46 +2960,14 @@ section { position: relative; }
   outline-offset: 3px;
   border-radius: 2px;
 }
-.consent-banner-actions {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  flex-shrink: 0;
-}
-.consent-banner-actions .btn {
-  padding: 10px 18px;
-  font-size: 12px;
-  letter-spacing: 0.12em;
-}
 
-/* Mobile — text on the left (wrapping freely), actions tight on the
-   right. We override the desktop \`flex: 1 1 280px\` to \`flex: 1 1 auto\`
-   so the body shrinks below the desktop min-width without bumping the
-   actions to a new line, and force \`flex-wrap: nowrap\` to keep the
-   single-row shape. */
 @media (max-width: 640px) {
   .consent-banner {
     padding: 10px clamp(12px, 4vw, 20px);
   }
-  .consent-banner-inner {
-    flex-wrap: nowrap;
-    align-items: center;
-    gap: 12px;
-  }
   .consent-banner-body {
-    flex: 1 1 auto;
-    min-width: 0;
     font-size: 12px;
     line-height: 1.45;
-  }
-  .consent-banner-actions {
-    flex-shrink: 0;
-    gap: 6px;
-  }
-  .consent-banner-actions .btn {
-    flex: 0 0 auto;
-    padding: 8px 14px;
-    font-size: 11px;
   }
 }
 
