@@ -11,12 +11,16 @@ const t = getT(lang);
 <Modal client:idle t={t.modal} lang={lang} />
 
 <script is:inline>
-  // Any [data-open-modal] button dispatches the open event the React island listens for.
+  // Any [data-open-modal] button dispatches the open event the React island
+  // listens for. We pass the trigger element via `detail` so the modal can
+  // return focus to it on close — relying on `document.activeElement` alone
+  // is unreliable in Safari, where button clicks don't move focus to the
+  // button by default and the active element stays on document.body.
   document.addEventListener("click", function (e) {
     var target = e.target;
     while (target && target !== document.body) {
       if (target.hasAttribute && target.hasAttribute("data-open-modal")) {
-        window.dispatchEvent(new CustomEvent("dp:open-modal"));
+        window.dispatchEvent(new CustomEvent("dp:open-modal", { detail: { trigger: target } }));
         return;
       }
       target = target.parentNode;

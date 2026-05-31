@@ -72,8 +72,16 @@ export default function Modal({ t, lang }: Props) {
   const triggerRef = useRef<Element | null>(null);
 
   useEffect(() => {
-    const handler = () => {
-      triggerRef.current = document.activeElement;
+    const handler = (e: Event) => {
+      // Prefer the trigger button passed via event detail (set by
+      // Modal.astro's click handler). Falls back to document.activeElement
+      // for any caller that dispatches the event without a trigger.
+      // Safari doesn't focus buttons on click, so activeElement is often
+      // document.body — the detail.trigger path is what makes focus return
+      // work reliably across browsers.
+      const detail = (e as CustomEvent).detail;
+      triggerRef.current =
+        (detail && (detail.trigger as Element)) || document.activeElement;
       setOpen(true);
     };
     window.addEventListener("dp:open-modal", handler);
