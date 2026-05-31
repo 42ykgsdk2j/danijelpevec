@@ -14,10 +14,16 @@
  *   - UPSTASH_REDIS_REST_URL + UPSTASH_REDIS_REST_TOKEN (auto-injected by
  *     Vercel's Upstash integration) — optional; rate limiting + Resend
  *     quota protection are skipped if absent.
+ *   - RECAPTCHA_SITE_KEY + RECAPTCHA_SECRET_KEY — optional; reCAPTCHA v3
+ *     bot-protection. When both are set, the client includes a token in
+ *     the POST body and we verify it via Google's siteverify; submissions
+ *     with score < RECAPTCHA_MIN_SCORE are rejected as likely bots. When
+ *     unset, the check is skipped (dev / forked deploys still work).
  *
  * Misuse caps:
  *   - Per-IP: 5 submissions / 24h sliding window via Upstash
  *   - Per-message: 5000 chars max (~1000 words)
+ *   - reCAPTCHA v3 score gate (default min 0.5; lower is more bot-like)
  */
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 import { Resend } from "resend";
@@ -32,10 +38,13 @@ type Body = {
   stage?: string;
   message?: string;
   lang?: "hr" | "en";
+  recaptchaToken?: string;
 };
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const MAX_MESSAGE_CHARS = 5000;
+const RECAPTCHA_MIN_SCORE = 0.5;
+const RECAPTCHA_ACTION = "contact_form";
 
 let ratelimit: Ratelimit | null = null;
 try {
@@ -56,6 +65,29 @@ function getClientIp(req: VercelRequest): string {
   const real = req.headers["x-real-ip"];
   if (typeof real === "string") return real;
   return "anonymous";
+}
+
+interface RecaptchaResponse {
+  success: boolean;
+  score?: number;
+  action?: string;
+  challenge_ts?: string;
+  hostname?: string;
+  "error-codes"?: string[];
+}
+
+async function verifyRecaptcha(
+  token: string,
+  secret: string,
+  remoteIp: string,
+): Promise<RecaptchaResponse> {
+  const body = new URLSearchParams({ secret, response: token, remoteip: remoteIp });
+  const res = await fetch("https://www.google.com/recaptcha/api/siteverify", {
+    method: "POST",
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    body: body.toString(),
+  });
+  return res.json();
 }
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
@@ -88,12 +120,52 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   // Per-IP rate limit. Without this a spammer could burn through the
   // Resend daily quota by replaying form submissions.
+  const ip = getClientIp(req);
   if (ratelimit) {
-    const ip = getClientIp(req);
     const { success } = await ratelimit.limit(ip);
     if (!success) {
       return res.status(429).json({
         error: "Too many submissions. Please try again tomorrow, or email directly.",
+      });
+    }
+  }
+
+  // reCAPTCHA v3 score gate. When both env vars are set, the client
+  // must include a valid token from grecaptcha.execute(); Google's
+  // siteverify returns a 0.0-1.0 score (higher = more likely human)
+  // plus the action the token was issued for. Reject low scores +
+  // wrong actions as bots. When env vars are absent (dev / forked
+  // deploys) skip the check entirely.
+  const recaptchaSecret = process.env.RECAPTCHA_SECRET_KEY;
+  if (recaptchaSecret) {
+    const token = (body.recaptchaToken || "").trim();
+    if (!token) {
+      return res.status(400).json({ error: "Bot check required. Please retry." });
+    }
+    try {
+      const verification = await verifyRecaptcha(token, recaptchaSecret, ip);
+      const score = verification.score ?? 0;
+      if (
+        !verification.success ||
+        verification.action !== RECAPTCHA_ACTION ||
+        score < RECAPTCHA_MIN_SCORE
+      ) {
+        console.warn("[contact] reCAPTCHA rejected:", {
+          success: verification.success,
+          score,
+          action: verification.action,
+          errors: verification["error-codes"],
+        });
+        return res.status(403).json({
+          error: "Bot check failed. Please retry, or email directly.",
+        });
+      }
+    } catch (err) {
+      console.error("[contact] reCAPTCHA verify error:", err);
+      // Fail closed when verify itself errors — better to occasionally
+      // reject a real human than to let bots through silently.
+      return res.status(503).json({
+        error: "Bot check is temporarily unavailable. Please try again shortly.",
       });
     }
   }

@@ -39,6 +39,12 @@ const {
 } = Astro.props;
 
 const siteName = "Danijel Pevec";
+// reCAPTCHA v3 site key, server-side read at build time. Inlined into
+// the HTML so the Modal island (and any future captcha-protected form)
+// can call grecaptcha.execute(). When the env var is unset (dev /
+// forked deploys), no script is loaded and the form falls back to
+// rate-limit-only protection.
+const recaptchaSiteKey = process.env.RECAPTCHA_SITE_KEY ?? "";
 ---
 <!DOCTYPE html>
 <html lang={lang} class="js-scroll-ready">
@@ -107,6 +113,17 @@ const siteName = "Danijel Pevec";
     document.documentElement.setAttribute("data-theme", t);
   })();
 </script>
+
+{/* reCAPTCHA v3 loader — script + stash key on window for islands.
+    Only emitted when RECAPTCHA_SITE_KEY is set at build time. */}
+{recaptchaSiteKey && (
+  <>
+    <script is:inline define:vars={{ recaptchaSiteKey }}>
+      window.__dpRecaptchaSiteKey = recaptchaSiteKey;
+    </script>
+    <script is:inline async defer src={`https://www.google.com/recaptcha/api.js?render=${recaptchaSiteKey}`}></script>
+  </>
+)}
 
 {/* Restore scroll position after a language swap. Nav.astro's lang
     pills stash window.scrollY in sessionStorage on click; this runs

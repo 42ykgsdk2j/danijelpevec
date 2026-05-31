@@ -180,6 +180,11 @@
     "successAccent": "",
     "successSub": "I'll read your note personally and propose next steps.",
     "close": "Close",
+    "recaptchaNoticeBefore": "This site is protected by reCAPTCHA and the Google ",
+    "recaptchaPrivacyLink": "Privacy Policy",
+    "recaptchaNoticeBetween": " and ",
+    "recaptchaTermsLink": "Terms of Service",
+    "recaptchaNoticeAfter": " apply.",
     "err": {
       "name": "Please share your name",
       "email": "A valid email is required",

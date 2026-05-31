@@ -41,12 +41,18 @@ type T = {
   successAccent: string;
   successSub: string;
   close: string;
+  recaptchaNoticeBefore: string;
+  recaptchaPrivacyLink: string;
+  recaptchaNoticeBetween: string;
+  recaptchaTermsLink: string;
+  recaptchaNoticeAfter: string;
   err: { name: string; email: string; message: string; submit: string };
 };
 
 interface Props {
   t: T;
   lang: "hr" | "en";
+  hasRecaptcha?: boolean;
 }
 
 interface FormState {
@@ -60,7 +66,7 @@ interface FormState {
 
 const initial: FormState = { name: "", role: "", company: "", email: "", stage: "", message: "" };
 
-export default function Modal({ t, lang }: Props) {
+export default function Modal({ t, lang, hasRecaptcha = false }: Props) {
   const [open, setOpen] = useState(false);
   const [form, setForm] = useState<FormState>(initial);
   const [errors, setErrors] = useState<Record<string, string | null>>({});
@@ -163,6 +169,28 @@ export default function Modal({ t, lang }: Props) {
     [form.name, form.email, form.message],
   );
 
+  // Ask reCAPTCHA v3 for a token. Returns "" when the key isn't
+  // configured at build time (dev / forked deploys) — the API treats
+  // missing token + missing secret as a non-protected request.
+  async function getRecaptchaToken(): Promise<string> {
+    const w = window as unknown as {
+      __dpRecaptchaSiteKey?: string;
+      grecaptcha?: {
+        ready: (cb: () => void) => void;
+        execute: (key: string, opts: { action: string }) => Promise<string>;
+      };
+    };
+    const siteKey = w.__dpRecaptchaSiteKey;
+    if (!siteKey || !w.grecaptcha) return "";
+    return await new Promise<string>((resolve) => {
+      w.grecaptcha!.ready(() => {
+        w.grecaptcha!
+          .execute(siteKey, { action: "contact_form" })
+          .then((tok) => resolve(tok), () => resolve(""));
+      });
+    });
+  }
+
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
     const errs = validate();
@@ -173,6 +201,7 @@ export default function Modal({ t, lang }: Props) {
     setSubmitting(true);
     setErrors({});
     try {
+      const recaptchaToken = await getRecaptchaToken();
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json", "Accept": "application/json" },
@@ -184,6 +213,7 @@ export default function Modal({ t, lang }: Props) {
           stage: form.stage,
           message: form.message,
           lang,
+          recaptchaToken,
         }),
       });
       if (res.ok) {
@@ -344,6 +374,19 @@ export default function Modal({ t, lang }: Props) {
                   <polyline points="12 5 19 12 12 19" />
                 </svg>
               </button>
+              {hasRecaptcha && (
+                <p className="modal-recaptcha-notice">
+                  {t.recaptchaNoticeBefore}
+                  <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">
+                    {t.recaptchaPrivacyLink}
+                  </a>
+                  {t.recaptchaNoticeBetween}
+                  <a href="https://policies.google.com/terms" target="_blank" rel="noopener noreferrer">
+                    {t.recaptchaTermsLink}
+                  </a>
+                  {t.recaptchaNoticeAfter}
+                </p>
+              )}
             </div>
           </form>
         ) : (

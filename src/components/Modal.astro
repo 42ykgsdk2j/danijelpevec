@@ -7,8 +7,11 @@ interface Props {
 }
 const { lang } = Astro.props;
 const t = getT(lang);
+// Pass-through: did the build see RECAPTCHA_SITE_KEY? The Modal renders
+// the Google-required attribution line only when reCAPTCHA is wired up.
+const hasRecaptcha = !!process.env.RECAPTCHA_SITE_KEY;
 ---
-<Modal client:idle t={t.modal} lang={lang} />
+<Modal client:idle t={t.modal} lang={lang} hasRecaptcha={hasRecaptcha} />
 
 <script is:inline>
   // Any [data-open-modal] button dispatches the open event the React island

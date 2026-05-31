@@ -1315,6 +1315,26 @@ section { position: relative; }
   flex-wrap: wrap;
 }
 
+/* reCAPTCHA v3 attribution — Google requires either the floating badge
+   OR this inline notice when the badge is hidden. We hide the badge
+   globally (it sits bottom-right and collides with the chat pill) and
+   show the notice next to the submit button instead. */
+.grecaptcha-badge { visibility: hidden !important; }
+.modal-recaptcha-notice {
+  flex: 1 1 100%;
+  margin: 8px 0 0;
+  font-size: 11px;
+  line-height: 1.45;
+  color: var(--ink-3);
+  text-align: right;
+}
+.modal-recaptcha-notice a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.modal-recaptcha-notice a:hover { color: var(--ink-1); }
+
 /* Modal success state */
 .modal-success { text-align: center; padding: 24px 0; }
 .modal-success .seal {

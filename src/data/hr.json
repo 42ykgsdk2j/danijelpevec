@@ -180,6 +180,11 @@
     "successAccent": "",
     "successSub": "Osobno ću pročitati vašu poruku i predložiti daljnje korake.",
     "close": "Zatvori",
+    "recaptchaNoticeBefore": "Ovu stranicu štiti reCAPTCHA. Vrijede Googleova ",
+    "recaptchaPrivacyLink": "Pravila privatnosti",
+    "recaptchaNoticeBetween": " i ",
+    "recaptchaTermsLink": "Uvjeti korištenja",
+    "recaptchaNoticeAfter": ".",
     "err": {
       "name": "Molim podijelite svoje ime",
       "email": "Potrebna je valjana email adresa",
