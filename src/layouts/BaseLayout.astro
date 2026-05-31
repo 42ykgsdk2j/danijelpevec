@@ -64,6 +64,9 @@ const siteName = "Danijel Pevec";
 <meta property="og:url" content={canonical} />
 <meta property="og:site_name" content={siteName} />
 <meta property="og:image" content={ogImage} />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content={siteName} />
 {lang === "hr" && <meta property="og:locale" content="hr_HR" />}
 {lang === "hr" && <meta property="og:locale:alternate" content="en_GB" />}
 {lang === "en" && <meta property="og:locale" content="en_GB" />}
@@ -124,7 +127,11 @@ const siteName = "Danijel Pevec";
     function apply() {
       if (done) return;
       done = true;
-      window.scrollTo(0, y);
+      // `behavior: 'instant'` so we snap to the saved Y rather than
+      // animating. Without it, html { scroll-behavior: smooth } would
+      // animate this scroll AND the second pass below, leaving slow
+      // devices mid-page after the swap.
+      window.scrollTo({ top: y, behavior: 'instant' });
     }
     if (document.readyState !== "loading") apply();
     else document.addEventListener("DOMContentLoaded", apply, { once: true });
@@ -132,7 +139,7 @@ const siteName = "Danijel Pevec";
       // A second pass after `load` corrects for any late layout shift
       // from font swap / React-island hydration / consent-banner mount
       // that nudged content above the saved Y.
-      window.scrollTo(0, y);
+      window.scrollTo({ top: y, behavior: 'instant' });
     }, { once: true });
   })();
 </script>

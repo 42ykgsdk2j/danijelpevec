@@ -590,14 +590,21 @@ section { position: relative; }
   .nav-cta { min-width: 220px; padding: 10px 20px; }
 }
 /* Between the mobile-nav cutoff (1024) and the wide-desktop bump (1481),
-   tighten the inter-block gaps. The total of brand (280) + nav-links
-   (~655 with 24px gaps) + nav-actions (~280) + 2× nav-inner gaps was
-   pushing past the container edge at 1280-1440. Shrinking the gaps
-   recovers ~30px and keeps the CTA inside the safe area. */
+   the row total — brand (~280) + nav-links (~625 with min-widths +
+   gaps) + nav-actions (~340 with CTA) — pushes past the container's
+   ~1178px content area at 1280 by ~100px. EN copy ("Private
+   conversation") makes it worse. v3 tried to recover space by
+   tightening gaps (~30px); insufficient.
+   v4 fix: drop the nav CTA from the row in this range. It stays in
+   the hero, footer, final CTA section, AND the mobile drawer — so
+   it's still one click away from any page state. Keep the gap
+   tightening too since nav-links + brand + lang/theme still want a
+   compact row at this width. */
 @media (min-width: 1025px) and (max-width: 1480px) {
   .nav-inner { gap: 16px; }
   .nav-links { gap: 18px; }
   .nav-actions { gap: 14px; }
+  .nav-actions .nav-cta { display: none; }
 }
 
 .menu-btn {
@@ -1157,6 +1164,23 @@ section { position: relative; }
   gap: 16px;
 }
 .footer-bottom .copy { letter-spacing: 0.04em; }
+/* Privacy + Imprint links live on the right side of the footer
+   bottom row (justify-content: space-between on the parent pushes
+   them opposite the copyright). Subtle separator between them. */
+.footer-legal {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--ink-3);
+  letter-spacing: 0.04em;
+}
+.footer-legal a {
+  color: var(--ink-2);
+  transition: color 180ms ease;
+}
+.footer-legal a:hover { color: var(--gold); }
+.footer-legal-sep { color: var(--line); }
 
 /* ============================================
    Modal
@@ -2648,24 +2672,6 @@ section { position: relative; }
   font-weight: 600;
   color: var(--ink-0);
 }
-.home-chat-panel .home-chat-panel-status {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--ink-2);
-  margin-top: 3px;
-}
-.home-chat-panel-status-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: #6bcb86;
-  box-shadow: 0 0 6px rgba(107, 203, 134, 0.6);
-}
 /* Bordered circular control matching the mobile drawer's close X —
    same shape language so the two "dismiss this panel" affordances
    read as one family. */
@@ -2807,19 +2813,25 @@ section { position: relative; }
 }
 .home-chat-disclaimer {
   margin: 8px 4px 0;
-  font-size: 10.5px;
+  /* 11px is the site-wide floor for sub-eyebrow legibility on
+     --ink-3 in light theme (set by the v3 audit). The 10.5px the
+     v4 audit found was below that floor. */
+  font-size: 11px;
   line-height: 1.4;
   color: var(--ink-3);
   text-align: center;
 }
 
-/* When the contact Modal opens, hide both the chat pill and the chat
-   panel so the modal owns the full visual stack. Modal.tsx toggles
-   `modal-open` on <body> for the duration. `display: none` doesn't
-   tear down the chat's React state — closing the modal returns the
-   visitor to whatever chat state they were in (pill or open panel). */
+/* Hide the chat pill + panel while the contact Modal is open OR
+   while the consent banner has scrolled into view at the end of
+   the page. Both classes are toggled on <body> by their respective
+   inline scripts. `display: none` keeps React state intact — the
+   visitor returns to whatever chat state they were in once the
+   blocking element goes away. */
 body.modal-open .home-chat-pill,
-body.modal-open .home-chat-panel {
+body.modal-open .home-chat-panel,
+body.consent-banner-in-view .home-chat-pill,
+body.consent-banner-in-view .home-chat-panel {
   display: none;
 }
 

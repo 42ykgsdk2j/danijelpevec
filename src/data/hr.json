@@ -105,11 +105,11 @@
   },
   "homeChat": {
     "pillLabel": "Pitajte o uslugama",
-    "pillStatus": "Online",
     "panelTitle": "AI asistent",
     "welcomeBody": "Pitajte o uslugama, pristupu ili ključnim koracima. Za osobni savjet zatražite privatni razgovor.",
     "placeholder": "Postavite pitanje…",
     "send": "Pošalji",
+    "stop": "Zaustavi",
     "error": "Nešto je pošlo po krivu. Pokušajte ponovno.",
     "disclaimer": "Odgovor generira AI. Za osobni savjet zatražite privatni razgovor.",
     "minimize": "Skupi razgovor",
@@ -121,6 +121,7 @@
     "welcomeBody": "Recite mi koja vas tema zanima i predložit ću relevantne objave.",
     "placeholder": "Koja tema vas zanima?",
     "send": "Pošalji",
+    "stop": "Zaustavi",
     "error": "Nešto je pošlo po krivu. Pokušajte ponovno.",
     "disclaimer": "Preporuke generira AI iz kataloga objava.",
     "minimize": "Skupi razgovor",
@@ -132,6 +133,7 @@
     "welcomeBody": "Pitajte bilo što o članku. Za osobni savjet zatražite privatni razgovor.",
     "placeholder": "Postavite pitanje…",
     "send": "Pošalji",
+    "stop": "Zaustavi",
     "error": "Nešto je pošlo po krivu. Pokušajte ponovno.",
     "disclaimer": "Odgovor generira AI na temelju ove objave. Za osobni savjet zatražite privatni razgovor.",
     "minimize": "Skupi razgovor",
@@ -210,6 +212,8 @@
     "affTitle": "Suradnja",
     "copy": "© 2026 Danijel Pevec. Sva prava pridržana.",
     "email": "pevec.danijel@alphacapitalis.com",
-    "city": "Zagreb · Hrvatska"
+    "city": "Zagreb · Hrvatska",
+    "privacy": "Privatnost",
+    "imprint": "Impressum"
   }
 }

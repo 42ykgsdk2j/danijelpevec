@@ -38,7 +38,9 @@ const privacyHref = url(lang, "privacy");
 >
   <div class="consent-banner-inner">
     <p class="consent-banner-body">
-      {t.consent.body}<button
+      {t.consent.body}<a class="consent-inline-link" href={privacyHref}>{t.consent.privacyLink}</a>
+      <span class="consent-banner-sep" aria-hidden="true"> · </span>
+      <button
         type="button"
         class="consent-inline-link"
         data-consent-configure
@@ -120,8 +122,33 @@ const privacyHref = url(lang, "privacy");
       try { localStorage.setItem(STORAGE_KEY, value); } catch (e) { /* blocked */ }
     }
 
-    function hideBanner() { banner.hidden = true; }
-    function showBanner() { banner.hidden = false; }
+    function hideBanner() {
+      banner.hidden = true;
+      document.body.classList.remove("consent-banner-in-view");
+      if (visibilityObserver) visibilityObserver.disconnect();
+    }
+    function showBanner() {
+      banner.hidden = false;
+      observeBannerVisibility();
+    }
+
+    // The chat pill is fixed bottom-center and the banner is static
+    // at end-of-page, so they collide when a visitor scrolls to the
+    // footer. Toggle `consent-banner-in-view` on <body> whenever the
+    // banner crosses into the viewport — CSS uses that to hide the
+    // chat pill + panel for as long as the banner is visible. Pill
+    // returns automatically when the visitor scrolls back up.
+    var visibilityObserver = null;
+    function observeBannerVisibility() {
+      if (!("IntersectionObserver" in window)) return;
+      if (visibilityObserver) visibilityObserver.disconnect();
+      visibilityObserver = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          document.body.classList.toggle("consent-banner-in-view", entry.isIntersecting);
+        });
+      }, { threshold: 0.1 });
+      visibilityObserver.observe(banner);
+    }
 
     // Reflect the marketing checkbox state into the visual switch class.
     var marketingCheckbox = config.querySelector("[data-consent-marketing]");

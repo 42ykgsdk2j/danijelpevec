@@ -37,6 +37,7 @@ interface UI {
   welcomeBody: string;
   placeholder: string;
   send: string;
+  stop: string;
   error: string;
   disclaimer: string;
   minimize: string;
@@ -75,7 +76,10 @@ export default function Chat({ mode, contextTitle, contextBody, lang, ui }: Prop
   const transport = useMemo(
     () =>
       new DefaultChatTransport({
-        api: "/api/chat",
+        // Trailing slash matches vercel.json's `trailingSlash: true`
+        // canonicalization — without it every chat send pays an extra
+        // 308 redirect hop.
+        api: "/api/chat/",
         body: { postTitle: contextTitle, postBody: contextBody, lang, mode },
       }),
     [contextTitle, contextBody, lang, mode],
@@ -260,7 +264,17 @@ export default function Chat({ mode, contextTitle, contextBody, lang, ui }: Prop
           </button>
         </header>
 
-        <div className="home-chat-panel-body">
+        <div
+          className="home-chat-panel-body"
+          /* aria-live makes screen readers announce streamed assistant
+             tokens as they arrive. Without it the user types a message,
+             hears their own input echo, then gets no signal that a reply
+             is landing — they'd have to Tab into the bubble to find it.
+             "polite" so we don't interrupt other announcements; the
+             whole bubble is read once each turn. */
+          aria-live="polite"
+          aria-atomic="false"
+        >
           {showStaticWelcome && (
             <div className="home-chat-row home-chat-row-assistant">
               <div className="home-chat-bubble">
@@ -308,7 +322,7 @@ export default function Chat({ mode, contextTitle, contextBody, lang, ui }: Prop
                 }}
                 onKeyDown={onKeyDown}
                 placeholder={ui.placeholder}
-                aria-labelledby="dp-chat-panel-title"
+                aria-label={ui.placeholder}
                 rows={1}
               />
               {busy ? (
@@ -316,7 +330,7 @@ export default function Chat({ mode, contextTitle, contextBody, lang, ui }: Prop
                   type="button"
                   onClick={() => stop()}
                   className="home-chat-send"
-                  aria-label="Stop"
+                  aria-label={ui.stop}
                 >
                   <svg
                     width="12"

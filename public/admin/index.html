@@ -7,11 +7,15 @@
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 </head>
 <body>
-<!-- Decap CMS pinned to an exact version. To upgrade, fetch the published file from
-     unpkg, generate a SHA-384 with `openssl dgst -sha384 -binary file | openssl base64 -A`,
-     and update both the version and the integrity hash below. -->
+<!-- Decap CMS pinned to an exact version with an SRI hash. To upgrade:
+     1) fetch the published file: `curl -L https://unpkg.com/decap-cms@<NEW>/dist/decap-cms.js`
+     2) generate SHA-384: pipe through `openssl dgst -sha384 -binary | openssl base64 -A`
+     3) bump both the @version in the src and the integrity= value below.
+     The browser refuses to execute the script if the published bytes
+     stop matching the hash — protects against unpkg / CDN tampering. -->
 <script
   src="https://unpkg.com/decap-cms@3.6.0/dist/decap-cms.js"
+  integrity="sha384-YKAhjhs+FxJuAiBDkaCHX76aWVn+Jd7HL5znUp2S/McT32qAJdfsZMP9LQOSDE5B"
   crossorigin="anonymous"
 ></script>
 </body>

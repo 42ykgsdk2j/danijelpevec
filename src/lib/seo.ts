@@ -42,12 +42,17 @@ export function businessJsonLd(lang: Lang): Record<string, unknown> {
 }
 
 export function websiteJsonLd(lang: Lang): Record<string, unknown> {
+  // url + @id are per-locale so the WebSite node on /en/ doesn't claim
+  // to be the apex (which is the HR canonical). Without per-locale @id
+  // both home pages emitted the same WebSite node — crawlers would see
+  // two pages claiming to be the same entity at the apex URL.
+  const localeRoot = lang === "hr" ? `${SITE}/` : `${SITE}/en/`;
   return {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    "@id": `${SITE}/#website`,
+    "@id": `${localeRoot}#website`,
     name: BUSINESS.personName,
-    url: `${SITE}/`,
+    url: localeRoot,
     inLanguage: lang === "hr" ? "hr-HR" : "en-GB",
     publisher: { "@id": PERSON_ID },
   };

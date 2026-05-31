@@ -9,6 +9,8 @@ const t = getT(lang);
 const root = url(lang);
 const insightsHref = url(lang, "blog");
 const assessmentHref = url(lang, "assessment");
+const privacyHref = url(lang, "privacy");
+const imprintHref = url(lang, "imprint");
 ---
 <footer class="footer">
   <div class="container">
@@ -72,6 +74,11 @@ const assessmentHref = url(lang, "assessment");
 
     <div class="footer-bottom">
       <span class="copy">{t.footer.copy}</span>
+      <nav class="footer-legal" aria-label={lang === "hr" ? "Pravne stranice" : "Legal pages"}>
+        <a href={privacyHref}>{t.footer.privacy}</a>
+        <span class="footer-legal-sep" aria-hidden="true">·</span>
+        <a href={imprintHref}>{t.footer.imprint}</a>
+      </nav>
     </div>
   </div>
 </footer>

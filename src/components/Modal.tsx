@@ -97,7 +97,7 @@ export default function Modal({ t, lang }: Props) {
   }, [open]);
 
   // Body scroll lock — mobile only. Uses the shared reference-counted
-  // hook so opening this modal while the BlogChat panel is also open
+  // hook so opening this modal while the Chat panel is also open
   // doesn't strand the body in `position: fixed`.
   useBodyScrollLock(open);
 
