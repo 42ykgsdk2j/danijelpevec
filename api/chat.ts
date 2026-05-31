@@ -92,10 +92,29 @@ function cannedReply(text: string): Response {
 }
 
 export default async function handler(req: Request): Promise<Response> {
+  // CORS preflight. Same-origin POSTs from the Chat component are
+  // "simple requests" (Content-Type: application/json triggers a
+  // preflight; tested in production) and need a 200 here with the
+  // Allow-* headers populated, otherwise browsers reject the chat
+  // send. Currently we only allow the production origin + localhost
+  // (dev preview) — adjust if the chat ever embeds cross-origin.
+  if (req.method === "OPTIONS") {
+    return new Response(null, {
+      status: 200,
+      headers: {
+        "Access-Control-Allow-Origin": req.headers.get("origin") ?? "*",
+        "Access-Control-Allow-Methods": "POST, OPTIONS",
+        "Access-Control-Allow-Headers":
+          req.headers.get("access-control-request-headers") ?? "Content-Type",
+        "Access-Control-Max-Age": "86400",
+        Vary: "Origin",
+      },
+    });
+  }
   if (req.method !== "POST") {
     return new Response(JSON.stringify({ error: "Method not allowed" }), {
       status: 405,
-      headers: { "Content-Type": "application/json", Allow: "POST" },
+      headers: { "Content-Type": "application/json", Allow: "POST, OPTIONS" },
     });
   }
 
