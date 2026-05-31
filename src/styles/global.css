@@ -2574,19 +2574,18 @@ section { position: relative; }
   line-height: 1.2;
 }
 
-/* Panel — fixed bottom-right on desktop. The same edge gap is used on
-   right, bottom AND top (height fills calc(100dvh - 2*gap)) so the
-   panel reads as evenly insetted into the corner instead of floating
-   low. Capped at 800px on very tall monitors so it doesn't get
-   absurdly long. NO body scroll lock — the page behind stays
-   interactive on purpose. */
+/* Panel — fixed bottom-right on desktop. bottom = right via the
+   --chat-panel-gap variable so the corner inset reads as even. Height
+   capped at 560px so the panel keeps its compact widget proportions
+   instead of stretching the full viewport height on tall monitors.
+   NO body scroll lock — the page behind stays interactive on purpose. */
 .home-chat-panel {
   --chat-panel-gap: clamp(16px, 3vw, 32px);
   position: fixed;
   right: var(--chat-panel-gap);
   bottom: var(--chat-panel-gap);
   width: min(420px, calc(100vw - 2 * var(--chat-panel-gap)));
-  height: min(800px, calc(100dvh - 2 * var(--chat-panel-gap)));
+  height: min(560px, calc(100dvh - 2 * var(--chat-panel-gap)));
   max-height: calc(100dvh - 2 * var(--chat-panel-gap));
   z-index: 810;
   background: var(--bg-1);
