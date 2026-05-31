@@ -57,7 +57,7 @@ type Body = {
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const MAX_MESSAGE_CHARS = 5000;
-const RECAPTCHA_MIN_SCORE = 0.5;
+const RECAPTCHA_MIN_SCORE = 0.3;
 const RECAPTCHA_ACTION = "contact_form";
 
 let ratelimit: Ratelimit | null = null;
