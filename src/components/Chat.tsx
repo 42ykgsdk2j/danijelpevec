@@ -1,25 +1,35 @@
 /**
- * Home-page chat — floating pill + non-modal half-screen panel.
+ * Unified chat widget — used on both the home page (mode: "home") and on
+ * blog articles (mode: "blog"). Replaces the older HomeChat + BlogChat
+ * components, which had two different UI patterns.
  *
- * UX pattern modelled on the ElevenLabs site:
- *   - Always-visible pill anchored bottom-center (no scroll lock).
- *   - Click expands into a panel that sits in the corner / center-bottom
- *     with margins around it — the page behind remains scrollable and
- *     interactive (no aria-modal, no backdrop, no body scroll lock).
- *   - Minimize button collapses the panel back to the pill.
+ * Behaviour:
+ *   - Floating pill button anchored bottom-center (always visible).
+ *   - On mobile (≤480px): expands into a full-screen modal with body
+ *     scroll lock + focus trap + aria-modal="true".
+ *   - On desktop: expands into a bottom-right floating panel,
+ *     non-modal — the page behind stays scrollable + interactive.
+ *   - Minimize button collapses back to the pill.
+ *   - Esc minimizes.
  *
- * Streams from /api/chat with mode="home" so the API uses the
- * services-level system prompt + the home-page context blob from
- * src/lib/homeContext.ts.
+ * Grounding:
+ *   - home: streams from /api/chat with mode="home" using the home-page
+ *     summary as context.
+ *   - blog: streams from /api/chat with mode="blog" using the article
+ *     title + body as context. On first open, auto-triggers a "summary
+ *     request" via an internal sentinel message that the API recognises
+ *     — the user sees an immediate 3-point summary + a follow-up
+ *     question, no manual prompt required. The sentinel user message
+ *     is hidden from the rendered thread.
  */
 import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport } from "ai";
 import { useEffect, useMemo, useRef, useState } from "react";
+import { useBodyScrollLock } from "../lib/useBodyScrollLock";
 import { TinyMarkdown } from "../lib/tinyMarkdown";
 
 interface UI {
   pillLabel: string;
-  pillStatus: string;
   panelTitle: string;
   welcomeBody: string;
   placeholder: string;
@@ -31,29 +41,63 @@ interface UI {
 }
 
 interface Props {
-  homeTitle: string;
-  homeBody: string;
+  mode: "home" | "blog";
+  contextTitle: string;
+  contextBody: string;
   lang: "hr" | "en";
   ui: UI;
 }
 
 const MAX_TEXTAREA_HEIGHT = 140;
+// Sentinel the API recognises to switch into "give me a 3-point summary
+// + ask a follow-up question" mode. Kept on the client too so the
+// rendered thread can hide the synthetic user turn.
+const AUTO_SUMMARY_SENTINEL = "__auto_summary_request__";
 
-export default function HomeChat({ homeTitle, homeBody, lang, ui }: Props) {
+export default function Chat({ mode, contextTitle, contextBody, lang, ui }: Props) {
   const [input, setInput] = useState("");
   const [open, setOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
   const transport = useMemo(
     () =>
       new DefaultChatTransport({
         api: "/api/chat",
-        body: { postTitle: homeTitle, postBody: homeBody, lang, mode: "home" },
+        body: { postTitle: contextTitle, postBody: contextBody, lang, mode },
       }),
-    [homeTitle, homeBody, lang],
+    [contextTitle, contextBody, lang, mode],
   );
   const { messages, sendMessage, status, error, stop } = useChat({ transport });
+
   const taRef = useRef<HTMLTextAreaElement>(null);
   const listEndRef = useRef<HTMLDivElement>(null);
   const pillRef = useRef<HTMLButtonElement>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
+  const firstRender = useRef(true);
+  const autoSummaryTriggered = useRef(false);
+
+  // Mobile vs desktop is the layout-mode pivot for scroll lock + focus
+  // trap + aria-modal. Tracking it in state lets a viewport resize
+  // mid-session keep the modal semantics consistent.
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 480px)");
+    const handler = () => setIsMobile(mq.matches);
+    handler();
+    mq.addEventListener("change", handler);
+    return () => mq.removeEventListener("change", handler);
+  }, []);
+
+  // Auto-stream a 3-point summary on first open in blog mode. The
+  // sentinel user message is dispatched once per session and hidden
+  // from the rendered thread.
+  useEffect(() => {
+    if (!open) return;
+    if (mode !== "blog") return;
+    if (autoSummaryTriggered.current) return;
+    if (messages.length > 0) return;
+    autoSummaryTriggered.current = true;
+    sendMessage({ text: AUTO_SUMMARY_SENTINEL });
+  }, [open, mode, messages.length, sendMessage]);
 
   useEffect(() => {
     if (open && messages.length > 0) {
@@ -61,23 +105,41 @@ export default function HomeChat({ homeTitle, homeBody, lang, ui }: Props) {
     }
   }, [messages, open]);
 
-  // Focus textarea on open; Esc minimizes back to pill. No focus trap —
-  // this is a non-modal panel; keyboard users can Tab out into the page
-  // behind, which is the intended behavior since the page is still
-  // interactive.
+  // Focus textarea on open; Esc minimizes. Focus trap is only active on
+  // mobile (full-screen modal); on desktop the panel is non-modal so
+  // Tab can leave it intentionally.
   useEffect(() => {
     if (!open) return;
     const ta = taRef.current;
     if (ta) setTimeout(() => ta.focus(), 90);
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setOpen(false);
+      if (e.key === "Escape") {
+        setOpen(false);
+        return;
+      }
+      if (!isMobile) return;
+      if (e.key !== "Tab" || !panelRef.current) return;
+      const focusables = panelRef.current.querySelectorAll<HTMLElement>(
+        'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])',
+      );
+      if (focusables.length === 0) return;
+      const first = focusables[0];
+      const last = focusables[focusables.length - 1];
+      const active = document.activeElement as HTMLElement | null;
+      if (e.shiftKey && active === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && active === last) {
+        e.preventDefault();
+        first.focus();
+      }
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [open]);
+  }, [open, isMobile]);
 
-  // Return focus to the pill when the panel closes (skip first render).
-  const firstRender = useRef(true);
+  // Return focus to the pill when the panel closes (skip first render
+  // so we don't yank focus on initial mount).
   useEffect(() => {
     if (firstRender.current) {
       firstRender.current = false;
@@ -85,6 +147,11 @@ export default function HomeChat({ homeTitle, homeBody, lang, ui }: Props) {
     }
     if (!open) pillRef.current?.focus({ preventScroll: true });
   }, [open]);
+
+  // Body scroll lock — useBodyScrollLock is mobile-only (≤480px) by
+  // design, so calling it always still gives desktop visitors a free
+  // scrolling page behind the floating panel.
+  useBodyScrollLock(open);
 
   const busy = status === "submitted" || status === "streaming";
 
@@ -115,9 +182,13 @@ export default function HomeChat({ homeTitle, homeBody, lang, ui }: Props) {
     }
   }
 
+  // The static welcome bubble shows only in home mode (and in blog mode
+  // until the first auto-summary streams in — which is rare to see
+  // because the sentinel is dispatched immediately on open).
+  const showStaticWelcome = mode === "home";
+
   return (
     <>
-      {/* Floating pill — bottom-center, always visible until expanded. */}
       <button
         ref={pillRef}
         type="button"
@@ -125,30 +196,28 @@ export default function HomeChat({ homeTitle, homeBody, lang, ui }: Props) {
         onClick={() => setOpen(true)}
         aria-label={ui.openChat}
         aria-expanded={open}
-        aria-controls="home-chat-panel"
+        aria-controls="dp-chat-panel"
         hidden={open}
       >
         <span className="home-chat-pill-avatar" aria-hidden="true" />
         <span className="home-chat-pill-label">{ui.pillLabel}</span>
       </button>
 
-      {/* Expanded panel — non-modal, page behind stays interactive. */}
       <section
-        id="home-chat-panel"
+        ref={panelRef}
+        id="dp-chat-panel"
         className="home-chat-panel"
-        aria-labelledby="home-chat-panel-title"
+        role="dialog"
+        aria-modal={isMobile ? "true" : "false"}
+        aria-labelledby="dp-chat-panel-title"
         hidden={!open}
       >
         <header className="home-chat-panel-header">
           <span className="home-chat-panel-ident">
             <span className="home-chat-panel-avatar" aria-hidden="true" />
             <span className="home-chat-panel-title-block">
-              <span id="home-chat-panel-title" className="home-chat-panel-title">
+              <span id="dp-chat-panel-title" className="home-chat-panel-title">
                 {ui.panelTitle}
-              </span>
-              <span className="home-chat-panel-status">
-                <span className="home-chat-panel-status-dot" aria-hidden="true" />
-                {ui.pillStatus}
               </span>
             </span>
           </span>
@@ -178,16 +247,22 @@ export default function HomeChat({ homeTitle, homeBody, lang, ui }: Props) {
         </header>
 
         <div className="home-chat-panel-body">
-          <div className="home-chat-row home-chat-row-assistant">
-            <div className="home-chat-bubble">
-              <p>{ui.welcomeBody}</p>
+          {showStaticWelcome && (
+            <div className="home-chat-row home-chat-row-assistant">
+              <div className="home-chat-bubble">
+                <p>{ui.welcomeBody}</p>
+              </div>
             </div>
-          </div>
+          )}
 
           {messages.map((m) => {
             const text = m.parts
               .map((p) => (p.type === "text" ? p.text : ""))
               .join("");
+            // Hide the synthetic user message that triggers the
+            // blog-mode auto-summary; only the assistant reply is
+            // shown to the visitor.
+            if (m.role === "user" && text === AUTO_SUMMARY_SENTINEL) return null;
             return (
               <div key={m.id} className={`home-chat-row home-chat-row-${m.role}`}>
                 <div className="home-chat-bubble">
@@ -214,7 +289,7 @@ export default function HomeChat({ homeTitle, homeBody, lang, ui }: Props) {
                 }}
                 onKeyDown={onKeyDown}
                 placeholder={ui.placeholder}
-                aria-labelledby="home-chat-panel-title"
+                aria-labelledby="dp-chat-panel-title"
                 rows={1}
               />
               {busy ? (

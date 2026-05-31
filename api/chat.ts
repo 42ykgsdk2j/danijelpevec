@@ -47,6 +47,13 @@ const MAX_USER_MESSAGE_CHARS = 1000;
 const MAX_CONVERSATION_MESSAGES = 15;
 const MAX_OUTPUT_TOKENS = 1200;
 
+// Client-side sentinel the Chat component dispatches on first open in
+// blog mode to ask for a 3-point article summary. Server-side we
+// detect it and substitute the user turn with a real "summarize this
+// article" prompt before handing the messages to the model — keeps
+// the rendered thread + model context clean.
+const AUTO_SUMMARY_SENTINEL = "__auto_summary_request__";
+
 let ratelimit: Ratelimit | null = null;
 try {
   ratelimit = new Ratelimit({
@@ -100,6 +107,37 @@ export default async function handler(req: Request): Promise<Response> {
   const { messages, postTitle, postBody, lang, mode } = body;
   const langIsHr = lang === "hr";
   const isHome = mode === "home";
+  const isBlog = mode === "blog";
+
+  // Auto-summary detection: blog-mode Chat dispatches a sentinel user
+  // message on first open. Substitute it with a real "summarize this
+  // article" prompt before the model sees it; the client already hides
+  // the sentinel from the rendered thread.
+  type LooseMsg = { role?: string; parts?: Array<{ type?: string; text?: string }> };
+  const isAutoSummaryRequest = (() => {
+    if (!isBlog) return false;
+    const last = messages[messages.length - 1] as LooseMsg;
+    if (!last || last.role !== "user") return false;
+    const text = (last.parts ?? [])
+      .filter((p) => p.type === "text")
+      .map((p) => p.text ?? "")
+      .join("");
+    return text === AUTO_SUMMARY_SENTINEL;
+  })();
+
+  const summaryPromptText = langIsHr
+    ? "Sažmi ovaj članak u točno 3 ključne točke (kratak natuknutni popis). Završi jednim otvorenim pitanjem koje me poziva da podijelim što me iz članka konkretno zanima — predloži 2-3 specifična aspekta iz teksta."
+    : "Summarize this article in exactly 3 key bullet points. End with one open question inviting me to share what specifically interests me — suggest 2-3 concrete aspects from the article itself.";
+
+  // Build the message stream that goes to the model. For an auto-
+  // summary request we swap the sentinel turn for the real prompt;
+  // everything else is passed through verbatim.
+  const modelMessages = isAutoSummaryRequest
+    ? messages.map((m: unknown, idx: number) => {
+        if (idx !== messages.length - 1) return m;
+        return { ...(m as object), parts: [{ type: "text", text: summaryPromptText }] };
+      })
+    : messages;
 
   // Per-IP rate limit
   if (ratelimit) {
@@ -237,7 +275,7 @@ REMINDER: Write in English only. Do not switch languages at any point in your re
     const result = streamText({
       model: "google/gemini-3.1-flash-lite",
       system: systemPrompt,
-      messages: convertToModelMessages(messages as UIMessage[]),
+      messages: convertToModelMessages(modelMessages as UIMessage[]),
       maxOutputTokens: MAX_OUTPUT_TOKENS,
       onError: ({ error }) => {
         console.error("[chat] streamText onError:", error);
