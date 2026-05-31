@@ -85,10 +85,6 @@ export default function Modal({ t, lang }: Props) {
       setOpen(true);
     };
     window.addEventListener("dp:open-modal", handler);
-    // Signal to the lazy-mount bootstrap in Modal.astro that the open
-    // listener is now live. The bootstrap queues any clicks that arrived
-    // during the mount-in-progress window and flushes them on this signal.
-    window.dispatchEvent(new Event("dp:modal-ready"));
     return () => window.removeEventListener("dp:open-modal", handler);
   }, []);
 
