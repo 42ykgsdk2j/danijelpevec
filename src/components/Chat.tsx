@@ -263,7 +263,17 @@ export default function Chat({ mode, contextTitle, contextBody, lang, ui }: Prop
           </button>
         </header>
 
-        <div className="home-chat-panel-body">
+        <div
+          className="home-chat-panel-body"
+          /* aria-live makes screen readers announce streamed assistant
+             tokens as they arrive. Without it the user types a message,
+             hears their own input echo, then gets no signal that a reply
+             is landing — they'd have to Tab into the bubble to find it.
+             "polite" so we don't interrupt other announcements; the
+             whole bubble is read once each turn. */
+          aria-live="polite"
+          aria-atomic="false"
+        >
           {showStaticWelcome && (
             <div className="home-chat-row home-chat-row-assistant">
               <div className="home-chat-bubble">
