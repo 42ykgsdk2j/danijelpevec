@@ -1379,6 +1379,21 @@ section { position: relative; }
   .start-cta-text { font-size: 22px; }
 }
 
+/* Below 415px (small phones — iPhone SE, mini, standard 6/7/8/X) the
+   brand-text column + DP mono + EN/HR pill + theme + hamburger don't all
+   fit in the safe area. The hamburger ends up clipped 17–56px by the
+   body's `overflow-x: hidden`. Hide the brand-text column entirely so
+   only the DP monogram remains in the header. Brand identity stays in
+   the page title and article byline. Keep the brand-text inside the
+   mobile drawer (it's not in there) untouched. */
+@media (max-width: 414px) {
+  .nav .brand-text { display: none; }
+  .nav .brand { gap: 0; }
+  /* Tighten container gutter on the smallest phones so the nav actions
+     are comfortably inside the safe area. */
+  .nav .container { padding-left: 16px; padding-right: 16px; }
+}
+
 /* Mobile contact modal — match the chat panel's full-screen treatment so
    the form takes the whole viewport. The modal covers the backdrop
    completely, so the existing click-outside-to-close on the backdrop is
