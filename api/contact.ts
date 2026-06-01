@@ -14,16 +14,25 @@
  *   - UPSTASH_REDIS_REST_URL + UPSTASH_REDIS_REST_TOKEN (auto-injected by
  *     Vercel's Upstash integration) — optional; rate limiting + Resend
  *     quota protection are skipped if absent.
- *   - RECAPTCHA_SITE_KEY + RECAPTCHA_SECRET_KEY — optional; reCAPTCHA v3
- *     bot-protection. When both are set, the client includes a token in
- *     the POST body and we verify it via Google's siteverify; submissions
- *     with score < RECAPTCHA_MIN_SCORE are rejected as likely bots. When
- *     unset, the check is skipped (dev / forked deploys still work).
+ *   - RECAPTCHA_SITE_KEY (PUBLIC — un-mark "Sensitive" in Vercel) — the
+ *     reCAPTCHA Enterprise key ID. Same value baked into the client
+ *     bundle via Modal.astro for grecaptcha.enterprise.execute().
+ *   - RECAPTCHA_PROJECT_ID — your Google Cloud project ID (the one the
+ *     reCAPTCHA Enterprise key lives in). Used in the assessments API
+ *     URL path.
+ *   - RECAPTCHA_SECRET_KEY (SENSITIVE) — a Google Cloud API key with
+ *     access to the reCAPTCHA Enterprise API. NOT a "secret key" in
+ *     the Classic v3 sense — Enterprise has no separate secret keys;
+ *     auth is via Cloud API keys or service accounts. We re-use the
+ *     env-var slot name for continuity.
+ *   When any of those three is unset, the bot check is skipped (dev /
+ *   forked deploys still work).
  *
  * Misuse caps:
  *   - Per-IP: 5 submissions / 24h sliding window via Upstash
  *   - Per-message: 5000 chars max (~1000 words)
- *   - reCAPTCHA v3 score gate (default min 0.3; lower is more bot-like)
+ *   - reCAPTCHA Enterprise score gate (default min 0.3; lower = more
+ *     bot-like). Enterprise returns scores in [0.0, 1.0] same as v3.
  */
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 import { Resend } from "resend";
@@ -81,25 +90,42 @@ function getClientIp(req: VercelRequest): string {
   return "anonymous";
 }
 
-interface RecaptchaResponse {
-  success: boolean;
-  score?: number;
-  action?: string;
-  challenge_ts?: string;
-  hostname?: string;
-  "error-codes"?: string[];
+// reCAPTCHA Enterprise Assessments API response shape (subset we use).
+// Full schema: https://cloud.google.com/recaptcha/docs/reference/rest/v1/projects.assessments
+interface EnterpriseAssessment {
+  name?: string;
+  event?: { token?: string; siteKey?: string; expectedAction?: string };
+  tokenProperties?: {
+    valid: boolean;
+    invalidReason?: string;
+    hostname?: string;
+    action?: string;
+    createTime?: string;
+  };
+  riskAnalysis?: {
+    score?: number;
+    reasons?: string[];
+  };
+  error?: { code: number; message: string; status: string };
 }
 
 async function verifyRecaptcha(
   token: string,
-  secret: string,
-  remoteIp: string,
-): Promise<RecaptchaResponse> {
-  const body = new URLSearchParams({ secret, response: token, remoteip: remoteIp });
-  const res = await fetch("https://www.google.com/recaptcha/api/siteverify", {
+  apiKey: string,
+  projectId: string,
+  siteKey: string,
+): Promise<EnterpriseAssessment> {
+  const url = `https://recaptchaenterprise.googleapis.com/v1/projects/${encodeURIComponent(projectId)}/assessments?key=${encodeURIComponent(apiKey)}`;
+  const res = await fetch(url, {
     method: "POST",
-    headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    body: body.toString(),
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      event: {
+        token,
+        siteKey,
+        expectedAction: RECAPTCHA_ACTION,
+      },
+    }),
   });
   return res.json();
 }
@@ -144,31 +170,39 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
   }
 
-  // reCAPTCHA v3 score gate. When both env vars are set, the client
-  // must include a valid token from grecaptcha.execute(); Google's
-  // siteverify returns a 0.0-1.0 score (higher = more likely human)
-  // plus the action the token was issued for. Reject low scores +
-  // wrong actions as bots. When env vars are absent (dev / forked
-  // deploys) skip the check entirely.
-  const recaptchaSecret = process.env.RECAPTCHA_SECRET_KEY;
-  if (recaptchaSecret) {
+  // reCAPTCHA Enterprise score gate. When all three env vars are set,
+  // the client must include a valid token from
+  // grecaptcha.enterprise.execute(); the Enterprise Assessments API
+  // returns tokenProperties.valid + riskAnalysis.score in [0.0, 1.0]
+  // plus the action the token was issued for. Reject invalid tokens,
+  // low scores, and action mismatches as bots. When env vars are
+  // absent (dev / forked deploys) skip the check entirely.
+  const apiKey = process.env.RECAPTCHA_SECRET_KEY; // Cloud API key
+  const projectId = process.env.RECAPTCHA_PROJECT_ID;
+  const siteKey = process.env.RECAPTCHA_SITE_KEY;
+  if (apiKey && projectId && siteKey) {
     const token = (body.recaptchaToken || "").trim();
     if (!token) {
       return res.status(400).json({ error: "Bot check required. Please retry." });
     }
     try {
-      const verification = await verifyRecaptcha(token, recaptchaSecret, ip);
-      const score = verification.score ?? 0;
+      const assessment = await verifyRecaptcha(token, apiKey, projectId, siteKey);
+      const score = assessment.riskAnalysis?.score ?? 0;
+      const valid = assessment.tokenProperties?.valid === true;
+      const action = assessment.tokenProperties?.action;
       if (
-        !verification.success ||
-        verification.action !== RECAPTCHA_ACTION ||
-        score < RECAPTCHA_MIN_SCORE
+        !valid ||
+        action !== RECAPTCHA_ACTION ||
+        score < RECAPTCHA_MIN_SCORE ||
+        assessment.error
       ) {
         console.warn("[contact] reCAPTCHA rejected:", {
-          success: verification.success,
+          valid,
           score,
-          action: verification.action,
-          errors: verification["error-codes"],
+          action,
+          invalidReason: assessment.tokenProperties?.invalidReason,
+          reasons: assessment.riskAnalysis?.reasons,
+          error: assessment.error,
         });
         return res.status(403).json({
           error: "Bot check failed. Please retry, or email directly.",

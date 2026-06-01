@@ -169,22 +169,26 @@ export default function Modal({ t, lang, hasRecaptcha = false }: Props) {
     [form.name, form.email, form.message],
   );
 
-  // Ask reCAPTCHA v3 for a token. Returns "" when the key isn't
+  // Ask reCAPTCHA Enterprise for a token. Returns "" when the key isn't
   // configured at build time (dev / forked deploys) — the API treats
-  // missing token + missing secret as a non-protected request.
+  // missing token + missing project as a non-protected request.
+  // Enterprise uses `grecaptcha.enterprise.{ready,execute}` (not the
+  // classic `grecaptcha.{ready,execute}`).
   async function getRecaptchaToken(): Promise<string> {
     const w = window as unknown as {
       __dpRecaptchaSiteKey?: string;
       grecaptcha?: {
-        ready: (cb: () => void) => void;
-        execute: (key: string, opts: { action: string }) => Promise<string>;
+        enterprise: {
+          ready: (cb: () => void) => void;
+          execute: (key: string, opts: { action: string }) => Promise<string>;
+        };
       };
     };
     const siteKey = w.__dpRecaptchaSiteKey;
-    if (!siteKey || !w.grecaptcha) return "";
+    if (!siteKey || !w.grecaptcha?.enterprise) return "";
     return await new Promise<string>((resolve) => {
-      w.grecaptcha!.ready(() => {
-        w.grecaptcha!
+      w.grecaptcha!.enterprise.ready(() => {
+        w.grecaptcha!.enterprise
           .execute(siteKey, { action: "contact_form" })
           .then((tok) => resolve(tok), () => resolve(""));
       });
