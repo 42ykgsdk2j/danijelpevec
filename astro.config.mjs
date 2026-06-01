@@ -42,13 +42,22 @@ export default defineConfig({
   build: {
     format: 'directory',
   },
-  // Vite-level build options. `sourcemap: 'hidden'` emits .map files
-  // (so Sentry can upload + symbolicate) but strips the
-  // //# sourceMappingURL= reference from the bundled JS — browsers
-  // won't fetch them, public source maps don't ship.
+  // Vite-level build options.
+  // - `sourcemap: 'hidden'` emits .map files (so Sentry can upload +
+  //   symbolicate) but strips the //# sourceMappingURL= reference from
+  //   the bundled JS — browsers won't fetch them, public source maps
+  //   don't ship.
+  // - `define` exposes the server-side SENTRY_DSN to client code
+  //   without needing a separate PUBLIC_SENTRY_DSN env var on Vercel.
+  //   The Astro Sentry integration above passes DSN to server init;
+  //   this define passes the same value through Vite into client bundles
+  //   so sentry.client.config.js can read it.
   vite: {
     build: {
       sourcemap: 'hidden',
+    },
+    define: {
+      __SENTRY_DSN__: JSON.stringify(process.env.SENTRY_DSN ?? ''),
     },
   },
 });

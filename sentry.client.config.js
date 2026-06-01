@@ -10,8 +10,16 @@
  */
 import * as Sentry from "@sentry/astro";
 
+// __SENTRY_DSN__ is replaced at build time by Vite's define in
+// astro.config.mjs. Reads the server-side SENTRY_DSN env var on
+// Vercel and bakes the value into the client bundle — no separate
+// PUBLIC_SENTRY_DSN env var needed. Empty string when unset, which
+// Sentry.init treats as "disabled".
+// @ts-expect-error build-time constant
+const dsn = __SENTRY_DSN__ || undefined;
+
 Sentry.init({
-  dsn: import.meta.env.PUBLIC_SENTRY_DSN || undefined,
+  dsn,
   environment: import.meta.env.MODE,
 
   // Privacy: NEVER attach the user's IP / cookies / form values to events.
