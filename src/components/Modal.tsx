@@ -202,7 +202,7 @@ export default function Modal({ t, lang, hasRecaptcha = false }: Props) {
     setErrors({});
     try {
       const recaptchaToken = await getRecaptchaToken();
-      const res = await fetch("/api/contact", {
+      const res = await fetch("/api/contact/", {
         method: "POST",
         headers: { "Content-Type": "application/json", "Accept": "application/json" },
         body: JSON.stringify({
