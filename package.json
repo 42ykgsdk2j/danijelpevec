@@ -17,6 +17,7 @@
     "@astrojs/sitemap": "^3.7.2",
     "@sentry/astro": "^10.55.0",
     "@sentry/node": "^10.55.0",
+    "@sentry/vercel-edge": "^10.55.0",
     "@upstash/ratelimit": "^2.0.8",
     "@upstash/redis": "^1.38.0",
     "ai": "^5.0.193",

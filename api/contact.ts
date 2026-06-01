@@ -23,7 +23,7 @@
  * Misuse caps:
  *   - Per-IP: 5 submissions / 24h sliding window via Upstash
  *   - Per-message: 5000 chars max (~1000 words)
- *   - reCAPTCHA v3 score gate (default min 0.5; lower is more bot-like)
+ *   - reCAPTCHA v3 score gate (default min 0.3; lower is more bot-like)
  */
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 import { Resend } from "resend";

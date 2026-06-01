@@ -15,6 +15,10 @@
  *   - Per-question: user message ≤ 1000 chars
  *   - Per-conversation: 15 messages, then canned "continue privately" reply
  *   - Per-IP: 20 questions / 24h sliding window via Upstash
+ *
+ * Error reporting:
+ *   - @sentry/vercel-edge initialized inline (the Astro Sentry integration
+ *     doesn't reach Vercel functions). No-op when SENTRY_DSN is unset.
  */
 import {
   streamText,
@@ -26,10 +30,20 @@ import {
 import { z } from "zod";
 import { Ratelimit } from "@upstash/ratelimit";
 import { Redis } from "@upstash/redis";
+import * as Sentry from "@sentry/vercel-edge";
 
 export const config = {
   runtime: "edge",
 };
+
+if (process.env.SENTRY_DSN && !Sentry.isInitialized()) {
+  Sentry.init({
+    dsn: process.env.SENTRY_DSN,
+    environment: process.env.VERCEL_ENV || "development",
+    sendDefaultPii: false,
+    tracesSampleRate: 0.1,
+  });
+}
 
 const BodySchema = z.object({
   messages: z.array(z.any()).min(1).max(40),
@@ -389,12 +403,18 @@ REMINDER: Write in English only. Do not switch languages at any point in your re
       maxOutputTokens: MAX_OUTPUT_TOKENS,
       onError: ({ error }) => {
         console.error("[chat] streamText onError:", error);
+        Sentry.captureException(error, { tags: { source: "chat", step: "stream" } });
       },
     });
 
     return result.toUIMessageStreamResponse();
   } catch (err) {
     console.error("[chat] streamText threw:", err);
+    Sentry.captureException(err, { tags: { source: "chat", step: "streamText-init" } });
+    // Flush before the edge function freezes — Sentry's batched
+    // transport otherwise loses events when Vercel terminates the
+    // invocation.
+    await Sentry.flush(2000).catch(() => {});
     return new Response(JSON.stringify({ error: "Model call failed" }), {
       status: 500,
       headers: { "Content-Type": "application/json" },
