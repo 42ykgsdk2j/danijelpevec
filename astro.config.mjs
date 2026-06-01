@@ -42,4 +42,13 @@ export default defineConfig({
   build: {
     format: 'directory',
   },
+  // Vite-level build options. `sourcemap: 'hidden'` emits .map files
+  // (so Sentry can upload + symbolicate) but strips the
+  // //# sourceMappingURL= reference from the bundled JS — browsers
+  // won't fetch them, public source maps don't ship.
+  vite: {
+    build: {
+      sourcemap: 'hidden',
+    },
+  },
 });
