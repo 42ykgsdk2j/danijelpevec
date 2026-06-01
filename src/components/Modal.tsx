@@ -338,7 +338,25 @@ export default function Modal({ t, lang, hasRecaptcha = false }: Props) {
                   style={{ background: "var(--bg-1)" }}
                 >
                   <option value="">—</option>
-                  {t.stages.map((s) => <option key={s} value={s}>{s}</option>)}
+                  {t.stages.map((s) => {
+                    // Workaround for an Astro 5 + React static-SSR bug where
+                    // multi-byte UTF-8 characters in `<option>` text content
+                    // get a stray \x00 inserted at certain byte offsets
+                    // ("Sljede\x00ća generacija preuzima" was reproducibly
+                    // produced by the canonical text-children path). The
+                    // value= attribute path is clean. Sidestep by encoding
+                    // every non-ASCII codepoint as a numeric entity and
+                    // injecting via dangerouslySetInnerHTML — the browser
+                    // parses the entity back to the right Unicode glyph.
+                    const safe = s.replace(/[-￿]/g, (c) => `&#${c.charCodeAt(0)};`);
+                    return (
+                      <option
+                        key={s}
+                        value={s}
+                        dangerouslySetInnerHTML={{ __html: safe }}
+                      />
+                    );
+                  })}
                 </select>
               </div>
 
