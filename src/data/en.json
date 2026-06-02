@@ -116,7 +116,7 @@
   },
   "discoverChat": {
     "pillLabel": "Find a post",
-    "panelTitle": "AI guide",
+    "panelTitle": "Content guide",
     "welcomeBody": "Tell me which theme interests you and I'll point you at the most relevant posts.",
     "placeholder": "Which theme interests you?",
     "send": "Send",

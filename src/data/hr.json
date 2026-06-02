@@ -116,7 +116,7 @@
   },
   "discoverChat": {
     "pillLabel": "Pronađite objavu",
-    "panelTitle": "AI vodič",
+    "panelTitle": "Vodič kroz objave",
     "welcomeBody": "Recite mi koja vas tema zanima i predložit ću relevantne objave.",
     "placeholder": "Koja tema vas zanima?",
     "send": "Pošalji",
