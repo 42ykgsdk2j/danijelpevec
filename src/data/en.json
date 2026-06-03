@@ -127,7 +127,7 @@
   },
   "blogChat": {
     "pillLabel": "Ask about the post",
-    "panelTitle": "AI assistant",
+    "panelTitle": "Blog post guide",
     "welcomeBody": "Ask anything about the article. For personal advice, request a private conversation.",
     "placeholder": "Ask a question…",
     "send": "Send",
