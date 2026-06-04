@@ -131,9 +131,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(405).json({ error: "Method not allowed" });
   }
 
-  const apiKey = process.env.RESEND_API_KEY;
+  const resendApiKey = process.env.RESEND_API_KEY;
   const from = process.env.CONTACT_FROM_EMAIL;
-  if (!apiKey || !from) {
+  if (!resendApiKey || !from) {
     console.error("Missing RESEND_API_KEY or CONTACT_FROM_EMAIL env var");
     return res.status(500).json({ error: "Email service is not configured." });
   }
@@ -172,16 +172,16 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   // plus the action the token was issued for. Reject invalid tokens,
   // low scores, and action mismatches as bots. When env vars are
   // absent (dev / forked deploys) skip the check entirely.
-  const apiKey = process.env.RECAPTCHA_SECRET_KEY; // Cloud API key
+  const recaptchaApiKey = process.env.RECAPTCHA_SECRET_KEY; // Cloud API key
   const projectId = process.env.RECAPTCHA_PROJECT_ID;
   const siteKey = process.env.RECAPTCHA_SITE_KEY;
-  if (apiKey && projectId && siteKey) {
+  if (recaptchaApiKey && projectId && siteKey) {
     const token = (body.recaptchaToken || "").trim();
     if (!token) {
       return res.status(400).json({ error: "Bot check required. Please retry." });
     }
     try {
-      const assessment = await verifyRecaptcha(token, apiKey, projectId, siteKey);
+      const assessment = await verifyRecaptcha(token, recaptchaApiKey, projectId, siteKey);
       const score = assessment.riskAnalysis?.score ?? 0;
       const valid = assessment.tokenProperties?.valid === true;
       const action = assessment.tokenProperties?.action;
@@ -218,7 +218,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   const stage = (body.stage || "").trim();
   const lang = body.lang === "en" ? "en" : "hr";
 
-  const resend = new Resend(apiKey);
+  const resend = new Resend(resendApiKey);
 
   const internalText = [
     `New private conversation request from danijelpevec.com`,
