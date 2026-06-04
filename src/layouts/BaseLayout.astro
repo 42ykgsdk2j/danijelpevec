@@ -114,6 +114,53 @@ const recaptchaSiteKey = process.env.RECAPTCHA_SITE_KEY ?? "";
   })();
 </script>
 
+{/* Recover from stale-chunk hydration failures. When a user has the
+    page open across a deploy, the HTML they're holding references
+    chunk hashes that no longer exist after the rebuild. The React
+    islands' dynamic imports then throw — Safari: "Importing a module
+    script failed", Chrome: "Failed to fetch dynamically imported
+    module", Firefox: "error loading dynamically imported module". A
+    one-shot reload fetches fresh HTML with current chunk URLs.
+    sessionStorage guards against a reload loop if the real cause is
+    something else (corrupt CDN, actual JS bug). */}
+<script is:inline>
+  (function () {
+    var FLAG = "dp_chunk_reload";
+    var PATTERNS = [
+      "Importing a module script failed",
+      "Failed to fetch dynamically imported module",
+      "error loading dynamically imported module",
+    ];
+    function isChunkError(reason) {
+      if (!reason) return false;
+      var msg = reason && reason.message ? String(reason.message) : String(reason);
+      for (var i = 0; i < PATTERNS.length; i++) {
+        if (msg.indexOf(PATTERNS[i]) !== -1) return true;
+      }
+      return false;
+    }
+    function maybeReload(reason) {
+      if (!isChunkError(reason)) return;
+      try {
+        if (sessionStorage.getItem(FLAG)) return;
+        sessionStorage.setItem(FLAG, "1");
+      } catch (_) { /* private mode, etc. — skip the guard */ }
+      window.location.reload();
+    }
+    window.addEventListener("unhandledrejection", function (e) {
+      maybeReload(e && e.reason);
+    });
+    window.addEventListener("error", function (e) {
+      maybeReload(e && (e.error || e.message));
+    });
+    // Once the page has loaded successfully, clear the guard so a
+    // future stale-chunk event can also reload.
+    window.addEventListener("load", function () {
+      try { sessionStorage.removeItem(FLAG); } catch (_) {}
+    });
+  })();
+</script>
+
 {/* reCAPTCHA v3 loader — script + stash key on window for islands.
     Only emitted when RECAPTCHA_SITE_KEY is set at build time. */}
 {recaptchaSiteKey && (
