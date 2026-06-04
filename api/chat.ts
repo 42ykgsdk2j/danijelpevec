@@ -396,10 +396,14 @@ INSTRUCTIONS:
 REMINDER: Write in English only. Do not switch languages at any point in your response.`);
 
   try {
+    // convertToModelMessages is async as of AI SDK 6 (it awaits each
+    // tool's toModelOutput); await it before handing the result to
+    // streamText, which still expects a resolved ModelMessage[].
+    const modelMessagesForModel = await convertToModelMessages(modelMessages as UIMessage[]);
     const result = streamText({
       model: "google/gemini-3.1-flash-lite",
       system: systemPrompt,
-      messages: convertToModelMessages(modelMessages as UIMessage[]),
+      messages: modelMessagesForModel,
       maxOutputTokens: MAX_OUTPUT_TOKENS,
       onError: ({ error }) => {
         console.error("[chat] streamText onError:", error);
