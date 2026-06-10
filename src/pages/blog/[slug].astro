@@ -88,7 +88,7 @@ const allInsightsLabel = t.blog.viewAll;
     client:idle
     mode="blog"
     contextTitle={post.data.title}
-    contextBody={post.body}
+    contextBody={post.body ?? ""}
     lang={lang}
     ui={t.blogChat}
   />
