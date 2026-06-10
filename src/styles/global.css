@@ -1014,7 +1014,10 @@ section { position: relative; }
 .about-card {
   border: 1px solid var(--line);
   padding: 48px 40px;
-  background: var(--bg-2);
+  /* Matches .about-section so the card blends with the same black as
+     the surrounding section (and the Prvi korak section below). The
+     border still gives subtle definition. */
+  background: var(--bg-0);
   display: flex;
   flex-direction: column;
   gap: 28px;
