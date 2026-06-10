@@ -994,7 +994,7 @@ section { position: relative; }
    About
    ============================================ */
 
-.about-section { background: var(--bg-1); position: relative; }
+.about-section { background: var(--bg-0); position: relative; }
 .about-section::before {
   content: "";
   position: absolute;
