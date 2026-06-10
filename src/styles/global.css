@@ -1029,6 +1029,14 @@ section { position: relative; }
   overflow: hidden;
   border: 1px solid var(--line);
 }
+.about-portrait img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
 .about-portrait::after {
   content: "";
   position: absolute;
@@ -1036,6 +1044,13 @@ section { position: relative; }
   background:
     radial-gradient(circle at 35% 35%, var(--gold-soft), transparent 60%),
     repeating-linear-gradient(45deg, transparent 0 4px, rgba(201, 169, 97, 0.04) 4px 5px);
+}
+.about-portrait.has-photo::after {
+  /* Drop the placeholder gold tint when a real portrait is in place;
+     a subtle bottom-up gradient keeps the bottom edge readable against
+     the dark photo without washing out the subject. */
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.35), transparent 38%);
+  pointer-events: none;
 }
 .about-portrait .mono {
   position: absolute;
