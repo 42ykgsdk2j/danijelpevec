@@ -1012,15 +1012,12 @@ section { position: relative; }
   align-items: start;
 }
 .about-card {
-  border: 1px solid var(--line);
-  padding: 48px 40px;
-  /* Matches .about-section so the card blends with the same black as
-     the surrounding section (and the Prvi korak section below). The
-     border still gives subtle definition. */
+  /* Border + padding removed — the portrait fills the column edge to
+     edge; the name/role sit directly under it without an inset frame. */
   background: var(--bg-0);
   display: flex;
   flex-direction: column;
-  gap: 28px;
+  gap: 24px;
   position: sticky;
   top: 110px;
 }
