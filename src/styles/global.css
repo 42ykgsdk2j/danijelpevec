@@ -994,7 +994,11 @@ section { position: relative; }
    About
    ============================================ */
 
-.about-section { background: var(--bg-0); position: relative; }
+/* Hardcoded to the resolved dark-theme value of --bg-0 (#07101e) so it
+   exactly matches .final-cta below regardless of any cascade quirks.
+   Light-theme branch handled in the override block below. */
+.about-section { background: #07101e; position: relative; }
+[data-theme="light"] .about-section { background: #f5f1e8; }
 .about-section::before {
   content: "";
   position: absolute;
