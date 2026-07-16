@@ -157,11 +157,18 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   // Resend daily quota by replaying form submissions.
   const ip = getClientIp(req);
   if (ratelimit) {
-    const { success } = await ratelimit.limit(ip);
-    if (!success) {
-      return res.status(429).json({
-        error: "Too many submissions. Please try again tomorrow, or email directly.",
-      });
+    // Fail open: a transient Upstash outage (or bad/expired credentials)
+    // must not take the whole form down. Skip limiting and let the
+    // submission through rather than crashing the function.
+    try {
+      const { success } = await ratelimit.limit(ip);
+      if (!success) {
+        return res.status(429).json({
+          error: "Too many submissions. Please try again tomorrow, or email directly.",
+        });
+      }
+    } catch (err) {
+      console.warn("[contact] rate limit check failed, allowing through:", err);
     }
   }
 
