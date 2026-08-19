@@ -7,8 +7,10 @@
  *
  * Required env vars:
  *   - AI_GATEWAY_API_KEY (or VERCEL_OIDC_TOKEN from the AI Gateway integration)
- *   - UPSTASH_REDIS_REST_URL + UPSTASH_REDIS_REST_TOKEN (auto-injected by
- *     Vercel's Upstash integration) — optional; rate limiting is skipped if absent.
+ *   - KV_REST_API_URL + KV_REST_API_TOKEN (auto-injected by the Vercel
+ *     Upstash marketplace resource; Redis.fromEnv() also accepts the
+ *     UPSTASH_REDIS_REST_* names) — optional; rate limiting is skipped
+ *     if absent.
  *
  * Misuse caps:
  *   - Per-response: maxOutputTokens 1200 (~10 paragraphs)
@@ -198,13 +200,20 @@ export default async function handler(req: Request): Promise<Response> {
   // Per-IP rate limit (skipped for sentinel auto-intros — see above).
   if (ratelimit && !isSentinelRequest) {
     const ip = getClientIp(req);
-    const { success } = await ratelimit.limit(ip);
-    if (!success) {
-      return cannedReply(
-        langIsHr
-          ? "Dosegnuli ste dnevni limit pitanja za ovu objavu. Vratite se sutra ili koristite gumb 'Zatraži privatni razgovor' u dnu članka za izravan razgovor."
-          : "You've reached today's question limit for this post. Come back tomorrow, or use the 'Request a private conversation' button at the bottom of the article for a direct conversation.",
-      );
+    // Fail open: a transient Upstash outage (or bad/expired credentials)
+    // must not take the chat down. Skip limiting and answer the question
+    // rather than crashing the function.
+    try {
+      const { success } = await ratelimit.limit(ip);
+      if (!success) {
+        return cannedReply(
+          langIsHr
+            ? "Dosegnuli ste dnevni limit pitanja za ovu objavu. Vratite se sutra ili koristite gumb 'Zatraži privatni razgovor' u dnu članka za izravan razgovor."
+            : "You've reached today's question limit for this post. Come back tomorrow, or use the 'Request a private conversation' button at the bottom of the article for a direct conversation.",
+        );
+      }
+    } catch (err) {
+      console.warn("[chat] rate limit check failed, allowing through:", err);
     }
   }
 

@@ -11,8 +11,9 @@
  *                             Example: "Danijel Pevec <noreply@danijelpevec.com>"
  *   - CONTACT_TO_EMAIL      — where notifications land. Defaults to the imprint
  *                             address if unset.
- *   - UPSTASH_REDIS_REST_URL + UPSTASH_REDIS_REST_TOKEN (auto-injected by
- *     Vercel's Upstash integration) — optional; rate limiting + Resend
+ *   - KV_REST_API_URL + KV_REST_API_TOKEN (auto-injected by the Vercel
+ *     Upstash marketplace resource; Redis.fromEnv() also accepts the
+ *     UPSTASH_REDIS_REST_* names) — optional; rate limiting + Resend
  *     quota protection are skipped if absent.
  *   - RECAPTCHA_SITE_KEY (PUBLIC — un-mark "Sensitive" in Vercel) — the
  *     reCAPTCHA Enterprise key ID. Same value baked into the client
