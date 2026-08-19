@@ -42,7 +42,7 @@ export const BUSINESS = {
     hr: "Pomažem osnivačima i njihovim obiteljima izgraditi nasljeđe kroz odluke koje oblikuju rast, sukcesiju i tranziciju među generacijama.",
     en: "I help founders and their families build a legacy through the decisions that shape growth, succession and generational transition.",
   },
-  email: "pevec.danijel@alphacapitalis.com",
+  email: "danijel@danijelpevec.com",
   telephone: "+385992401771",
   address: {
     streetAddress: "Ulica Roberta Frangeša - Mihanovića 9",

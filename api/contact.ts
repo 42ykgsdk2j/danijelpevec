@@ -137,7 +137,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     console.error("Missing RESEND_API_KEY or CONTACT_FROM_EMAIL env var");
     return res.status(500).json({ error: "Email service is not configured." });
   }
-  const to = process.env.CONTACT_TO_EMAIL || "pevec.danijel@alphacapitalis.com";
+  const to = process.env.CONTACT_TO_EMAIL || "danijel@danijelpevec.com";
 
   const body = (req.body || {}) as Body;
   const name = (body.name || "").trim();
