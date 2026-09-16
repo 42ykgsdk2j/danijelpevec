@@ -1,5 +1,5 @@
 ---
-slug: "what-changes-during-generational-transition"
+translationKey: "what-changes-during-generational-transition"
 lang: "hr"
 title: "Što se zapravo mijenja tijekom generacijske tranzicije"
 excerpt: "Većina obitelji generacijsku tranziciju zamišlja kao prijenos: netko odlazi, netko drugi preuzima. U stvarnosti se mijenja cijeli sustav — uloge, autoritet, vlasništvo, odnosi u obitelji i njezin identitet — i to se ne događa u jednom danu."

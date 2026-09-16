@@ -5,10 +5,18 @@ import { glob } from "astro/loaders";
  * One post per (slug, language). Files live under
  *   src/content/blog/<lang>/<slug>.md
  * The id is the full path-without-extension (e.g. "en/foo"), which gives us
- * both the language and the URL slug. Frontmatter only carries content
- * fields — lang and slug are NOT required, so Decap CMS (which writes the
- * file but doesn't know to add a lang field) works without crashing the
- * build.
+ * both the language and the URL slug.
+ *
+ * Slugs are written in the post's own language (Croatian under hr/, English
+ * under en/), so the two versions of an article do NOT share a filename.
+ * They are paired through the optional `translationKey` frontmatter field:
+ * give both files the same key and the site links them via hreflang, the
+ * nav language toggle and the sitemap. A file without a key falls back to
+ * its own filename slug, which keeps older same-slug pairs working.
+ *
+ * Frontmatter only carries content fields — lang is NOT required, so Decap
+ * CMS (which writes the file but doesn't know to add a lang field) works
+ * without crashing the build.
  */
 const blog = defineCollection({
   loader: glob({
@@ -28,8 +36,9 @@ const blog = defineCollection({
     // Optional cover image, shown between the byline and the body.
     cover: z.string().optional(),
     coverAlt: z.string().optional(),
-    // Legacy fields — kept optional so older files don't fail validation
-    slug: z.string().optional(),
+    // Pairs this post with its translation in the other language folder.
+    translationKey: z.string().optional(),
+    // Legacy field — kept optional so older files don't fail validation
     lang: z.enum(["en", "hr"]).optional(),
   }),
 });
@@ -42,6 +51,14 @@ export function langOf(id: string): "en" | "hr" {
 /** Derive URL slug from the entry id, stripping the language folder. */
 export function slugOf(id: string): string {
   return id.replace(/^(en|hr)\//, "");
+}
+
+/** Key that pairs a post with its translation; falls back to the filename slug. */
+export function translationKeyOf(entry: {
+  id: string;
+  data: { translationKey?: string };
+}): string {
+  return entry.data.translationKey ?? slugOf(entry.id);
 }
 
 export const collections = { blog };

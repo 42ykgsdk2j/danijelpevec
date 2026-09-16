@@ -1,5 +1,5 @@
 ---
-slug: "family-business-exit-strategy"
+translationKey: "family-business-exit-strategy"
 lang: "hr"
 title: "Prodati, prenijeti ili zadržati: odluka osnivača o izlasku"
 excerpt: "Svaki osnivač jednom stane pred troja vrata: prodati, prenijeti ili zadržati. Pravi izbor ovisi o više od cijene — ovisi o tome što doista gradite."

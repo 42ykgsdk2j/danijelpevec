@@ -1,5 +1,5 @@
 ---
-slug: "family-business-second-generation"
+translationKey: "family-business-second-generation"
 lang: "hr"
 title: "Zašto 70 % obiteljskih tvrtki ne preživi drugu generaciju"
 excerpt: "Samo tri od deset obiteljskih tvrtki preživi u drugu generaciju. Obrazac je dosljedan — i izbježiv, ako se prave razgovore vode na vrijeme."

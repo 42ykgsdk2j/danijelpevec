@@ -1,5 +1,5 @@
 ---
-slug: "generational-wealth-transition"
+translationKey: "generational-wealth-transition"
 lang: "hr"
 title: "Generacijski prijenos imovine: zašto malo obitelji to ispravno provede"
 excerpt: "Većina obitelji izgubi generacijsku imovinu unutar tri generacije. Razlog rijetko leži u porezima ili tržištima — već u nedostatku strukture, komunikacije i zajedničke svrhe."

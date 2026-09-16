@@ -1,5 +1,5 @@
 ---
-slug: "family-business-succession-planning"
+translationKey: "family-business-succession-planning"
 lang: "hr"
 title: "Planiranje sukcesije obiteljske tvrtke: praktični vodič za osnivače"
 excerpt: "Sukcesija nije događaj. To je proces u pet faza koji počinje davno prije nego što se osnivač povuče — i oblikuje sve što slijedi."

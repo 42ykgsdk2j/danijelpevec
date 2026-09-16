@@ -1,5 +1,5 @@
 ---
-slug: "family-business-exit-strategy"
+translationKey: "family-business-exit-strategy"
 lang: "en"
 title: "Sell, Pass On, or Hold: The Founder's Exit Decision"
 excerpt: "Every founder eventually faces three doors: sell, pass on, or hold. The right choice depends on more than the multiple — it depends on what you are really trying to build."

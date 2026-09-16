@@ -17,6 +17,13 @@ publish_mode: simple
 site_url: https://www.danijelpevec.com
 display_url: https://www.danijelpevec.com
 
+# Filenames (= URL slugs) derive from the title. Croatian titles carry
+# diacritics, so strip them to plain ASCII: "Što se mijenja" → sto-se-mijenja.
+slug:
+  encoding: ascii
+  clean_accents: true
+  sanitize_replacement: "-"
+
 # Media library — images attached to blog posts land here
 media_folder: public/uploads
 public_folder: /uploads
@@ -45,6 +52,7 @@ collections:
       - { name: readTime, label: "Read time (minutes)", widget: number, default: 7, value_type: int, min: 1 }
       - { name: cover, label: "Cover image", widget: image, required: false, hint: "Shown at the top of the article, after the byline. Optional." }
       - { name: coverAlt, label: "Cover image alt text", widget: string, required: false, hint: "Short description for screen readers and SEO. Skip if the image is purely decorative." }
+      - { name: translationKey, label: "Translation key", widget: string, required: false, hint: "Pairs this post with its Croatian version for hreflang and the language toggle: give both files the same key (the English slug works well). Leave empty if there is no translation." }
       - { name: body, label: Body, widget: markdown }
 
   # ===================================================================
@@ -67,4 +75,5 @@ collections:
       - { name: readTime, label: "Vrijeme čitanja (minuta)", widget: number, default: 7, value_type: int, min: 1 }
       - { name: cover, label: "Naslovna slika", widget: image, required: false, hint: "Prikazuje se na vrhu članka, ispod potpisa autora. Neobavezno." }
       - { name: coverAlt, label: "Opis naslovne slike (alt)", widget: string, required: false, hint: "Kratki opis za čitače zaslona i SEO. Preskočite ako je slika dekorativna." }
+      - { name: translationKey, label: "Ključ prijevoda", widget: string, required: false, hint: "Povezuje objavu s engleskom verzijom (hreflang i prebacivanje jezika): obje datoteke moraju imati isti ključ (npr. engleski slug). Ostavite prazno ako prijevod ne postoji." }
       - { name: body, label: Tekst, widget: markdown }

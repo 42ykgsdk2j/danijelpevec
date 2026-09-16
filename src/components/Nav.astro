@@ -3,10 +3,14 @@ import { getT, url, counterpartUrl, type Lang } from "../lib/i18n";
 
 interface Props {
   lang: Lang;
+  /** Where the language toggle should go. Pages whose path differs per
+   *  language (blog posts, whose slugs are translated) pass this; the rest
+   *  fall back to swapping the locale prefix. */
+  altUrl?: string;
 }
-const { lang } = Astro.props;
+const { lang, altUrl: altUrlProp } = Astro.props;
 const t = getT(lang);
-const altUrl = counterpartUrl(lang, Astro.url.pathname);
+const altUrl = altUrlProp ?? counterpartUrl(lang, Astro.url.pathname);
 
 const root = url(lang); // "/" or "/hr/"
 const insightsUrl = url(lang, "blog");

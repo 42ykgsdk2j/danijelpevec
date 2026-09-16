@@ -1,5 +1,5 @@
 ---
-slug: "family-business-succession-planning"
+translationKey: "family-business-succession-planning"
 lang: "en"
 title: "Family Business Succession Planning: A Founder's Practical Roadmap"
 excerpt: "Succession is not an event. It is a five-stage process that begins long before the founder steps back — and shapes everything that follows."

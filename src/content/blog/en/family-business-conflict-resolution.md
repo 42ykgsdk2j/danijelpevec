@@ -1,5 +1,5 @@
 ---
-slug: "family-business-conflict-resolution"
+translationKey: "family-business-conflict-resolution"
 lang: "en"
 title: "Conflict in the Family Business: Hard Conversations Before Hard Outcomes"
 excerpt: "Family business conflict rarely begins where it ends. The work is to surface tension early, structure the conversation, and protect both the business and the relationships."

@@ -3,13 +3,23 @@ import { defineConfig } from 'astro/config';
 import react from '@astrojs/react';
 import sitemap from '@astrojs/sitemap';
 import sentry from '@sentry/astro';
+import { fileURLToPath } from 'node:url';
+import { readBlogAlternates } from './src/lib/blogAlternates.mjs';
+
+const SITE = 'https://www.danijelpevec.com';
+// Blog posts have language-specific slugs (Croatian under /blog/, English
+// under /en/blog/), paired by their translationKey frontmatter. Read the
+// pairs once so the sitemap can list the right alternates per post.
+const blogAlternates = readBlogAlternates(
+  fileURLToPath(new URL('./src/content/blog', import.meta.url)),
+);
 
 // Astro config. Output is fully static (no SSR). Vercel auto-detects the
 // `dist/` directory after `npm run build`. The React integration is only
 // used for the assessment quiz (interactive island); every other page is
 // pure server-rendered HTML.
 export default defineConfig({
-  site: 'https://www.danijelpevec.com',
+  site: SITE,
   output: 'static',
   trailingSlash: 'ignore',
   integrations: [
@@ -23,6 +33,17 @@ export default defineConfig({
       },
       filter: (page) =>
         !page.includes('/admin') && !page.includes('/api/'),
+      // The prefix-based i18n pairing above only matches pages whose path
+      // is identical in both locales. Blog posts aren't (their slugs are
+      // translated), so attach their alternates from the translationKey
+      // pairs instead. Posts without a translation get no alternates.
+      serialize: (item) => {
+        const links = blogAlternates.get(new URL(item.url).pathname);
+        if (links) {
+          item.links = links.map((l) => ({ url: `${SITE}${l.path}`, lang: l.lang }));
+        }
+        return item;
+      },
     }),
     // Sentry — client + page SSR error reporting. Reads dsn + auth from
     // env vars; integration is a no-op when SENTRY_DSN is unset (dev /

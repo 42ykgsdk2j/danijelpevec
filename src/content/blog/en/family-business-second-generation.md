@@ -1,5 +1,5 @@
 ---
-slug: "family-business-second-generation"
+translationKey: "family-business-second-generation"
 lang: "en"
 title: "Why 70% of Family Businesses Don't Survive the Second Generation"
 excerpt: "Only three in ten family businesses survive into the second generation. The pattern is consistent — and avoidable, if the right conversations happen in time."

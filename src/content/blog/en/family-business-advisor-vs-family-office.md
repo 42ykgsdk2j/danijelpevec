@@ -1,5 +1,5 @@
 ---
-slug: "family-business-advisor-vs-family-office"
+translationKey: "family-business-advisor-vs-family-office"
 lang: "en"
 title: "Family Business Advisor vs. Family Office: Which Do You Actually Need?"
 excerpt: "These two roles get conflated, but they exist for different reasons. Knowing the difference is the first step in choosing the support that fits your stage."

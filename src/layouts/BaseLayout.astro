@@ -12,6 +12,7 @@ interface Props {
   canonical: string; // absolute URL for this page
   hreflangEn?: string; // absolute URL for EN counterpart
   hreflangHr?: string; // absolute URL for HR counterpart
+  altUrl?: string; // site-relative path of this page in the other language (nav toggle); defaults to a prefix swap
   ogType?: "website" | "article";
   ogTitle?: string;
   ogDescription?: string;
@@ -29,6 +30,7 @@ const {
   canonical,
   hreflangEn,
   hreflangHr,
+  altUrl,
   ogType = "website",
   ogTitle,
   ogDescription,
@@ -288,7 +290,7 @@ const recaptchaSiteKey = process.env.RECAPTCHA_SITE_KEY ?? "";
 </head>
 <body>
 <a href="#main" class="skip-link">{lang === "hr" ? "Preskoči na sadržaj" : "Skip to content"}</a>
-<Nav lang={lang} />
+<Nav lang={lang} altUrl={altUrl} />
 
 <main id="main">
   <slot />

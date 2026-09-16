@@ -3,20 +3,33 @@ import { getCollection, render } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import Chat from "../../components/Chat.tsx";
 import { getT, url, SITE } from "../../lib/i18n";
-import { langOf, slugOf } from "../../content.config";
+import { langOf, slugOf, translationKeyOf } from "../../content.config";
 
 export async function getStaticPaths() {
-  const posts = await getCollection("blog", (entry) => langOf(entry.id) === "hr");
-  return posts.map((p) => ({ params: { slug: slugOf(p.id) }, props: { post: p } }));
+  const all = await getCollection("blog");
+  const posts = all.filter((entry) => langOf(entry.id) === "hr");
+  return posts.map((p) => {
+    // The EN version (if any) shares this post's translationKey but has
+    // its own slug in its own language — look it up rather than assuming.
+    const key = translationKeyOf(p);
+    const twin = all.find((e) => langOf(e.id) === "en" && translationKeyOf(e) === key);
+    return {
+      params: { slug: slugOf(p.id) },
+      props: { post: p, twinSlug: twin ? slugOf(twin.id) : null },
+    };
+  });
 }
 
-const { post } = Astro.props;
+const { post, twinSlug } = Astro.props;
 const { Content } = await render(post);
 const lang = "hr" as const;
 const t = getT(lang);
 const slug = slugOf(post.id);
-const enUrl = `${SITE}/en/blog/${slug}/`;
 const hrUrl = `${SITE}/blog/${slug}/`;
+// Only advertise an EN alternate when the translation actually exists.
+const enUrl = twinSlug ? `${SITE}/en/blog/${twinSlug}/` : undefined;
+// Nav language toggle: the EN twin, or the EN blog index as the nearest page.
+const altUrl = twinSlug ? url("en", `blog/${twinSlug}`) : url("en", "blog");
 function fmtDate(iso: string) {
   const d = new Date(iso);
   return d.toLocaleDateString("hr-HR", { year: "numeric", month: "short", day: "numeric" });
@@ -30,6 +43,7 @@ const allInsightsLabel = t.blog.viewAll;
   canonical={hrUrl}
   hreflangEn={enUrl}
   hreflangHr={hrUrl}
+  altUrl={altUrl}
   ogType="article"
   jsonLd={[{
     "@context": "https://schema.org",
