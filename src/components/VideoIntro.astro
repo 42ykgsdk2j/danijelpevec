@@ -30,10 +30,11 @@ const src = `https://player.vimeo.com/video/${VIMEO_ID}?autoplay=1&dnt=1&badge=0
         decoding="async"
       />
       <button type="button" class="video-play" data-video-play aria-label={t.video.play}>
-        <span class="video-play-icon" aria-hidden="true">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M8 5.5v13l11-6.5z" />
+        <span class="video-play-pill" aria-hidden="true">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M6 4v16l14-8z" />
           </svg>
+          {t.video.cta}
         </span>
       </button>
     </div>

@@ -790,29 +790,33 @@ section { position: relative; }
   position: absolute;
   inset: 0;
   display: grid;
-  /* Sit below the poster's centred title card rather than on top of it. */
+  /* Pill sits in the lower centre, clear of the poster's title card. */
   place-items: end center;
-  padding-bottom: 14%;
+  padding-bottom: clamp(20px, 6%, 48px);
   width: 100%;
   background: transparent;
   border: 0;
   cursor: pointer;
 }
-.video-play-icon {
-  display: grid;
-  place-items: center;
-  width: clamp(64px, 8vw, 88px);
-  height: clamp(64px, 8vw, 88px);
-  padding-left: 4px; /* optical centre for the triangle */
-  border-radius: 50%;
+.video-play-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 24px 12px 20px;
+  border-radius: 999px;
   background: var(--gold-shine);
   color: #0a1628;
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
   box-shadow: var(--shadow-md);
   transition: transform 0.25s ease, background 0.25s ease;
 }
-.video-play:hover .video-play-icon,
-.video-play:focus-visible .video-play-icon {
-  transform: scale(1.08);
+.video-play:hover .video-play-pill,
+.video-play:focus-visible .video-play-pill {
+  transform: scale(1.05);
   background: var(--gold-shine-hover);
 }
 .video-frame:hover .video-poster { transform: scale(1.02); }
@@ -822,7 +826,7 @@ section { position: relative; }
 }
 @media (prefers-reduced-motion: reduce) {
   .video-poster,
-  .video-play-icon { transition: none; }
+  .video-play-pill { transition: none; }
   .video-frame:hover .video-poster { transform: none; }
 }
 /* ============================================

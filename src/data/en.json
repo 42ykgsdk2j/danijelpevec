@@ -20,6 +20,7 @@
     "cta": "Request a private conversation"
   },
   "video": {
+    "cta": "Play",
     "label": "Introduction video",
     "play": "Play the introduction video (4:28)"
   },
