@@ -1,0 +1,58 @@
+---
+/**
+ * Intro video under the hero.
+ *
+ * Click-to-load facade: the page ships only a local poster image and a
+ * button. Vimeo's player (and anything it sets) loads only when the visitor
+ * presses play, so the home page stays fast and nothing third-party runs
+ * before an explicit action. `dnt=1` tells Vimeo not to track the session.
+ *
+ * Requires https://player.vimeo.com in the CSP frame-src (vercel.json).
+ */
+import { getT, type Lang } from "../lib/i18n";
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = getT(lang);
+
+const VIMEO_ID = "1232031386";
+const src = `https://player.vimeo.com/video/${VIMEO_ID}?autoplay=1&dnt=1&badge=0&title=0&byline=0&portrait=0&autopause=0`;
+---
+<section class="video-intro" aria-label={t.video.label}>
+  <div class="container">
+    <div class="video-frame reveal" data-video-src={src} data-video-title={t.video.label}>
+      <img
+        class="video-poster"
+        src="/video/intro-poster.jpg"
+        alt=""
+        width="1280"
+        height="720"
+        loading="lazy"
+        decoding="async"
+      />
+      <button type="button" class="video-play" data-video-play aria-label={t.video.play}>
+        <span class="video-play-icon" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M8 5.5v13l11-6.5z" />
+          </svg>
+        </span>
+      </button>
+    </div>
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll<HTMLElement>("[data-video-src]").forEach((frame) => {
+    const button = frame.querySelector<HTMLButtonElement>("[data-video-play]");
+    button?.addEventListener("click", () => {
+      const iframe = document.createElement("iframe");
+      iframe.src = frame.dataset.videoSrc!;
+      iframe.title = frame.dataset.videoTitle ?? "";
+      iframe.allow = "autoplay; fullscreen; picture-in-picture; encrypted-media";
+      iframe.referrerPolicy = "strict-origin-when-cross-origin";
+      iframe.allowFullscreen = true;
+      frame.replaceChildren(iframe);
+      frame.classList.add("is-playing");
+      iframe.focus();
+    }, { once: true });
+  });
+</script>

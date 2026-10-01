@@ -757,6 +757,74 @@ section { position: relative; }
   gap: 24px;
   align-items: flex-start;
 }
+
+/* ============================================
+   Intro video (click-to-load Vimeo facade)
+   ============================================ */
+
+.video-intro {
+  position: relative;
+  padding-bottom: clamp(80px, 12vw, 140px);
+}
+.video-frame {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: var(--bg-0);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow-lg);
+}
+.video-frame iframe,
+.video-poster {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+.video-poster {
+  object-fit: cover;
+  transition: transform 0.6s ease, opacity 0.3s ease;
+}
+.video-play {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  /* Sit below the poster's centred title card rather than on top of it. */
+  place-items: end center;
+  padding-bottom: 14%;
+  width: 100%;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+}
+.video-play-icon {
+  display: grid;
+  place-items: center;
+  width: clamp(64px, 8vw, 88px);
+  height: clamp(64px, 8vw, 88px);
+  padding-left: 4px; /* optical centre for the triangle */
+  border-radius: 50%;
+  background: var(--gold-shine);
+  color: #0a1628;
+  box-shadow: var(--shadow-md);
+  transition: transform 0.25s ease, background 0.25s ease;
+}
+.video-play:hover .video-play-icon,
+.video-play:focus-visible .video-play-icon {
+  transform: scale(1.08);
+  background: var(--gold-shine-hover);
+}
+.video-frame:hover .video-poster { transform: scale(1.02); }
+.video-play:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: -6px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .video-poster,
+  .video-play-icon { transition: none; }
+  .video-frame:hover .video-poster { transform: none; }
+}
 /* ============================================
    Sections — generic
    ============================================ */
