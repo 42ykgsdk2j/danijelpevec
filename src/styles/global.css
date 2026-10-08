@@ -790,7 +790,7 @@ section { position: relative; }
   position: absolute;
   inset: 0;
   display: grid;
-  /* Pill sits in the lower centre, clear of the poster's title card. */
+  /* Pill sits in the lower centre of the poster. */
   place-items: end center;
   padding-bottom: clamp(20px, 6%, 48px);
   width: 100%;
