@@ -228,6 +228,14 @@ readTime: 9
 
 <p>That is a far more demanding test. And it is exactly why a generational transition needs to be built long before it becomes urgent.</p>
 
+<section class="article-faq">
+<h2>Frequently asked questions</h2>
+<details><summary>What is a generational transition in a family business?</summary><p>A generational transition is not an event in which one person stops being responsible and another starts. It is a change to the whole system that plays out over years: roles, authority, ownership, family relationships and the family's identity all change.</p></details>
+<details><summary>How long does a generational transition take?</summary><p>It plays out over years. A transition can have a beginning, phases and key decisions, but there is no single moment at which it is complete. The real test is not when the founder will leave, but when the system will become capable of operating without them.</p></details>
+<details><summary>What is the difference between formal and real authority in a family business?</summary><p>Formal authority is who holds the position: the CEO, the board chair or the owner. Real authority is who has the right to decide and who others trust to make that decision. Authority is not transferred by signature; it has to be built gradually.</p></details>
+<details><summary>Why do family conflicts often surface during a transition?</summary><p>While the founder is the dominant figure, many family differences stay hidden because everyone knows who decides. When the founder starts to release control, questions about who contributed most, fairness, the right to decide and what each branch of the family wants come to the surface. A transition often does not create problems; it makes them visible.</p></details>
+</section>
+
 <section class="article-cta">
 <h3>These conversations don't happen on a page.</h3>
 <p>If anything here speaks to your situation, the next step is a private conversation.</p>

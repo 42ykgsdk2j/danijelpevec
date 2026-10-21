@@ -228,4 +228,12 @@ readTime: 9
 
 <p>To je mnogo zahtjevniji test. I upravo zato generacijsku tranziciju treba početi graditi mnogo prije nego što postane hitna.</p>
 
+<section class="article-faq">
+<h2>Često postavljana pitanja</h2>
+<details><summary>Što je generacijska tranzicija u obiteljskom businessu?</summary><p>Generacijska tranzicija nije događaj u kojem jedna osoba prestaje biti odgovorna, a druga počinje. Ona je višegodišnja promjena cijelog sustava: mijenjaju se uloge, autoritet, vlasništvo, odnosi u obitelji i identitet obitelji.</p></details>
+<details><summary>Koliko traje generacijska tranzicija?</summary><p>Odvija se kroz više godina. Tranzicija može imati početak, faze i ključne odluke, ali nema jedan trenutak u kojem se može reći da je završena. Pravi test nije kada će osnivač otići, nego kada će sustav postati sposoban djelovati bez njega.</p></details>
+<details><summary>Koja je razlika između formalnog i stvarnog autoriteta u obiteljskoj kompaniji?</summary><p>Formalni autoritet pokazuje tko ima funkciju: CEO, predsjednik uprave ili vlasnik. Stvarni autoritet pokazuje tko ima pravo odlučivati i tko mu vjeruje da tu odluku može donijeti. Autoritet se ne prenosi potpisom; mora se postupno izgraditi.</p></details>
+<details><summary>Zašto obiteljski sukobi često izbiju tijekom tranzicije?</summary><p>Dok je osnivač dominantna figura, mnoge obiteljske razlike ostaju skrivene jer svi znaju tko odlučuje. Kada osnivač počne puštati kontrolu, na površinu izlaze pitanja o tome tko je najviše pridonio, o pravednosti, o pravu odlučivanja i o tome što žele pojedine grane obitelji. Tranzicija često ne stvara probleme, nego ih čini vidljivima.</p></details>
+</section>
+
 <section class="article-cta"><h3>Ovi razgovori ne događaju se na stranici.</h3><p>Ako vam nešto ovdje odgovara situaciji, sljedeći je korak privatni razgovor.</p><button class="btn btn-primary" data-open-modal>Zatraži privatni razgovor →</button></section>
