@@ -32,12 +32,19 @@ const blog = defineCollection({
     // correctly by time. Date-only frontmatter (e.g. "2026-04-22") parses to
     // midnight UTC, so existing posts retain stable order.
     date: z.coerce.date().transform((d) => d.toISOString()),
+    // Optional "last substantively edited" date. Feeds BlogPosting
+    // dateModified, the sitemap lastmod and the "Updated" note in the
+    // article meta row. Leave unset for typo fixes.
+    updated: z.coerce.date().transform((d) => d.toISOString()).optional(),
     readTime: z.number().int().min(1),
     // Optional cover image, shown between the byline and the body.
     cover: z.string().optional(),
     coverAlt: z.string().optional(),
     // Pairs this post with its translation in the other language folder.
     translationKey: z.string().optional(),
+    // translationKeys of posts to list first under "Related articles".
+    // The block fills any remaining slots by category, then by recency.
+    related: z.array(z.string()).optional(),
     // Legacy field — kept optional so older files don't fail validation
     lang: z.enum(["en", "hr"]).optional(),
   }),

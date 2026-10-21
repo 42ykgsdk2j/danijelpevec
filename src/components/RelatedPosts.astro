@@ -1,0 +1,49 @@
+---
+import { getCollection, type CollectionEntry } from "astro:content";
+import { getT, url, type Lang } from "../lib/i18n";
+import { langOf, slugOf, translationKeyOf } from "../content.config";
+
+/**
+ * "Related articles" at the end of a post. Same-language posts only, picked
+ * in this order: the post's `related` frontmatter (translationKeys), then
+ * posts in the same category, then the newest posts.
+ */
+interface Props {
+  post: CollectionEntry<"blog">;
+  lang: Lang;
+  limit?: number;
+}
+const { post, lang, limit = 3 } = Astro.props;
+const t = getT(lang);
+
+const candidates = (await getCollection("blog", (e) => langOf(e.id) === lang && e.id !== post.id))
+  .sort((a, b) => b.data.date.localeCompare(a.data.date));
+
+const picked: CollectionEntry<"blog">[] = [];
+const add = (e: CollectionEntry<"blog"> | undefined) => {
+  if (e && picked.length < limit && !picked.includes(e)) picked.push(e);
+};
+for (const key of post.data.related ?? []) add(candidates.find((e) => translationKeyOf(e) === key));
+for (const e of candidates) if (e.data.category === post.data.category) add(e);
+for (const e of candidates) add(e);
+---
+{picked.length > 0 && (
+  <section class="related-posts" aria-labelledby="related-posts-title">
+    <div class="container">
+      <h2 id="related-posts-title" class="related-posts-title">{t.blog.related}</h2>
+      <div class="blog-grid">
+        {picked.map((p) => (
+          <a class="blog-card" href={url(lang, `blog/${slugOf(p.id)}`)}>
+            <div class="blog-card-meta">
+              <span class="blog-card-cat">{p.data.category}</span>
+              <span class="blog-card-dot">·</span>
+              <span class="blog-card-time">{p.data.readTime} {t.blog.minRead}</span>
+            </div>
+            <h3 class="blog-card-title">{p.data.title}</h3>
+            <p class="blog-card-excerpt">{p.data.excerpt}</p>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+)}
