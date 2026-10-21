@@ -20,8 +20,12 @@ export function personJsonLd(lang: Lang): Record<string, unknown> {
 }
 
 export function businessJsonLd(lang: Lang): Record<string, unknown> {
+  return { "@context": "https://schema.org", ...practiceNode(lang) };
+}
+
+/** The practice entity without @context, so it can also be nested (e.g. as a publisher). */
+function practiceNode(lang: Lang): Record<string, unknown> {
   return {
-    "@context": "https://schema.org",
     "@type": "ProfessionalService",
     "@id": PRACTICE_ID,
     name: BUSINESS.practiceName,
@@ -36,6 +40,7 @@ export function businessJsonLd(lang: Lang): Record<string, unknown> {
       addressLocality: BUSINESS.address.addressLocality,
       addressCountry: BUSINESS.address.addressCountry,
     },
+    image: `${SITE}/og-image.png`,
     areaServed: "HR",
     founder: { "@id": PERSON_ID },
     sameAs: BUSINESS.sameAs,
@@ -87,11 +92,11 @@ export function blogPostingJsonLd(post: BlogPostData, lang: Lang, pageUrl: strin
       name: BUSINESS.personName,
       url: localeRoot,
     },
+    // Google reads an inline ProfessionalService as a local-business item
+    // and flags any missing address/phone, so embed the full practice node
+    // (same @id and data as the home pages) rather than a stub.
     publisher: {
-      "@type": "ProfessionalService",
-      "@id": PRACTICE_ID,
-      name: BUSINESS.practiceName,
-      url: localeRoot,
+      ...practiceNode(lang),
       // TODO: Google wants a square-ish raster logo (≥112×112 PNG/JPG).
       // The site has none yet — only favicon.svg and the 1200×630 OG image —
       // so the OG image stands in until a proper logo is added to /public.
