@@ -122,6 +122,14 @@ readTime: 4
 
 <p>Continuity does not just happen. It is built.</p>
 
+<section class="article-faq">
+<h2>Frequently asked questions</h2>
+<details><summary>Why do founders return to the business after handing over leadership?</summary><p>Sometimes the founder does not trust the successor enough, or finds a different way of leading hard to accept. But often the reason is more personal: they have not yet found an answer to what their life looks like without running the business day to day. For decades the company was a source of responsibility, relationships, a daily rhythm and the feeling of being needed.</p></details>
+<details><summary>Does a founder's return mean the transition has failed?</summary><p>Not necessarily. A transition can succeed at the level of the organisation, with a prepared successor, clearly defined management responsibilities and settled ownership, and still be unfinished for the founder personally.</p></details>
+<details><summary>What role can a founder take on after stepping back?</summary><p>There is no universal answer. Some founders suit the role of an active owner or chair of the supervisory board; others find meaning in mentoring the next generation, developing new projects, investing or working with other entrepreneurs; for some, the next chapter lies outside business entirely. What matters is that the new role is real, clearly defined and personally meaningful.</p></details>
+<details><summary>How can a founder's experience stay useful without undermining the successor?</summary><p>The way the experience is used has to change. Instead of offering a solution straight away, the founder asks questions that help management see the problem more clearly; instead of intervening directly with employees, they share their experience with the person now responsible for the decision; and they help the new leadership understand long-term consequences. That preserves their experience without creating a parallel system of decision-making.</p></details>
+</section>
+
 <section class="article-cta">
 <h3>These conversations don't happen on a page.</h3>
 <p>If anything here speaks to your situation, the next step is a private conversation.</p>

@@ -122,4 +122,12 @@ readTime: 4
 
 <p>Kontinuitet se ne događa. On se gradi.</p>
 
+<section class="article-faq">
+<h2>Često postavljana pitanja</h2>
+<details><summary>Zašto se osnivači vraćaju u poduzeće nakon što su predali vodstvo?</summary><p>Ponekad osnivač ne vjeruje dovoljno nasljedniku ili teško prihvaća drugačiji način vođenja. No često je razlog osobniji: još nije pronašao odgovor na pitanje kako njegov život izgleda bez svakodnevnog vođenja poduzeća. Poduzeće mu je desetljećima bilo izvor odgovornosti, odnosa, svakodnevnog ritma i osjećaja da je potreban.</p></details>
+<details><summary>Znači li povratak osnivača da tranzicija nije uspjela?</summary><p>Ne nužno. Tranzicija može biti uspješno provedena na organizacijskoj razini, s pripremljenim nasljednikom, jasno definiranim odgovornostima menadžmenta i uređenim vlasničkim odnosima, a da za samog osnivača još nije završena.</p></details>
+<details><summary>Kakvu ulogu osnivač može preuzeti nakon povlačenja?</summary><p>Ne postoji univerzalno rješenje. Nekim osnivačima odgovara uloga aktivnog vlasnika ili predsjednika nadzornog odbora; drugi pronalaze smisao u mentoriranju sljedeće generacije, razvoju novih projekata, investiranju ili radu s drugim poduzetnicima; za neke je novo životno poglavlje potpuno izvan poslovnog svijeta. Važno je da nova uloga bude stvarna, jasno definirana i osobno značajna.</p></details>
+<details><summary>Kako zadržati iskustvo osnivača, a da ne potkopava nasljednika?</summary><p>Mora se promijeniti način na koji se to iskustvo koristi. Umjesto da odmah ponudi rješenje, osnivač postavlja pitanja koja menadžmentu pomažu sagledati problem; umjesto da izravno intervenira kod zaposlenika, iskustvo dijeli s osobom koja je sada odgovorna za odluku; i pomaže novom vodstvu razumjeti dugoročne posljedice. Tako se iskustvo čuva bez stvaranja paralelnog sustava odlučivanja.</p></details>
+</section>
+
 <section class="article-cta"><h3>Ovi razgovori ne događaju se na stranici.</h3><p>Ako vam nešto ovdje odgovara situaciji, sljedeći je korak privatni razgovor.</p><button class="btn btn-primary" data-open-modal>Zatraži privatni razgovor →</button></section>
