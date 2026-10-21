@@ -17,11 +17,15 @@ function postPath(lang, slug) {
   return lang === "hr" ? `/blog/${slug}/` : `/en/blog/${slug}/`;
 }
 
-function readTranslationKey(file, fallback) {
+function readFrontmatterField(file, field) {
   const src = readFileSync(file, "utf8");
   const frontmatter = src.match(/^---\r?\n([\s\S]*?)\r?\n---/);
-  const m = frontmatter?.[1].match(/^translationKey:\s*["']?([^"'\r\n]+?)["']?\s*$/m);
-  return m ? m[1].trim() : fallback;
+  const m = frontmatter?.[1].match(new RegExp(`^${field}:\\s*["']?([^"'\\r\\n]+?)["']?\\s*$`, "m"));
+  return m ? m[1].trim() : undefined;
+}
+
+function readTranslationKey(file, fallback) {
+  return readFrontmatterField(file, "translationKey") ?? fallback;
 }
 
 /**
@@ -54,4 +58,34 @@ export function readBlogAlternates(contentDir) {
     for (const link of links) alternates.set(link.path, links);
   }
   return alternates;
+}
+
+/**
+ * Sitemap lastmod per blog-post URL path: the `updated` frontmatter date when
+ * set, else `date`. Parsed the same way as the content schema (z.coerce.date).
+ *
+ * @param {string} contentDir absolute path to src/content/blog
+ * @returns {Map<string, string>} path → ISO datetime
+ */
+export function readBlogLastmod(contentDir) {
+  const lastmod = new Map();
+  for (const lang of LANGS) {
+    const dir = join(contentDir, lang);
+    let files = [];
+    try {
+      files = readdirSync(dir);
+    } catch {
+      continue;
+    }
+    for (const file of files) {
+      if (!file.endsWith(".md")) continue;
+      const path = join(dir, file);
+      const raw = readFrontmatterField(path, "updated") ?? readFrontmatterField(path, "date");
+      const d = raw ? new Date(raw) : null;
+      if (d && !Number.isNaN(d.getTime())) {
+        lastmod.set(postPath(lang, file.replace(/\.md$/, "")), d.toISOString());
+      }
+    }
+  }
+  return lastmod;
 }

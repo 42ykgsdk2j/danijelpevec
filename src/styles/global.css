@@ -1873,6 +1873,22 @@ section { position: relative; }
   padding-bottom: 80px;
 }
 .article-body .container { max-width: 720px; }
+
+/* "Related articles" under a post — reuses the blog-card grid. */
+.related-posts {
+  padding-top: 64px;
+  padding-bottom: 96px;
+  border-top: 1px solid var(--line);
+  background: var(--bg-2);
+}
+.related-posts-title {
+  font-family: var(--serif);
+  font-size: clamp(26px, 2.4vw, 34px);
+  line-height: 1.18;
+  color: var(--ink-0);
+  margin-bottom: 32px;
+}
+.related-posts .blog-card { min-height: 0; }
 .article-body h2 {
   font-family: var(--serif);
   font-size: clamp(26px, 2.4vw, 34px);

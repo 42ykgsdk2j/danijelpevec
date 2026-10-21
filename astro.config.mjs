@@ -4,15 +4,16 @@ import react from '@astrojs/react';
 import sitemap from '@astrojs/sitemap';
 import sentry from '@sentry/astro';
 import { fileURLToPath } from 'node:url';
-import { readBlogAlternates } from './src/lib/blogAlternates.mjs';
+import { readBlogAlternates, readBlogLastmod } from './src/lib/blogAlternates.mjs';
 
 const SITE = 'https://www.danijelpevec.com';
 // Blog posts have language-specific slugs (Croatian under /blog/, English
 // under /en/blog/), paired by their translationKey frontmatter. Read the
 // pairs once so the sitemap can list the right alternates per post.
-const blogAlternates = readBlogAlternates(
-  fileURLToPath(new URL('./src/content/blog', import.meta.url)),
-);
+const blogContentDir = fileURLToPath(new URL('./src/content/blog', import.meta.url));
+const blogAlternates = readBlogAlternates(blogContentDir);
+// lastmod for each post from its `updated` (or `date`) frontmatter.
+const blogLastmod = readBlogLastmod(blogContentDir);
 
 // Astro config. Output is fully static (no SSR). Vercel auto-detects the
 // `dist/` directory after `npm run build`. The React integration is only
@@ -38,7 +39,10 @@ export default defineConfig({
       // translated), so attach their alternates from the translationKey
       // pairs instead. Posts without a translation get no alternates.
       serialize: (item) => {
-        const links = blogAlternates.get(new URL(item.url).pathname);
+        const pathname = new URL(item.url).pathname;
+        const lastmod = blogLastmod.get(pathname);
+        if (lastmod) item.lastmod = lastmod;
+        const links = blogAlternates.get(pathname);
         if (links) {
           item.links = links.map((l) => ({ url: `${SITE}${l.path}`, lang: l.lang }));
         }
