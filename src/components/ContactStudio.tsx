@@ -81,7 +81,7 @@ function isDraftComplete(d: PartialDraft | null): d is Draft {
 
 // ---------- reCAPTCHA (same Enterprise setup as Modal.tsx) ----------
 
-async function getRecaptchaToken(): Promise<string> {
+async function getRecaptchaToken(action: "proposal_chat" | "proposal_form"): Promise<string> {
   const w = window as unknown as {
     __dpRecaptchaSiteKey?: string;
     grecaptcha?: {
@@ -92,11 +92,20 @@ async function getRecaptchaToken(): Promise<string> {
     };
   };
   const siteKey = w.__dpRecaptchaSiteKey;
-  if (!siteKey || !w.grecaptcha?.enterprise) return "";
+  if (!siteKey) return ""; // not configured at build time (dev / forks)
+  // The script loads async and can be blocked; wait up to 5s for it, then
+  // give up so the server answers with its "check didn't pass" reply
+  // instead of the request hanging.
+  const deadline = Date.now() + 5000;
+  while (!w.grecaptcha?.enterprise && Date.now() < deadline) {
+    await new Promise((r) => setTimeout(r, 100));
+  }
+  if (!w.grecaptcha?.enterprise) return "";
   return await new Promise<string>((resolve) => {
+    setTimeout(() => resolve(""), Math.max(0, deadline - Date.now()) + 2000);
     w.grecaptcha!.enterprise.ready(() => {
       w.grecaptcha!.enterprise
-        .execute(siteKey, { action: "proposal_form" })
+        .execute(siteKey, { action })
         .then((tok) => resolve(tok), () => resolve(""));
     });
   });
@@ -331,7 +340,7 @@ function SendDialog({ ui, modalUi, lang, draft, transcript, hasRecaptcha, onClos
     setSending(true);
     setErrors({});
     try {
-      const recaptchaToken = await getRecaptchaToken();
+      const recaptchaToken = await getRecaptchaToken("proposal_form");
       const res = await fetch("/api/proposal-submit/", {
         method: "POST",
         headers: { "Content-Type": "application/json", Accept: "application/json" },
@@ -457,7 +466,12 @@ export default function ContactStudio({ lang, ui, modalUi, email, homeHref, hasR
   const transport = useMemo(
     () =>
       // Trailing slash matches vercel.json's `trailingSlash: true` (no 308 hop).
-      new DefaultChatTransport({ api: "/api/proposal/", body: { lang } }),
+      // `body` runs per request, so every turn (and every retry) carries a
+      // fresh, single-use reCAPTCHA token for the server's bot check.
+      new DefaultChatTransport({
+        api: "/api/proposal/",
+        body: async () => ({ lang, recaptchaToken: (await getRecaptchaToken("proposal_chat")) || undefined }),
+      }),
     [lang],
   );
   const { messages, sendMessage, status, error, regenerate, setMessages, stop } = useChat({ transport });
@@ -597,7 +611,7 @@ export default function ContactStudio({ lang, ui, modalUi, email, homeHref, hasR
               <button
                 key={key}
                 type="button"
-                className={`cs-chip${engagement === key ? " is-on" : ""}`}
+                className={`cs-chip${engagement === key ? " is-on" : ""}${key === "long-term" || key === "not-sure" ? " cs-chip--wide-only" : ""}`}
                 aria-pressed={engagement === key}
                 onClick={() => setEngagement((e) => (e === key ? null : key))}
               >

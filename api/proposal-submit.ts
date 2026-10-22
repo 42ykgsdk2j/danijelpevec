@@ -26,12 +26,12 @@ import {
   type Draft,
   type Transcript,
 } from "../src/lib/proposalSchema.js";
+import { verifyRecaptcha } from "../src/lib/recaptcha.js";
 
 // Node, not edge: resend pulls in html-to-text → htmlparser2, which the
 // edge runtime can't load. The `.js` specifier resolves to the .ts source
 // for the type-checker and to the compiled file at run time (ESM).
 
-const RECAPTCHA_MIN_SCORE = 0.3;
 const RECAPTCHA_ACTION = "proposal_form";
 
 let ratelimit: Ratelimit | null = null;
@@ -212,52 +212,6 @@ ${draftText(draft, lang)}
   };
 }
 
-interface EnterpriseAssessment {
-  tokenProperties?: { valid: boolean; invalidReason?: string; action?: string };
-  riskAnalysis?: { score?: number; reasons?: string[] };
-  error?: { code: number; message: string; status: string };
-}
-
-async function recaptchaPasses(token: string | undefined): Promise<"ok" | "rejected" | "unavailable"> {
-  const apiKey = process.env.RECAPTCHA_SECRET_KEY; // Cloud API key — see api/contact.ts
-  const projectId = process.env.RECAPTCHA_PROJECT_ID;
-  const siteKey = process.env.RECAPTCHA_SITE_KEY;
-  if (!apiKey || !projectId || !siteKey) return "ok";
-  if (!token) return "rejected";
-  try {
-    const res = await fetch(
-      `https://recaptchaenterprise.googleapis.com/v1/projects/${encodeURIComponent(projectId)}/assessments?key=${encodeURIComponent(apiKey)}`,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ event: { token, siteKey, expectedAction: RECAPTCHA_ACTION } }),
-      },
-    );
-    const a = (await res.json()) as EnterpriseAssessment;
-    const score = a.riskAnalysis?.score ?? 0;
-    if (
-      a.tokenProperties?.valid !== true ||
-      a.tokenProperties.action !== RECAPTCHA_ACTION ||
-      score < RECAPTCHA_MIN_SCORE ||
-      a.error
-    ) {
-      console.warn("[proposal-submit] reCAPTCHA rejected:", {
-        score,
-        action: a.tokenProperties?.action,
-        invalidReason: a.tokenProperties?.invalidReason,
-        reasons: a.riskAnalysis?.reasons,
-        error: a.error,
-      });
-      return "rejected";
-    }
-    return "ok";
-  } catch (err) {
-    console.error("[proposal-submit] reCAPTCHA verify error:", err);
-    // Fail closed, same as the contact form.
-    return "unavailable";
-  }
-}
-
 export async function POST(req: Request): Promise<Response> {
   let raw: unknown;
   try {
@@ -294,7 +248,7 @@ export async function POST(req: Request): Promise<Response> {
     }
   }
 
-  const human = await recaptchaPasses(recaptchaToken);
+  const human = await verifyRecaptcha(recaptchaToken, RECAPTCHA_ACTION, "proposal-submit");
   if (human === "rejected") return json(403, { error: "bot" });
   if (human === "unavailable") return json(503, { error: "unavailable" });
 
