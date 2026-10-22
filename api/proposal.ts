@@ -178,8 +178,14 @@ export default async function handler(req: Request): Promise<Response> {
   }
 
   // Bot check before anything that costs: a rejected request never
-  // reaches the rate limiter or the model.
-  const human = await verifyRecaptcha(body.recaptchaToken, "proposal_chat", "proposal");
+  // reaches the rate limiter or the model. Skipped on preview deployments:
+  // the reCAPTCHA key only allows the production domain, so browsers on
+  // *.vercel.app get BROWSER_ERROR tokens, and previews are already behind
+  // Vercel Authentication, so bots can't reach them.
+  const human =
+    process.env.VERCEL_ENV === "preview"
+      ? "ok"
+      : await verifyRecaptcha(body.recaptchaToken, "proposal_chat", "proposal");
   if (human !== "ok") {
     return cannedReply(
       hr
