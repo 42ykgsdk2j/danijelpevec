@@ -125,6 +125,16 @@ const CloseIcon = () => (
   </svg>
 );
 
+// The assistant's avatar: a neutral mark, deliberately not the "DP"
+// monogram, so replies never read as if Danijel himself were writing.
+const BotMark = () => (
+  <span className="cs-avatar" aria-hidden="true">
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M12 2l2.6 7.4L22 12l-7.4 2.6L12 22l-2.6-7.4L2 12l7.4-2.6z" />
+    </svg>
+  </span>
+);
+
 function useRotatingPlaceholder(items: string[], active: boolean) {
   const [i, setI] = useState(0);
   useEffect(() => {
@@ -641,9 +651,7 @@ export default function ContactStudio({ lang, ui, modalUi, email, homeHref, hasR
                 </div>
               ) : (
                 <div key={m.id} className="cs-msg cs-msg--bot">
-                  <span className="cs-avatar" aria-hidden="true">
-                    DP
-                  </span>
+                  <BotMark />
                   <div className="cs-msg-body">
                     <TinyMarkdown>{text}</TinyMarkdown>
                   </div>
@@ -653,9 +661,7 @@ export default function ContactStudio({ lang, ui, modalUi, email, homeHref, hasR
 
             {waiting && (
               <div className="cs-msg cs-msg--bot cs-waiting">
-                <span className="cs-avatar" aria-hidden="true">
-                  DP
-                </span>
+                <BotMark />
                 <span className="cs-dots" aria-hidden="true">
                   <i />
                   <i />
