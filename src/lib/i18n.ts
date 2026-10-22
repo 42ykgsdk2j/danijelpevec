@@ -44,6 +44,15 @@ export const BUSINESS = {
   },
   email: "danijel@danijelpevec.com",
   telephone: "+385992401771",
+  telephoneDisplay: "+385 99 2401 771",
+  /**
+   * Google Calendar appointment schedule (30-minute call), embed form
+   * (`?gv=true` is what lets it load inside an iframe). Currently Nenad's
+   * test schedule — swap for Danijel's own once he has created it.
+   * Google offers no way to pre-fill its booking form.
+   */
+  bookingUrl:
+    "https://calendar.google.com/calendar/appointments/schedules/AcZssZ0t1Zztcdu8XTdNpf9sUR-2eJLWLRwzitxuMeaXFwXhNB9vAPptJihnYcoZ17f6TVRr1WdgJhBB?gv=true",
   address: {
     streetAddress: "Ulica Roberta Frangeša - Mihanovića 9",
     postalCode: "10110",
@@ -56,7 +65,6 @@ export const BUSINESS = {
     // redirects to a Google search results page (expired share
     // shortcode). Re-add with a permanent profile URL when available.
     "https://www.linkedin.com/in/danijelpevec",
-    "https://www.alphacapitalis.com/",
   ],
 } as const;
 
