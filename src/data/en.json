@@ -6,6 +6,7 @@
     "about": "About",
     "blog": "Blog",
     "assessment": "Assessment",
+    "help": "How can I help you?",
     "cta": "Private conversation"
   },
   "brand": {
@@ -197,6 +198,95 @@
       "email": "A valid email is required",
       "message": "Tell me a little about your situation",
       "submit": "I couldn't send your message. Please try again, or email directly."
+    }
+  },
+  "contactPage": {
+    "footerLink": "Draft your proposal",
+    "navLabel": "Contact",
+    "metaTitle": "How can I help you? — draft your proposal | Danijel Pevec",
+    "metaDescription": "Describe your situation in your own words. An assistant helps you shape it into a short proposal for a first private conversation about succession, generational transition or family alignment.",
+    "eyebrow": "Contact",
+    "titleA": "How can I",
+    "titleAccent": "help you?",
+    "sub": "Describe your situation in your own words. The assistant helps you shape it into a short proposal for a first private conversation — and I take it from there.",
+    "placeholders": [
+      "I founded the company 30 years ago and I'm starting to think about who leads it next…",
+      "My children work in the business, but they see its future very differently…",
+      "I'm the next generation and I'm about to take over from my father…",
+      "We've had an offer for the business and the family can't agree whether to sell…"
+    ],
+    "composerLabel": "Describe your situation",
+    "replyPh": "Reply, or add more detail…",
+    "send": "Send",
+    "stop": "Stop",
+    "trust": "Nothing is sent until you review your proposal and press send.",
+    "aiNote": "The conversation is processed by an AI model to draft your proposal.",
+    "simpleLead": "Prefer a short message?",
+    "simpleCta": "Use the simple contact form",
+    "simpleShort": "Simple form",
+    "direct": "Prefer to write directly?",
+    "thinking": "Thinking…",
+    "updating": "Updating your proposal…",
+    "error": "Something went wrong reaching the assistant.",
+    "retry": "Retry",
+    "startOver": "Start over",
+    "engagement": {
+      "private-advisory": "Private advisory",
+      "family-sessions": "Family business sessions",
+      "long-term": "Long-term advisory relationship",
+      "not-sure": "Not sure yet"
+    },
+    "interestedIn": "I'm interested in: ",
+    "panel": {
+      "label": "Your proposal",
+      "shaping": "Taking shape as you talk",
+      "ready": "ready",
+      "untitled": "Untitled proposal",
+      "review": "Review & send",
+      "hintReady": "You can keep refining it in the chat.",
+      "hintLocked": "Answer a few questions to unlock sending.",
+      "view": "Proposal",
+      "close": "Close proposal"
+    },
+    "fields": {
+      "situation": "Situation",
+      "role": "Your role",
+      "stage": "Stage",
+      "decisions": "Key decisions",
+      "people": "Who is involved",
+      "goals": "A good outcome",
+      "timing": "Timing",
+      "sensitivities": "Worth knowing",
+      "openQuestions": "For the first conversation"
+    },
+    "dialog": {
+      "title": "Send your proposal",
+      "sub": "I'll read it personally and reply by email. You'll receive a copy.",
+      "name": "Your name",
+      "namePh": "Full name",
+      "email": "Email",
+      "emailPh": "name@example.com",
+      "company": "Company / family office",
+      "phone": "Phone",
+      "optional": "Optional",
+      "keep": "Keep editing",
+      "submit": "Send proposal",
+      "sending": "Sending…"
+    },
+    "errors": {
+      "name": "Please share your name",
+      "email": "A valid email is required",
+      "limit": "Too many submissions today. Please try again tomorrow, or email directly.",
+      "bot": "The bot check failed. Please try again, or email directly.",
+      "unavailable": "Sending is temporarily unavailable. Please try again shortly, or email directly.",
+      "generic": "I couldn't send your proposal. Please try again, or email directly."
+    },
+    "sent": {
+      "title": "Thank you.",
+      "bodyA": "Your proposal is with me now, and a copy is on its way to",
+      "bodyB": "I'll read it personally and be in touch.",
+      "again": "Draft another proposal",
+      "home": "Back to home"
     }
   },
   "consent": {
