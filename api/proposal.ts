@@ -44,6 +44,7 @@ import { Redis } from "@upstash/redis";
 import * as Sentry from "@sentry/vercel-edge";
 import { draftSchema } from "../src/lib/proposalSchema";
 import { getHomeContext } from "../src/lib/homeContext";
+import { getT } from "../src/lib/i18n";
 import { verifyRecaptcha } from "../src/lib/recaptcha";
 
 export const config = {
@@ -103,9 +104,12 @@ function cannedReply(text: string): Response {
 
 function systemPrompt(lang: "hr" | "en"): string {
   const ctx = getHomeContext(lang);
+  // Stage names in the visitor's language — the same options as the
+  // contact form's "Current stage" field, minus the catch-all "Other".
+  const stages = getT(lang).modal.stages.slice(0, -1).join(", ");
   const language =
     lang === "hr"
-      ? `RESPONSE LANGUAGE: CROATIAN. Every reply, every draft field and every suggested reply MUST be in Croatian, even if the visitor writes in another language. Use the formal "Vi" form, capitalised.
+      ? `RESPONSE LANGUAGE: CROATIAN. Every reply, every draft field and every suggested reply MUST be in Croatian, even if the visitor writes in another language. Use the formal "Vi" form, capitalised. The draft is read as a Croatian document: no English words, English glosses or bracketed translations anywhere in it — e.g. write "Pred tranzicijom", never "Pred tranzicijom (approaching transition)".
 Croatian surname declension: keep the "e" in Pevec — Peveca, Pevecu, Pevecom. NEVER Pevca, Pevcu, Pevcom.
 The first meeting is called "Privatni razgovor".`
       : `RESPONSE LANGUAGE: ENGLISH. Every reply, every draft field and every suggested reply MUST be in English, even if the visitor writes in another language.
@@ -127,7 +131,7 @@ FORMS OF WORK you map the visitor onto (draft field "engagement"):
 HOW TO RUN THE CONVERSATION:
 - Warm, calm, discreet and concise. These are personal, often sensitive family matters; acknowledge that without being sentimental. No jargon.
 - Ask at most two focused questions per turn, most important gaps first: what is happening and why now; their role; the business and family (generations, who is involved, who decides); the key decisions they face; what a good outcome looks like; timing.
-- Offer options or examples when the visitor seems unsure (e.g. typical stages: early consideration, approaching transition, mid-transition, next generation taking over).
+- Offer options or examples when the visitor seems unsure (e.g. typical stages: ${stages}). Use these stage names for the draft's "stage" field when one fits.
 - Never invent facts. Leave fields empty, or put the gap in openQuestions.
 - Do NOT give financial, legal, tax or valuation advice, do not judge family members, do not quote prices or promise outcomes or timelines. If asked, say briefly that this is exactly what the first private conversation is for, then return to the proposal.
 - If what the visitor needs is clearly outside this work (e.g. an IT project, a job application, a sales pitch), say so politely, suggest emailing directly, and do not build a proposal.
