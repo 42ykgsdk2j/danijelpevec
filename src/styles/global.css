@@ -596,7 +596,7 @@ section { position: relative; }
      so the nav fits across 1025-1480px without clipping the right edge. */
   .nav-cta { min-width: 220px; padding: 10px 20px; }
 }
-/* Between the mobile-nav cutoff (now 1280, was 1024 before PR #30) and
+/* Between the mobile-nav cutoff (now 1360, was 1024 before PR #30) and
    the wide-desktop bump (1481), tighten the inter-block gaps. The CTA
    itself stays visible at this width — PR #30 made the header full-
    viewport and moved the hamburger up to ≤1280 px, so the dense row
@@ -605,8 +605,8 @@ section { position: relative; }
    from the v4 audit and was masking PR #30's intent (CTA visible from
    641 up); deleted in v5. */
 @media (min-width: 1025px) and (max-width: 1480px) {
-  .nav-inner { gap: 16px; }
-  .nav-links { gap: 18px; }
+  .nav-inner { gap: 12px; }
+  .nav-links { gap: 12px; }
   .nav-actions { gap: 14px; }
 }
 
@@ -1515,12 +1515,23 @@ section { position: relative; }
 }
 
 /* Collapse the inline nav-links to a hamburger sooner — the full menu
-   only really fits comfortably above 1280px. iPad Air landscape (1180px)
-   and iPad Pro 11" landscape (1194px) land here and get a hamburger
-   while the CTA, lang switcher and theme toggle stay visible. */
-@media (max-width: 1280px) {
+   only really fits comfortably above 1360px. iPad Air landscape (1180px),
+   iPad Pro 11" landscape (1194px) and 1280px laptops land here and get a
+   hamburger while the CTA, lang switcher and theme toggle stay visible.
+   1360 (was 1280) is where the Croatian row — the longer language, with
+   the "Kako Vam mogu pomoći?" CTA — still fits, so 1366px laptops keep
+   the full menu. */
+@media (max-width: 1360px) {
   .nav-links { display: none; }
   .menu-btn { display: inline-flex; }
+}
+
+/* Below 821px the header row (brand + language pill + theme + CTA +
+   hamburger) no longer fits — the Croatian CTA "Kako Vam mogu pomoći?" is
+   the widest — so the CTA moves into the drawer, which carries the same
+   link. */
+@media (max-width: 820px) {
+  .nav-cta { display: none; }
 }
 
 @media (max-width: 640px) {

@@ -6,6 +6,7 @@
     "about": "About",
     "blog": "Blog",
     "assessment": "Assessment",
+    "help": "How can I help you?",
     "cta": "Private conversation"
   },
   "brand": {
@@ -202,7 +203,7 @@
   "contactPage": {
     "footerLink": "Draft your proposal",
     "navLabel": "Contact",
-    "metaTitle": "Contact — draft your proposal | Danijel Pevec",
+    "metaTitle": "How can I help you? — draft your proposal | Danijel Pevec",
     "metaDescription": "Describe your situation in your own words. An assistant helps you shape it into a short proposal for a first private conversation about succession, generational transition or family alignment.",
     "eyebrow": "Contact",
     "titleA": "How can I",
