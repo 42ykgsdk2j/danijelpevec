@@ -19,8 +19,12 @@
  *   - PROPOSAL_MODEL — optional gateway model id override
  *   - KV_REST_API_URL + KV_REST_API_TOKEN — optional; rate limiting is
  *     skipped if absent.
+ *   - RECAPTCHA_* (see src/lib/recaptcha.ts) — optional; the bot check is
+ *     skipped if absent.
  *
  * Misuse caps:
+ *   - Bot check: every turn carries a fresh reCAPTCHA Enterprise token
+ *     (action "proposal_chat"), verified before the model is called
  *   - Per-message: 2000 chars
  *   - Per-conversation: 40 messages
  *   - Per-IP: 60 turns / 24h sliding window via Upstash (fail open)
@@ -40,6 +44,7 @@ import { Redis } from "@upstash/redis";
 import * as Sentry from "@sentry/vercel-edge";
 import { draftSchema } from "../src/lib/proposalSchema";
 import { getHomeContext } from "../src/lib/homeContext";
+import { verifyRecaptcha } from "../src/lib/recaptcha";
 
 export const config = {
   runtime: "edge",
@@ -62,6 +67,7 @@ const MAX_OUTPUT_TOKENS = 2500;
 const BodySchema = z.object({
   messages: z.array(z.any()).min(1).max(MAX_MESSAGES),
   lang: z.enum(["hr", "en"]),
+  recaptchaToken: z.string().max(4096).optional(),
 });
 
 let ratelimit: Ratelimit | null = null;
@@ -168,6 +174,23 @@ export default async function handler(req: Request): Promise<Response> {
       hr
         ? `Poruka je preduga (više od ${MAX_USER_MESSAGE_CHARS} znakova). Skratite je ili je podijelite u dva dijela.`
         : `That message is too long (over ${MAX_USER_MESSAGE_CHARS} characters). Please shorten it or split it in two.`,
+    );
+  }
+
+  // Bot check before anything that costs: a rejected request never
+  // reaches the rate limiter or the model. Skipped on preview deployments:
+  // the reCAPTCHA key only allows the production domain, so browsers on
+  // *.vercel.app get BROWSER_ERROR tokens, and previews are already behind
+  // Vercel Authentication, so bots can't reach them.
+  const human =
+    process.env.VERCEL_ENV === "preview"
+      ? "ok"
+      : await verifyRecaptcha(body.recaptchaToken, "proposal_chat", "proposal");
+  if (human !== "ok") {
+    return cannedReply(
+      hr
+        ? "Automatska provjera nije uspjela, pa se razgovor ne može nastaviti. Osvježite stranicu i pokušajte ponovno, ili pošaljite kratku poruku putem jednostavnog obrasca."
+        : "The automated check didn't pass, so the conversation can't continue. Please refresh the page and try again, or send a short message using the simple form.",
     );
   }
 

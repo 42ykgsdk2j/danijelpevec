@@ -3386,17 +3386,56 @@ body.consent-config-open { overflow: hidden; }
 .cs-inline-btn:hover { color: var(--gold); border-color: var(--gold); }
 .cs-inline-btn:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
 
-/* Composer */
-.cs-composer {
-  background: var(--bg-2);
-  border: 1px solid var(--line);
-  border-radius: 4px;
-  box-shadow: var(--shadow-md);
-  transition: border-color 240ms ease, box-shadow 240ms ease;
+/* Composer — rounded, with a slowly travelling gold highlight on its
+   1px ring so it reads as the thing to interact with (ported from the
+   xdmethod-web prompt box). The ring is a conic gradient on ::before,
+   masked down to the border; --cs-angle is registered with @property so
+   it can animate. A gold glow lifts the box on focus. */
+@property --cs-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
 }
+.cs-composer {
+  position: relative;
+  isolation: isolate;
+  background: var(--bg-2);
+  border-radius: 22px;
+  box-shadow: var(--shadow-md);
+  transition: box-shadow 400ms ease;
+}
+.cs-composer::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: conic-gradient(
+    from var(--cs-angle),
+    var(--line) 0deg,
+    var(--gold-bright) 50deg,
+    var(--gold) 80deg,
+    var(--line) 150deg,
+    var(--line) 360deg
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: csSpin 6s linear infinite;
+  opacity: 0.85;
+  transition: opacity 400ms ease;
+  z-index: -1;
+  pointer-events: none;
+}
+@keyframes csSpin { to { --cs-angle: 360deg; } }
+.cs-composer:hover::before,
+.cs-composer:focus-within::before { opacity: 1; }
 .cs-composer:focus-within {
-  border-color: var(--line-strong);
-  box-shadow: var(--shadow-md), 0 0 0 4px var(--gold-soft);
+  box-shadow:
+    var(--shadow-md),
+    0 14px 48px -14px color-mix(in oklab, var(--gold) 55%, transparent);
 }
 .cs-composer textarea {
   display: block;
@@ -3426,7 +3465,7 @@ body.consent-config-open { overflow: hidden; }
   align-items: flex-end;
   justify-content: space-between;
   gap: 12px;
-  padding: 0 12px 12px 14px;
+  padding: 0 12px 12px 16px; /* clears the 22px corner curve */
 }
 .cs-composer-extras {
   display: flex;
@@ -3796,9 +3835,18 @@ body.consent-config-open { overflow: hidden; }
   .cs-avatar { width: 26px; height: 26px; font-size: 11px; }
   .cs-field-row { grid-template-columns: 1fr; }
   .modal-foot .btn-ghost { display: none; }
+  /* Fewer starters on phones: stacked, all four took about half the box.
+     Keep two forms of work, and at most two suggested replies. */
+  .cs-chip--wide-only,
+  .cs-suggestions .cs-chip:nth-child(n + 3) { display: none; }
+  /* Room for both header actions on one line. */
+  .cs-thread-head .eyebrow { display: none; }
+  .cs-thread-head { justify-content: flex-end; }
+  .cs-text-btn { white-space: nowrap; }
+  .cs-composer--large textarea { min-height: 96px; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .cs-msg, .cs-suggestions, .cs-sheet, .cs-sheet-backdrop { animation: none; }
+  .cs-msg, .cs-suggestions, .cs-sheet, .cs-sheet-backdrop, .cs-composer::before { animation: none; }
   .cs-dots i { animation: none; opacity: 0.6; }
   .cs-progress span { transition: none; }
 }
