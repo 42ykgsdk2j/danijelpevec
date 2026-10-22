@@ -33,10 +33,10 @@ export const draftSchema = z.object({
   ),
   role: short(160)
     .optional()
-    .describe("The visitor's role: founder, next-generation leader, family member, board member, advisor…"),
+    .describe("The visitor's role (founder, next-generation leader, family member…), in the conversation language"),
   stage: short(160)
     .optional()
-    .describe("Where they are: early consideration, approaching transition, mid-transition, next-gen taking over…"),
+    .describe("Where they are in the transition, as a short phrase in the conversation language"),
   decisions: z.array(short(240)).max(8).describe("The key decisions or questions they face"),
   people: short(600)
     .optional()

@@ -31,9 +31,14 @@ interface Props {
   ui: UI;
   modalUi: ModalUI;
   email: string;
+  phone: string;
+  phoneDisplay: string;
+  bookingUrl: string;
   homeHref: string;
   hasRecaptcha: boolean;
 }
+
+type Contact = { name: string; email: string; phone?: string };
 
 type PartialDraft = Partial<Draft>;
 
@@ -241,7 +246,18 @@ function Field({ label, value }: { label: string; value?: string | string[] }) {
   );
 }
 
-function ProposalPanel({ ui, draft, canSend, onSend, onClose }: { ui: UI; draft: PartialDraft | null; canSend: boolean; onSend: () => void; onClose?: () => void }) {
+interface PanelProps {
+  ui: UI;
+  draft: PartialDraft | null;
+  canSend: boolean;
+  onSend: () => void;
+  onBook: () => void;
+  phone: string;
+  phoneDisplay: string;
+  onClose?: () => void;
+}
+
+function ProposalPanel({ ui, draft, canSend, onSend, onBook, phone, phoneDisplay, onClose }: PanelProps) {
   const pct = Math.max(0, Math.min(100, draft?.completeness ?? 0));
   const f = ui.fields;
   return (
@@ -288,6 +304,84 @@ function ProposalPanel({ ui, draft, canSend, onSend, onClose }: { ui: UI; draft:
           <ArrowRight />
         </button>
         <p>{canSend ? ui.panel.hintReady : ui.panel.hintLocked}</p>
+        <p className="cs-panel-alt">
+          {ui.booking.panelLead}{" "}
+          <button type="button" className="cs-inline-btn" onClick={onBook}>
+            {ui.booking.panelCta}
+          </button>
+          {" · "}
+          {ui.phoneLead} <a href={`tel:${phone}`}>{phoneDisplay}</a>
+        </p>
+      </div>
+    </div>
+  );
+}
+
+// ---------- booking dialog ----------
+
+// Google's appointment page, framed in the site's own modal. Its booking
+// form is cross-origin and takes no pre-fill parameters, so when the
+// visitor has just given us their details we show them alongside, with
+// copy buttons, instead.
+function BookingDialog({ ui, url, contact, onClose }: { ui: UI; url: string; contact?: Contact | null; onClose: () => void }) {
+  const b = ui.booking;
+  const [open, setOpen] = useState(false);
+  const [copied, setCopied] = useState<string | null>(null);
+  const closeRef = useRef<HTMLButtonElement>(null);
+  const escape = useRef(onClose);
+  escape.current = onClose;
+  useBodyScrollLock(true, { media: "(max-width: 640px)" });
+
+  useEffect(() => {
+    const id = requestAnimationFrame(() => setOpen(true));
+    closeRef.current?.focus({ preventScroll: true });
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && escape.current();
+    window.addEventListener("keydown", onKey);
+    return () => {
+      cancelAnimationFrame(id);
+      window.removeEventListener("keydown", onKey);
+    };
+  }, []);
+
+  async function copy(value: string) {
+    try {
+      await navigator.clipboard.writeText(value);
+      setCopied(value);
+      setTimeout(() => setCopied((c) => (c === value ? null : c)), 1600);
+    } catch {
+      /* clipboard blocked — the value is still visible to copy by hand */
+    }
+  }
+
+  const details = contact ? [contact.name, contact.email, contact.phone].filter((v): v is string => !!v) : [];
+
+  return (
+    <div className={`modal-backdrop${open ? " open" : ""}`} onClick={onClose}>
+      <div className="modal cs-booking" role="dialog" aria-modal="true" aria-labelledby="booking-title" onClick={(e) => e.stopPropagation()}>
+        <button ref={closeRef} className="modal-close" onClick={onClose} aria-label={b.close}>
+          <CloseIcon />
+        </button>
+        <div className="cs-booking-head">
+          <div className="modal-eyebrow eyebrow">{b.eyebrow}</div>
+          <h2 id="booking-title">{b.title}</h2>
+          <p className="cs-booking-sub">
+            {b.sub}{" "}
+            <a href={url.replace("?gv=true", "")} target="_blank" rel="noopener noreferrer">
+              {b.newTab} <span aria-hidden="true">↗</span>
+            </a>
+          </p>
+          {details.length > 0 && (
+            <div className="cs-booking-details">
+              <span>{b.details}</span>
+              {details.map((v) => (
+                <button key={v} type="button" className="cs-chip" onClick={() => copy(v)} aria-label={`${b.copy}: ${v}`}>
+                  {v} <small>{copied === v ? b.copied : b.copy}</small>
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+        <iframe className="cs-booking-frame" src={url} title={b.frameTitle} />
       </div>
     </div>
   );
@@ -302,11 +396,13 @@ interface SendDialogProps {
   draft: Draft;
   transcript: { role: "user" | "assistant"; text: string }[];
   hasRecaptcha: boolean;
+  phone: string;
+  phoneDisplay: string;
   onClose: () => void;
-  onSent: (email: string) => void;
+  onSent: (contact: Contact) => void;
 }
 
-function SendDialog({ ui, modalUi, lang, draft, transcript, hasRecaptcha, onClose, onSent }: SendDialogProps) {
+function SendDialog({ ui, modalUi, lang, draft, transcript, hasRecaptcha, phone, phoneDisplay, onClose, onSent }: SendDialogProps) {
   const d = ui.dialog;
   const [form, setForm] = useState({ name: "", email: "", company: "", phone: "" });
   const [errors, setErrors] = useState<{ name?: string; email?: string; submit?: string }>({});
@@ -358,7 +454,7 @@ function SendDialog({ ui, modalUi, lang, draft, transcript, hasRecaptcha, onClos
         }),
       });
       if (res.ok) {
-        onSent(form.email.trim());
+        onSent({ name: form.name.trim(), email: form.email.trim(), phone: form.phone.trim() || undefined });
         return;
       }
       const data = (await res.json().catch(() => ({}))) as { error?: string };
@@ -416,6 +512,9 @@ function SendDialog({ ui, modalUi, lang, draft, transcript, hasRecaptcha, onClos
             <p className="modal-sub">
               <span className="cs-dialog-title">{draft.title}.</span> {d.sub}
             </p>
+            <p className="modal-phone">
+              {ui.phoneLead} <a href={`tel:${phone}`}>{phoneDisplay}</a>
+            </p>
             <div className="form-row">
               {input("name", d.name, { placeholder: d.namePh, required: true, autoComplete: "name", max: 120 })}
               {input("email", d.email, { type: "email", placeholder: d.emailPh, required: true, autoComplete: "email", max: 200 })}
@@ -462,7 +561,7 @@ function SendDialog({ ui, modalUi, lang, draft, transcript, hasRecaptcha, onClos
 
 // ---------- the studio ----------
 
-export default function ContactStudio({ lang, ui, modalUi, email, homeHref, hasRecaptcha }: Props) {
+export default function ContactStudio({ lang, ui, modalUi, email, phone, phoneDisplay, bookingUrl, homeHref, hasRecaptcha }: Props) {
   const transport = useMemo(
     () =>
       // Trailing slash matches vercel.json's `trailingSlash: true` (no 308 hop).
@@ -479,7 +578,8 @@ export default function ContactStudio({ lang, ui, modalUi, email, homeHref, hasR
   const [engagement, setEngagement] = useState<Engagement | null>(null);
   const [showSend, setShowSend] = useState(false);
   const [showSheet, setShowSheet] = useState(false);
-  const [sentTo, setSentTo] = useState<string | null>(null);
+  const [sentTo, setSentTo] = useState<Contact | null>(null);
+  const [showBooking, setShowBooking] = useState(false);
   const [restored, setRestored] = useState(false);
   const scroller = useRef<HTMLDivElement>(null);
   const top = useRef<HTMLDivElement>(null);
@@ -554,6 +654,10 @@ export default function ContactStudio({ lang, ui, modalUi, email, homeHref, hasR
     }
   }
 
+  const booking = showBooking && (
+    <BookingDialog ui={ui} url={bookingUrl} contact={sentTo} onClose={() => setShowBooking(false)} />
+  );
+
   const last = messages[messages.length - 1];
   const waiting = status === "submitted" || (status === "streaming" && last?.role === "assistant" && !messageText(last));
 
@@ -569,8 +673,15 @@ export default function ContactStudio({ lang, ui, modalUi, email, homeHref, hasR
             </div>
             <h1>{ui.sent.title}</h1>
             <p>
-              {ui.sent.bodyA} <strong>{sentTo}</strong>. {ui.sent.bodyB}
+              {ui.sent.bodyA} <strong>{sentTo.email}</strong>. {ui.sent.bodyB}
             </p>
+            <div className="cs-sent-book">
+              <p>{ui.booking.sentLead}</p>
+              <button type="button" className="btn btn-primary" onClick={() => setShowBooking(true)}>
+                {ui.booking.cta}
+                <ArrowRight />
+              </button>
+            </div>
             <div className="cs-sent-actions">
               <a className="btn btn-ghost" href={homeHref}>
                 {ui.sent.home}
@@ -581,6 +692,7 @@ export default function ContactStudio({ lang, ui, modalUi, email, homeHref, hasR
             </div>
           </div>
         </div>
+        {booking}
       </div>
     );
   }
@@ -632,9 +744,19 @@ export default function ContactStudio({ lang, ui, modalUi, email, homeHref, hasR
             </button>
           </p>
           <p className="cs-direct">
+            {ui.booking.lead}{" "}
+            <button type="button" className="cs-inline-btn" onClick={() => setShowBooking(true)}>
+              {ui.booking.cta}
+            </button>
+          </p>
+          <p className="cs-direct">
             {ui.direct} <a href={`mailto:${email}`}>{email}</a>
           </p>
+          <p className="cs-direct">
+            {ui.phoneLead} <a href={`tel:${phone}`}>{phoneDisplay}</a>
+          </p>
         </div>
+        {booking}
       </div>
     );
   }
@@ -725,7 +847,15 @@ export default function ContactStudio({ lang, ui, modalUi, email, homeHref, hasR
         </section>
 
         <aside className="cs-aside">
-          <ProposalPanel ui={ui} draft={draft} canSend={canSend} onSend={() => setShowSend(true)} />
+          <ProposalPanel
+            ui={ui}
+            draft={draft}
+            canSend={canSend}
+            onSend={() => setShowSend(true)}
+            onBook={() => setShowBooking(true)}
+            phone={phone}
+            phoneDisplay={phoneDisplay}
+          />
         </aside>
       </div>
 
@@ -741,6 +871,12 @@ export default function ContactStudio({ lang, ui, modalUi, email, homeHref, hasR
                 setShowSheet(false);
                 setShowSend(true);
               }}
+              onBook={() => {
+                setShowSheet(false);
+                setShowBooking(true);
+              }}
+              phone={phone}
+              phoneDisplay={phoneDisplay}
             />
           </div>
         </div>
@@ -754,16 +890,19 @@ export default function ContactStudio({ lang, ui, modalUi, email, homeHref, hasR
           draft={draft}
           transcript={transcript}
           hasRecaptcha={hasRecaptcha}
+          phone={phone}
+          phoneDisplay={phoneDisplay}
           onClose={() => setShowSend(false)}
-          onSent={(addr) => {
+          onSent={(contact) => {
             setShowSend(false);
-            setSentTo(addr);
+            setSentTo(contact);
             // Clearing the thread also clears the saved copy (persist effect).
             setMessages([]);
             window.scrollTo({ top: 0, behavior: "smooth" });
           }}
         />
       )}
+      {booking}
     </div>
   );
 }

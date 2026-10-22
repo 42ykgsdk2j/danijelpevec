@@ -1,6 +1,6 @@
 ---
 import Modal from "./Modal.tsx";
-import { getT, type Lang } from "../lib/i18n";
+import { BUSINESS, getT, type Lang } from "../lib/i18n";
 
 interface Props {
   lang: Lang;
@@ -11,7 +11,14 @@ const t = getT(lang);
 // the Google-required attribution line only when reCAPTCHA is wired up.
 const hasRecaptcha = !!process.env.RECAPTCHA_SITE_KEY;
 ---
-<Modal client:idle t={t.modal} lang={lang} hasRecaptcha={hasRecaptcha} />
+<Modal
+  client:idle
+  t={t.modal}
+  lang={lang}
+  phone={BUSINESS.telephone}
+  phoneDisplay={BUSINESS.telephoneDisplay}
+  hasRecaptcha={hasRecaptcha}
+/>
 
 <script is:inline>
   // Any [data-open-modal] button dispatches the open event the React island
