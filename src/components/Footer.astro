@@ -11,6 +11,7 @@ const insightsHref = url(lang, "blog");
 const assessmentHref = url(lang, "assessment");
 const privacyHref = url(lang, "privacy");
 const imprintHref = url(lang, "imprint");
+const contactHref = url(lang, lang === "hr" ? "kontakt" : "contact");
 ---
 <footer class="footer">
   <div class="container">
@@ -43,6 +44,7 @@ const imprintHref = url(lang, "imprint");
         <ul>
           <li><a href={`mailto:${t.footer.email}`}>{t.footer.email}</a></li>
           <li>{t.footer.city}</li>
+          <li><a href={contactHref}>{t.contactPage.footerLink}</a></li>
           <li style="margin-top:8px">
             <button class="btn-link" data-open-modal>
               {t.nav.cta}
