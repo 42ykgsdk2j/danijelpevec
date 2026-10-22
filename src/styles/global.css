@@ -3374,6 +3374,17 @@ body.consent-config-open { overflow: hidden; }
   transition: color 200ms ease, border-color 200ms ease;
 }
 .cs-direct a:hover { color: var(--gold); border-color: var(--gold); }
+.cs-inline-btn {
+  border: 0;
+  border-bottom: 1px solid var(--line-strong);
+  background: none;
+  padding: 0;
+  font: inherit;
+  color: var(--ink-1);
+  transition: color 200ms ease, border-color 200ms ease;
+}
+.cs-inline-btn:hover { color: var(--gold); border-color: var(--gold); }
+.cs-inline-btn:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
 
 /* Composer */
 .cs-composer {
@@ -3500,6 +3511,7 @@ body.consent-config-open { overflow: hidden; }
   transition: color 200ms ease;
 }
 .cs-text-btn:hover { color: var(--gold); }
+.cs-thread-actions { display: flex; align-items: center; gap: 20px; }
 .cs-thread {
   flex: 1;
   min-height: 0;

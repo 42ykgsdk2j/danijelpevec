@@ -599,6 +599,14 @@ export default function ContactStudio({ lang, ui, modalUi, email, homeHref, hasR
           <p className="cs-trust">
             {ui.trust} {ui.aiNote}
           </p>
+          {/* data-open-modal: Modal.astro's click delegate opens the original
+              contact form (the "Privatni razgovor" modal). */}
+          <p className="cs-direct">
+            {ui.simpleLead}{" "}
+            <button type="button" className="cs-inline-btn" data-open-modal>
+              {ui.simpleCta}
+            </button>
+          </p>
           <p className="cs-direct">
             {ui.direct} <a href={`mailto:${email}`}>{email}</a>
           </p>
@@ -613,9 +621,14 @@ export default function ContactStudio({ lang, ui, modalUi, email, homeHref, hasR
         <section className="cs-thread-col" aria-label={ui.composerLabel}>
           <div className="cs-thread-head">
             <div className="eyebrow">{ui.eyebrow}</div>
-            <button type="button" className="cs-text-btn" onClick={reset}>
-              {ui.startOver}
-            </button>
+            <div className="cs-thread-actions">
+              <button type="button" className="cs-text-btn" data-open-modal>
+                {ui.simpleShort}
+              </button>
+              <button type="button" className="cs-text-btn" onClick={reset}>
+                {ui.startOver}
+              </button>
+            </div>
           </div>
 
           <div ref={scroller} className="cs-thread" aria-live="polite">
