@@ -1,5 +1,5 @@
 ---
-slug: "building-legacy-beyond-founders"
+translationKey: "building-legacy-beyond-founders"
 lang: "en"
 title: "Building a Legacy: Long-Term Wealth Beyond the Founder Generation"
 excerpt: "Legacy is not what you leave behind. It is what continues to function, decide and create value when you are no longer in the room."

@@ -1,5 +1,5 @@
 ---
-slug: "family-business-advisor-vs-family-office"
+translationKey: "family-business-advisor-vs-family-office"
 lang: "hr"
 title: "Savjetnik za obiteljski biznis ili obiteljski ured: što vam zapravo treba?"
 excerpt: "Ove dvije uloge često se miješaju, ali postoje iz različitih razloga. Razumjeti razliku prvi je korak u odabiru podrške koja odgovara vašoj fazi."

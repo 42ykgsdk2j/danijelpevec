@@ -3,14 +3,19 @@ import { getT, url, counterpartUrl, type Lang } from "../lib/i18n";
 
 interface Props {
   lang: Lang;
+  /** Where the language toggle should go. Pages whose path differs per
+   *  language (blog posts, whose slugs are translated) pass this; the rest
+   *  fall back to swapping the locale prefix. */
+  altUrl?: string;
 }
-const { lang } = Astro.props;
+const { lang, altUrl: altUrlProp } = Astro.props;
 const t = getT(lang);
-const altUrl = counterpartUrl(lang, Astro.url.pathname);
+const altUrl = altUrlProp ?? counterpartUrl(lang, Astro.url.pathname);
 
 const root = url(lang); // "/" or "/hr/"
 const insightsUrl = url(lang, "blog");
 const assessmentUrl = url(lang, "assessment");
+const helpUrl = url(lang, lang === "hr" ? "kako-vam-mogu-pomoci" : "how-can-i-help");
 
 const links = [
   { href: root + "#approach", label: t.nav.approach },
@@ -70,7 +75,7 @@ const links = [
           </svg>
         </span>
       </button>
-      <button class="btn btn-primary nav-cta" data-open-modal>{t.nav.cta}</button>
+      <a href={helpUrl} class="btn btn-primary nav-cta">{t.nav.help}</a>
       <button class="menu-btn" data-open-drawer aria-label="Menu" aria-expanded="false" aria-controls="mobile-drawer">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <line x1="3" y1="6" x2="21" y2="6" />
@@ -121,13 +126,13 @@ const links = [
       <span>{l.label}</span>
     </a>
   ))}
-  <button class="btn btn-primary mobile-drawer-cta" data-open-modal>
-    {t.nav.cta}
+  <a href={helpUrl} class="btn btn-primary mobile-drawer-cta">
+    {t.nav.help}
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
       <line x1="5" y1="12" x2="19" y2="12" />
       <polyline points="12 5 19 12 12 19" />
     </svg>
-  </button>
+  </a>
 </aside>
 
 <script is:inline>

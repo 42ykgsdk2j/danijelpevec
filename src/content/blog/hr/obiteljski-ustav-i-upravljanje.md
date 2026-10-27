@@ -1,5 +1,5 @@
 ---
-slug: "family-constitution-governance"
+translationKey: "family-constitution-governance"
 lang: "hr"
 title: "Obiteljski ustav: izgradnja upravljanja koje će vas nadživjeti"
 excerpt: "Obiteljski ustav nije pravni dokument. To je pisani sporazum koji obitelj drži na okupu kada osnivač više ne može."

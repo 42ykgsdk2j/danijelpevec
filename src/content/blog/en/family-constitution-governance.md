@@ -1,5 +1,5 @@
 ---
-slug: "family-constitution-governance"
+translationKey: "family-constitution-governance"
 lang: "en"
 title: "The Family Constitution: Building Governance That Outlasts You"
 excerpt: "A family constitution is not a legal document. It is the written agreement that holds a family together when the founder no longer can."

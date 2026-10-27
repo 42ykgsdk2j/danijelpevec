@@ -1,5 +1,5 @@
 ---
-slug: "next-generation-leadership"
+translationKey: "next-generation-leadership"
 lang: "hr"
 title: "Priprema sljedeće generacije: od nasljednika do skrbnika"
 excerpt: "Nasljeđivanje je transakcija. Skrbništvo je disciplina. Pripremiti sljedeću generaciju znači dati im više od ključeva — dati im kartu."

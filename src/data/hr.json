@@ -6,6 +6,7 @@
     "about": "O meni",
     "blog": "Objave",
     "assessment": "Procjena",
+    "help": "Kako Vam mogu pomoći?",
     "cta": "Privatni razgovor"
   },
   "brand": {
@@ -16,8 +17,12 @@
     "headlineB": "jedna je stvar.",
     "headlineC": "Izgraditi nasljeđe",
     "headlineD": "nešto je drugo.",
-    "sub": "Pomažem osnivačima i njihovim obiteljima izgraditi nasljeđe kroz odluke koje oblikuju rast, sukcesiju i tranziciju među generacijama.",
-    "cta": "Zatraži privatni razgovor"
+    "sub": "Pomažem osnivačima i njihovim obiteljima izgraditi nasljeđe kroz odluke koje oblikuju rast, sukcesiju i tranziciju među generacijama."
+  },
+  "video": {
+    "cta": "Pokreni",
+    "label": "Video predstavljanje",
+    "play": "Pokreni video predstavljanje (3:16)"
   },
   "who": {
     "eyebrow": "S kim radim",
@@ -100,6 +105,8 @@
     "lead": "Dugi eseji o odlukama s kojima se osnivači i obitelji susreću — sukcesija, upravljanje, generacijska tranzicija i ljudski rad iza svake transakcije.",
     "minRead": "min čitanja",
     "viewAll": "Pročitaj sve objave",
+    "updated": "Ažurirano",
+    "related": "Povezani članci",
     "pageTitle": "Objave — bilješke o obiteljskim tvrtkama, sukcesiji i nasljeđu",
     "pageLead": "Eseji o planiranju sukcesije, generacijskoj imovini, obiteljskom upravljanju i dugoročnim odlukama koje oblikuju ono što slijedi."
   },
@@ -180,6 +187,7 @@
     "successAccent": "",
     "successSub": "Osobno ću pročitati vašu poruku i predložiti daljnje korake.",
     "close": "Zatvori",
+    "phoneLead": "Radije telefonom?",
     "recaptchaNoticeBefore": "Ovu stranicu štiti reCAPTCHA. Vrijede Googleova ",
     "recaptchaPrivacyLink": "Pravila privatnosti",
     "recaptchaNoticeBetween": " i ",
@@ -190,6 +198,112 @@
       "email": "Potrebna je valjana email adresa",
       "message": "Recite mi nešto o svojoj situaciji",
       "submit": "Slanje poruke nije uspjelo. Pokušajte ponovno ili pošaljite email izravno."
+    }
+  },
+  "contactPage": {
+    "footerLink": "Sastavite prijedlog",
+    "navLabel": "Kontakt",
+    "metaTitle": "Kako Vam mogu pomoći? — sastavite prijedlog | Danijel Pevec",
+    "metaDescription": "Opišite svoju situaciju vlastitim riječima. Asistent Vam pomaže oblikovati je u kratak prijedlog za prvi privatni razgovor o sukcesiji, generacijskoj tranziciji ili usklađivanju obitelji.",
+    "eyebrow": "Kontakt",
+    "titleA": "Kako Vam mogu",
+    "titleAccent": "pomoći?",
+    "sub": "Opišite svoju situaciju vlastitim riječima. Asistent Vam pomaže oblikovati je u kratak prijedlog za prvi privatni razgovor — a ja preuzimam dalje.",
+    "placeholders": [
+      "Tvrtku sam osnovao prije 30 godina i počinjem razmišljati tko će je voditi nakon mene…",
+      "Moja djeca rade u tvrtki, ali njezinu budućnost vide vrlo različito…",
+      "Ja sam sljedeća generacija i uskoro preuzimam vođenje od oca…",
+      "Dobili smo ponudu za tvrtku, a obitelj se ne može složiti hoćemo li prodati…"
+    ],
+    "composerLabel": "Opišite svoju situaciju",
+    "replyPh": "Odgovorite ili dodajte detalje…",
+    "send": "Pošalji",
+    "stop": "Zaustavi",
+    "trust": "Ništa se ne šalje dok ne pregledate prijedlog i kliknete pošalji.",
+    "aiNote": "Razgovor obrađuje AI model kako bi sastavio Vaš prijedlog.",
+    "simpleLead": "Radije kratka poruka?",
+    "simpleCta": "Ispunite jednostavan obrazac",
+    "simpleShort": "Kratki obrazac",
+    "direct": "Radije pišete izravno?",
+    "thinking": "Razmišljam…",
+    "updating": "Ažuriram Vaš prijedlog…",
+    "error": "Došlo je do pogreške u komunikaciji s asistentom.",
+    "retry": "Pokušaj ponovno",
+    "startOver": "Počni ispočetka",
+    "engagement": {
+      "private-advisory": "Privatno savjetovanje",
+      "family-sessions": "Sastanci s obitelji",
+      "long-term": "Dugoročna savjetodavna suradnja",
+      "not-sure": "Još nije jasno"
+    },
+    "interestedIn": "Zanima me: ",
+    "phoneLead": "Radije telefonom?",
+    "booking": {
+      "cta": "Rezervirajte 30-minutni razgovor",
+      "lead": "Radije odmah razgovarate?",
+      "panelLead": "Ili odmah",
+      "panelCta": "rezervirajte 30-minutni razgovor",
+      "sentLead": "Želite li odmah dogovoriti termin?",
+      "eyebrow": "Razgovor · 30 minuta",
+      "title": "Odaberite termin",
+      "sub": "Odaberite termin koji Vam odgovara. Potvrdu termina primit ćete emailom.",
+      "details": "Za obrazac u kalendaru:",
+      "copy": "Kopiraj",
+      "copied": "Kopirano",
+      "newTab": "Otvori u novoj kartici",
+      "frameTitle": "Kalendar za rezervaciju termina",
+      "close": "Zatvori"
+    },
+    "panel": {
+      "label": "Vaš prijedlog",
+      "shaping": "Oblikuje se dok razgovaramo",
+      "ready": "spremno",
+      "untitled": "Prijedlog bez naslova",
+      "review": "Pregledaj i pošalji",
+      "hintReady": "Možete ga i dalje doraditi u razgovoru.",
+      "hintLocked": "Odgovorite na nekoliko pitanja za slanje.",
+      "view": "Prijedlog",
+      "close": "Zatvori prijedlog"
+    },
+    "fields": {
+      "situation": "Situacija",
+      "role": "Vaša uloga",
+      "stage": "Faza",
+      "decisions": "Ključne odluke",
+      "people": "Tko je uključen",
+      "goals": "Dobar ishod",
+      "timing": "Vremenski okvir",
+      "sensitivities": "Važno je znati",
+      "openQuestions": "Za prvi razgovor"
+    },
+    "dialog": {
+      "title": "Pošaljite svoj prijedlog",
+      "sub": "Osobno ću ga pročitati i odgovoriti Vam emailom. Primit ćete i kopiju.",
+      "name": "Vaše ime",
+      "namePh": "Puno ime",
+      "email": "Email",
+      "emailPh": "ime@primjer.com",
+      "company": "Tvrtka / obiteljski ured",
+      "phone": "Telefon",
+      "optional": "Neobavezno",
+      "keep": "Nastavi uređivati",
+      "submit": "Pošalji prijedlog",
+      "sending": "Šaljem…"
+    },
+    "errors": {
+      "name": "Molim navedite svoje ime",
+      "email": "Potreban je ispravan email",
+      "limit": "Previše slanja danas. Pokušajte sutra ili pišite izravno.",
+      "bot": "Provjera nije uspjela. Pokušajte ponovno ili pišite izravno.",
+      "unavailable": "Slanje trenutno nije dostupno. Pokušajte uskoro ponovno ili pišite izravno.",
+      "generic": "Prijedlog nije poslan. Pokušajte ponovno ili pišite izravno."
+    },
+    "sent": {
+      "title": "Hvala.",
+      "bodyA": "Vaš prijedlog je kod mene, a kopija je na putu na",
+      "bodyB": "Osobno ću ga pročitati i javiti Vam se.",
+      "again": "Sastavi novi prijedlog",
+      "home": "Natrag na početnu"
     }
   },
   "consent": {
@@ -211,7 +325,6 @@
     "tagline": "Pouzdan kompas za osnivače i obiteljske tvrtke.",
     "navTitle": "Navigacija",
     "contactTitle": "Kontakt",
-    "affTitle": "Suradnja",
     "copy": "© 2026 Danijel Pevec. Sva prava pridržana.",
     "email": "danijel@danijelpevec.com",
     "city": "Zagreb · Hrvatska",

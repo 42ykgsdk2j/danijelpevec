@@ -1,0 +1,31 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import ContactStudio from "../components/ContactStudio.tsx";
+import { BUSINESS, SITE, getT, url } from "../lib/i18n";
+
+const lang = "hr" as const;
+const t = getT(lang);
+const hasRecaptcha = !!process.env.RECAPTCHA_SITE_KEY;
+---
+<BaseLayout
+  lang={lang}
+  title={t.contactPage.metaTitle}
+  description={t.contactPage.metaDescription}
+  canonical={`${SITE}/kako-vam-mogu-pomoci/`}
+  hreflangEn={`${SITE}/en/how-can-i-help/`}
+  hreflangHr={`${SITE}/kako-vam-mogu-pomoci/`}
+  altUrl="/en/how-can-i-help/"
+>
+  <ContactStudio
+    client:load
+    lang={lang}
+    ui={t.contactPage}
+    modalUi={t.modal}
+    email={BUSINESS.email}
+    phone={BUSINESS.telephone}
+    phoneDisplay={BUSINESS.telephoneDisplay}
+    bookingUrl={BUSINESS.bookingUrl}
+    homeHref={url(lang)}
+    hasRecaptcha={hasRecaptcha}
+  />
+</BaseLayout>

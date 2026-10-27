@@ -1,5 +1,5 @@
 ---
-slug: "next-generation-leadership"
+translationKey: "next-generation-leadership"
 lang: "en"
 title: "Preparing the Next Generation: From Heirs to Stewards"
 excerpt: "Inheritance is a transaction. Stewardship is a discipline. Preparing the next generation means giving them more than the keys — it means giving them the map."

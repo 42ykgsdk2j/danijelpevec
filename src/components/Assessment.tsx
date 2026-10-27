@@ -148,7 +148,7 @@ function Question({
             <span className="assessment-progress-dim">{dim[lang].name}</span>
           </div>
           <div className="assessment-progress-bar">
-            <div className="assessment-progress-fill" style={{ width: progressPct + "%" }} />
+            <div className="assessment-progress-fill" style={{ transform: `scaleX(${progressPct / 100})` }} />
           </div>
         </div>
 
@@ -233,7 +233,7 @@ function Results({
               </span>
             </div>
             <div className="assessment-overall-bar">
-              <div className="assessment-overall-fill" style={{ width: r.overall.pct + "%" }} />
+              <div className="assessment-overall-fill" style={{ transform: `scaleX(${r.overall.pct / 100})` }} />
             </div>
           </div>
 
@@ -252,7 +252,7 @@ function Results({
                     <span className="dim-score">{ds.score} {ui.results.scoreOf} {ds.max}</span>
                   </div>
                   <div className="assessment-dim-bar-track">
-                    <div className="assessment-dim-bar-fill" style={{ width: ds.pct + "%" }} />
+                    <div className="assessment-dim-bar-fill" style={{ transform: `scaleX(${ds.pct / 100})` }} />
                   </div>
                 </div>
               );

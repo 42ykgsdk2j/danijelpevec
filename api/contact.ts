@@ -11,6 +11,8 @@
  *                             Example: "Danijel Pevec <noreply@danijelpevec.com>"
  *   - CONTACT_TO_EMAIL      — where notifications land. Defaults to the imprint
  *                             address if unset.
+ *   - CONTACT_CC_EMAIL      — CC on the notification (comma-separated).
+ *                             Defaults to anna@danijelpevec.com.
  *   - KV_REST_API_URL + KV_REST_API_TOKEN (auto-injected by the Vercel
  *     Upstash marketplace resource; Redis.fromEnv() also accepts the
  *     UPSTASH_REDIS_REST_* names) — optional; rate limiting + Resend
@@ -139,6 +141,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(500).json({ error: "Email service is not configured." });
   }
   const to = process.env.CONTACT_TO_EMAIL || "danijel@danijelpevec.com";
+  const cc = (process.env.CONTACT_CC_EMAIL || "anna@danijelpevec.com")
+    .split(",")
+    .map((addr) => addr.trim())
+    .filter(Boolean);
 
   const body = (req.body || {}) as Body;
   const name = (body.name || "").trim();
@@ -252,6 +258,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     resend.emails.send({
       from,
       to,
+      cc,
       replyTo: email,
       subject: `Private conversation request — ${name}`,
       text: internalText,

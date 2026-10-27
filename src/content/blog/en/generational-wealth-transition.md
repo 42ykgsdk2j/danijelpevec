@@ -1,5 +1,5 @@
 ---
-slug: "generational-wealth-transition"
+translationKey: "generational-wealth-transition"
 lang: "en"
 title: "Generational Wealth Transition: Why So Few Families Get It Right"
 excerpt: "Most families lose generational wealth within three generations. The reason is rarely tax or markets — it is the absence of structure, communication and shared purpose."

@@ -32,3 +32,6 @@ uploads/
 
 # audit reports — kept locally for reference, not shipped
 audit-*.md
+.vercel
+.env*
+.gitignore.vercel-bak

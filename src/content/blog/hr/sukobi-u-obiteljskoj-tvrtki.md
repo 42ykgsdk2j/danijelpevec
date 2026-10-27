@@ -1,5 +1,5 @@
 ---
-slug: "family-business-conflict-resolution"
+translationKey: "family-business-conflict-resolution"
 lang: "hr"
 title: "Sukobi u obiteljskoj tvrtki: teški razgovori prije teških posljedica"
 excerpt: "Sukobi u obiteljskoj tvrtki rijetko počinju ondje gdje završavaju. Posao je rano izvući napetost, strukturirati razgovor i zaštititi i posao i odnose."

@@ -1,5 +1,5 @@
 ---
-slug: "building-legacy-beyond-founders"
+translationKey: "building-legacy-beyond-founders"
 lang: "hr"
 title: "Izgradnja nasljeđa: dugoročna vrijednost iznad generacije osnivača"
 excerpt: "Nasljeđe nije ono što ostavljate iza sebe. To je ono što nastavlja funkcionirati, odlučivati i stvarati vrijednost kada vas više nema u prostoriji."

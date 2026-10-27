@@ -2,26 +2,44 @@
 import { getCollection, render } from "astro:content";
 import BaseLayout from "../../../layouts/BaseLayout.astro";
 import Chat from "../../../components/Chat.tsx";
+import RelatedPosts from "../../../components/RelatedPosts.astro";
 import { getT, url, SITE } from "../../../lib/i18n";
-import { langOf, slugOf } from "../../../content.config";
+import { langOf, slugOf, translationKeyOf } from "../../../content.config";
+import { blogPostingJsonLd, faqPageJsonLd } from "../../../lib/seo";
+import { extractFaq } from "../../../lib/faq";
 
 export async function getStaticPaths() {
-  const posts = await getCollection("blog", (entry) => langOf(entry.id) === "en");
-  return posts.map((p) => ({ params: { slug: slugOf(p.id) }, props: { post: p } }));
+  const all = await getCollection("blog");
+  const posts = all.filter((entry) => langOf(entry.id) === "en");
+  return posts.map((p) => {
+    // The HR version (if any) shares this post's translationKey but has
+    // its own slug in its own language — look it up rather than assuming.
+    const key = translationKeyOf(p);
+    const twin = all.find((e) => langOf(e.id) === "hr" && translationKeyOf(e) === key);
+    return {
+      params: { slug: slugOf(p.id) },
+      props: { post: p, twinSlug: twin ? slugOf(twin.id) : null },
+    };
+  });
 }
 
-const { post } = Astro.props;
+const { post, twinSlug } = Astro.props;
 const { Content } = await render(post);
 const lang = "en" as const;
 const t = getT(lang);
 const slug = slugOf(post.id);
 const enUrl = `${SITE}/en/blog/${slug}/`;
-const hrUrl = `${SITE}/blog/${slug}/`;
+// Only advertise an HR alternate when the translation actually exists.
+const hrUrl = twinSlug ? `${SITE}/blog/${twinSlug}/` : undefined;
+// Nav language toggle: the HR twin, or the HR blog index as the nearest page.
+const altUrl = twinSlug ? url("hr", `blog/${twinSlug}`) : url("hr", "blog");
 function fmtDate(iso: string) {
   const d = new Date(iso);
   return d.toLocaleDateString("en-GB", { year: "numeric", month: "short", day: "numeric" });
 }
 const allInsightsLabel = t.blog.viewAll;
+const faqJsonLd = faqPageJsonLd(extractFaq(post.body), lang, enUrl);
+const jsonLd = [blogPostingJsonLd(post.data, lang, enUrl), ...(faqJsonLd ? [faqJsonLd] : [])];
 ---
 <BaseLayout
   lang={lang}
@@ -30,32 +48,9 @@ const allInsightsLabel = t.blog.viewAll;
   canonical={enUrl}
   hreflangEn={enUrl}
   hreflangHr={hrUrl}
+  altUrl={altUrl}
   ogType="article"
-  jsonLd={[{
-    "@context": "https://schema.org",
-    "@type": "BlogPosting",
-    headline: post.data.title,
-    description: post.data.excerpt,
-    image: [post.data.cover ? `${SITE}${post.data.cover}` : `${SITE}/og-image.png`],
-    author: {
-      "@type": "Person",
-      name: "Danijel Pevec",
-      url: `${SITE}/en/`,
-    },
-    publisher: {
-      "@type": "Organization",
-      name: "Family Business by Danijel Pevec",
-      logo: {
-        "@type": "ImageObject",
-        url: `${SITE}/og-image.png`,
-      },
-    },
-    datePublished: post.data.date,
-    dateModified: post.data.date,
-    mainEntityOfPage: { "@type": "WebPage", "@id": enUrl },
-    articleSection: post.data.category,
-    inLanguage: "en-GB",
-  }]}
+  jsonLd={jsonLd}
 >
   <header class="article-header reveal in">
     <div class="container">
@@ -64,6 +59,12 @@ const allInsightsLabel = t.blog.viewAll;
         <span class="cat">{post.data.category}</span>
         <span class="dot">·</span>
         <time class="article-date" datetime={post.data.date}>{fmtDate(post.data.date)}</time>
+        {post.data.updated && (
+          <>
+            <span class="dot">·</span>
+            <span class="article-updated">{t.blog.updated} <time datetime={post.data.updated}>{fmtDate(post.data.updated)}</time></span>
+          </>
+        )}
         <span class="dot">·</span>
         <span class="readtime">{post.data.readTime} {t.blog.minRead}</span>
       </div>
@@ -84,6 +85,7 @@ const allInsightsLabel = t.blog.viewAll;
       <Content />
     </div>
   </article>
+  <RelatedPosts post={post} lang={lang} />
   <Chat
     client:idle
     mode="blog"

@@ -41,6 +41,7 @@ type T = {
   successAccent: string;
   successSub: string;
   close: string;
+  phoneLead: string;
   recaptchaNoticeBefore: string;
   recaptchaPrivacyLink: string;
   recaptchaNoticeBetween: string;
@@ -52,6 +53,8 @@ type T = {
 interface Props {
   t: T;
   lang: "hr" | "en";
+  phone: string;
+  phoneDisplay: string;
   hasRecaptcha?: boolean;
 }
 
@@ -66,7 +69,7 @@ interface FormState {
 
 const initial: FormState = { name: "", role: "", company: "", email: "", stage: "", message: "" };
 
-export default function Modal({ t, lang, hasRecaptcha = false }: Props) {
+export default function Modal({ t, lang, phone, phoneDisplay, hasRecaptcha = false }: Props) {
   const [open, setOpen] = useState(false);
   const [form, setForm] = useState<FormState>(initial);
   const [errors, setErrors] = useState<Record<string, string | null>>({});
@@ -270,6 +273,9 @@ export default function Modal({ t, lang, hasRecaptcha = false }: Props) {
               <div className="modal-eyebrow eyebrow">{t.eyebrow}</div>
               <h2 id="modal-title">{t.titleA} {t.titleAccent}</h2>
               <p className="modal-sub">{t.sub}</p>
+              <p className="modal-phone">
+                {t.phoneLead} <a href={`tel:${phone}`}>{phoneDisplay}</a>
+              </p>
 
               <div className="form-row">
                 <div className={`field${errors.name ? " error" : ""}`}>

@@ -1,5 +1,5 @@
 ---
-import { getT, url, type Lang } from "../lib/i18n";
+import { BUSINESS, getT, url, type Lang } from "../lib/i18n";
 
 interface Props {
   lang: Lang;
@@ -11,6 +11,7 @@ const insightsHref = url(lang, "blog");
 const assessmentHref = url(lang, "assessment");
 const privacyHref = url(lang, "privacy");
 const imprintHref = url(lang, "imprint");
+const contactHref = url(lang, lang === "hr" ? "kako-vam-mogu-pomoci" : "how-can-i-help");
 ---
 <footer class="footer">
   <div class="container">
@@ -42,7 +43,9 @@ const imprintHref = url(lang, "imprint");
         <h4>{t.footer.contactTitle}</h4>
         <ul>
           <li><a href={`mailto:${t.footer.email}`}>{t.footer.email}</a></li>
+          <li><a href={`tel:${BUSINESS.telephone}`}>{BUSINESS.telephoneDisplay}</a></li>
           <li>{t.footer.city}</li>
+          <li><a href={contactHref}>{t.contactPage.footerLink}</a></li>
           <li style="margin-top:8px">
             <button class="btn-link" data-open-modal>
               {t.nav.cta}
@@ -51,22 +54,6 @@ const imprintHref = url(lang, "imprint");
                 <polyline points="12 5 19 12 12 19" />
               </svg>
             </button>
-          </li>
-        </ul>
-      </div>
-
-      <div>
-        <h4>{t.footer.affTitle}</h4>
-        <ul>
-          <li>
-            <a
-              href="https://www.alphacapitalis.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={lang === "hr" ? "ALPHA CAPITALIS (otvara se u novoj kartici)" : "ALPHA CAPITALIS (opens in a new tab)"}
-            >
-              ALPHA CAPITALIS <span aria-hidden="true">↗</span>
-            </a>
           </li>
         </ul>
       </div>
