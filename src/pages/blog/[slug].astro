@@ -90,7 +90,7 @@ const jsonLd = [blogPostingJsonLd(post.data, lang, hrUrl), ...(faqJsonLd ? [faqJ
     client:idle
     mode="blog"
     contextTitle={post.data.title}
-    contextBody={post.body}
+    contextBody={post.body ?? ""}
     lang={lang}
     ui={t.blogChat}
   />
