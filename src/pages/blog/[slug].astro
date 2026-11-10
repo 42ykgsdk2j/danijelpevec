@@ -7,9 +7,12 @@ import { getT, url, SITE } from "../../lib/i18n";
 import { langOf, slugOf, translationKeyOf } from "../../content.config";
 import { blogPostingJsonLd, faqPageJsonLd } from "../../lib/seo";
 import { extractFaq } from "../../lib/faq";
+import { isPublished } from "../../lib/published";
 
 export async function getStaticPaths() {
-  const all = await getCollection("blog");
+  // Future-dated posts get no page at all until their date arrives
+  // (the nightly rebuild then picks them up — see src/lib/published.ts).
+  const all = await getCollection("blog", isPublished);
   const posts = all.filter((entry) => langOf(entry.id) === "hr");
   return posts.map((p) => {
     // The EN version (if any) shares this post's translationKey but has

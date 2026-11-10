@@ -2,12 +2,13 @@
 import { getCollection } from "astro:content";
 import { getT, url, type Lang } from "../lib/i18n";
 import { langOf, slugOf } from "../content.config";
+import { isPublished } from "../lib/published";
 
 interface Props { lang: Lang }
 const { lang } = Astro.props;
 const t = getT(lang);
 
-const all = await getCollection("blog", (entry) => langOf(entry.id) === lang);
+const all = await getCollection("blog", (entry) => langOf(entry.id) === lang && isPublished(entry));
 const posts = all.sort((a, b) => b.data.date.localeCompare(a.data.date));
 
 function fmtDate(iso: string) {

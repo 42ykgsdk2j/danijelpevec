@@ -14,11 +14,12 @@
 import { getCollection } from "astro:content";
 import { url, type Lang } from "./i18n";
 import { langOf, slugOf } from "../content.config";
+import { isPublished } from "./published";
 
 export async function getDiscoverContext(
   lang: Lang,
 ): Promise<{ title: string; body: string }> {
-  const all = await getCollection("blog", (entry) => langOf(entry.id) === lang);
+  const all = await getCollection("blog", (entry) => langOf(entry.id) === lang && isPublished(entry));
   const posts = all.sort((a, b) => b.data.date.localeCompare(a.data.date));
 
   const isHr = lang === "hr";

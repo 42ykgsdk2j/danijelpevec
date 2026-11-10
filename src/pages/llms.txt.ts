@@ -2,6 +2,7 @@ import type { APIRoute } from "astro";
 import { getCollection } from "astro:content";
 import { BUSINESS, SITE, getT, type Lang } from "../lib/i18n";
 import { langOf, slugOf } from "../content.config";
+import { isPublished } from "../lib/published";
 
 /**
  * /llms.txt (llmstxt.org): a short markdown map of the site for AI tools.
@@ -9,7 +10,7 @@ import { langOf, slugOf } from "../content.config";
  * Facts about Danijel come only from copy already on the site.
  */
 export const GET: APIRoute = async () => {
-  const posts = (await getCollection("blog")).sort((a, b) => b.data.date.localeCompare(a.data.date));
+  const posts = (await getCollection("blog", isPublished)).sort((a, b) => b.data.date.localeCompare(a.data.date));
   const en = getT("en");
 
   const postLinks = (lang: Lang) =>

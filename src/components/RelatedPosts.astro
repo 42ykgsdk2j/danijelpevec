@@ -2,6 +2,7 @@
 import { getCollection, type CollectionEntry } from "astro:content";
 import { getT, url, type Lang } from "../lib/i18n";
 import { langOf, slugOf, translationKeyOf } from "../content.config";
+import { isPublished } from "../lib/published";
 
 /**
  * "Related articles" at the end of a post. Same-language posts only, picked
@@ -16,7 +17,7 @@ interface Props {
 const { post, lang, limit = 3 } = Astro.props;
 const t = getT(lang);
 
-const candidates = (await getCollection("blog", (e) => langOf(e.id) === lang && e.id !== post.id))
+const candidates = (await getCollection("blog", (e) => langOf(e.id) === lang && e.id !== post.id && isPublished(e)))
   .sort((a, b) => b.data.date.localeCompare(a.data.date));
 
 const picked: CollectionEntry<"blog">[] = [];
